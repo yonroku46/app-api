@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.demo.dao.mapper.MUserMapper">
+  <resultMap id="BaseResultMap" type="com.app.demo.dao.entity.MUser">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="user_pw" jdbcType="VARCHAR" property="userPw" />
+    <result column="user_mail" jdbcType="VARCHAR" property="userMail" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="corp_flg" jdbcType="BIT" property="corpFlg" />
+    <result column="latest_login" jdbcType="TIMESTAMP" property="latestLogin" />
+    <result column="delete_flg" jdbcType="BIT" property="deleteFlg" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    user_id, user_pw, user_mail, user_name, corp_flg, latest_login, delete_flg
+  </sql>
+  <select id="selectByExample" parameterType="com.app.demo.dao.entity.MUserExample" resultMap="BaseResultMap">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from m_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.app.demo.dao.entity.MUserExample">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    delete from m_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.app.demo.dao.entity.MUser">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    insert into m_user (user_id, user_pw, user_mail, 
+      user_name, corp_flg, latest_login, 
+      delete_flg)
+    values (#{userId,jdbcType=VARCHAR}, #{userPw,jdbcType=VARCHAR}, #{userMail,jdbcType=VARCHAR}, 
+      #{userName,jdbcType=VARCHAR}, #{corpFlg,jdbcType=BIT}, #{latestLogin,jdbcType=TIMESTAMP}, 
+      #{deleteFlg,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.app.demo.dao.entity.MUser">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    insert into m_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userPw != null">
+        user_pw,
+      </if>
+      <if test="userMail != null">
+        user_mail,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="corpFlg != null">
+        corp_flg,
+      </if>
+      <if test="latestLogin != null">
+        latest_login,
+      </if>
+      <if test="deleteFlg != null">
+        delete_flg,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userPw != null">
+        #{userPw,jdbcType=VARCHAR},
+      </if>
+      <if test="userMail != null">
+        #{userMail,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="corpFlg != null">
+        #{corpFlg,jdbcType=BIT},
+      </if>
+      <if test="latestLogin != null">
+        #{latestLogin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlg != null">
+        #{deleteFlg,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.app.demo.dao.entity.MUserExample" resultType="java.lang.Long">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    select count(*) from m_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    update m_user
+    <set>
+      <if test="row.userId != null">
+        user_id = #{row.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="row.userPw != null">
+        user_pw = #{row.userPw,jdbcType=VARCHAR},
+      </if>
+      <if test="row.userMail != null">
+        user_mail = #{row.userMail,jdbcType=VARCHAR},
+      </if>
+      <if test="row.userName != null">
+        user_name = #{row.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="row.corpFlg != null">
+        corp_flg = #{row.corpFlg,jdbcType=BIT},
+      </if>
+      <if test="row.latestLogin != null">
+        latest_login = #{row.latestLogin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="row.deleteFlg != null">
+        delete_flg = #{row.deleteFlg,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    update m_user
+    set user_id = #{row.userId,jdbcType=VARCHAR},
+      user_pw = #{row.userPw,jdbcType=VARCHAR},
+      user_mail = #{row.userMail,jdbcType=VARCHAR},
+      user_name = #{row.userName,jdbcType=VARCHAR},
+      corp_flg = #{row.corpFlg,jdbcType=BIT},
+      latest_login = #{row.latestLogin,jdbcType=TIMESTAMP},
+      delete_flg = #{row.deleteFlg,jdbcType=BIT}
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select id="findUserById" parameterType="map" resultMap="BaseResultMap">
+    select
+      <include refid="Base_Column_List" />
+    from m_user
+    where
+      user_id = #{userId,jdbcType=VARCHAR} and
+      user_mail = #{userMail,jdbcType=VARCHAR}
+  </select>
+  <select id="getAccessibleInfo" parameterType="map" resultMap="com.app.demo.dto.MenuAuthInfoDto">
+    select
+      user_id as requestMapping,
+      delete_flg as accessibleFlg
+    from m_user
+    where
+      user_id = #{userId,jdbcType=VARCHAR} and
+      user_mail = #{userMail,jdbcType=VARCHAR}
+  </select>
+</mapper>

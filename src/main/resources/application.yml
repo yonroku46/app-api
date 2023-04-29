@@ -1,0 +1,33 @@
+server:
+  address: localhost
+  port: 8080
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/ccm
+    url: jdbc:mysql://localhost:3306/ccm?allowPublicKeyRetrieval=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username: root
+    password: teamBEP0
+    hikari:
+      minimum-idle: 10
+      maximum-pool-size: 100
+      idleTimeout: 300000
+
+#mybatis:
+#  config: mybatis-config.xml
+#  type-aliases-package: com.app.demo.dao
+#  mapper-locations: sql/**/*.xml
+
+app:
+  language:
+    ja: ja
+  datetime:
+    format: yyyy/MM/dd HH:mm
+  log:
+    filepath: logs/
+
+taskexecutor:
+  corepoolsize: 4
+  queuecapacity: 16
+  maxpoolsize: 16
