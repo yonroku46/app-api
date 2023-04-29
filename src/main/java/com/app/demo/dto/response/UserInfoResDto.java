@@ -6,6 +6,12 @@ import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
+/**
+ * ユーザー情報レスポンス用DTO
+ *
+ * @author y_ha
+ * @version 0.0.1
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class UserInfoResDto extends ResponseData implements Serializable {

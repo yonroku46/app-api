@@ -13,8 +13,10 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
+ * JWT関連ユティリティー
  *
- * @auth
+ * @author y_ha
+ * @version 0.0.1
  */
 public class JwtUtils {
 
@@ -61,7 +63,7 @@ public class JwtUtils {
     }
 
     /**
-     * Token 復元すること
+     * Token 復元する
      *
      * @param token
      * @return

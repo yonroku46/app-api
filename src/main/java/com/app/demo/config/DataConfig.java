@@ -19,13 +19,15 @@ public class DataConfig {
     /**
      * SqlSessionFactoryBean格納クラス
      * <PRE>
-     * DataSourceをSqlSessionFactoryBeanにセットします。
-     * mybatisの設定情報をmybatisの設定情報をSqlSessionFactoryBeanにセットしますに設定します。
+     * mybatisの設定情報をSqlSessionFactoryBeanにセット
+     * DataSourceをSqlSessionFactoryBeanにセット
      * </PRE>
      *
      * @param dataSource
-     * @return
+     * @return SqlSessionFactoryBean
      * @throws IOException
+     * @author y_ha
+     * @version 0.0.1
      */
     @Bean
     public SqlSessionFactoryBean sqlSessionFactoryBean(DataSource dataSource) throws IOException {

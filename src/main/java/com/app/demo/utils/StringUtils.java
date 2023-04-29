@@ -8,10 +8,10 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 /**
- * 文字列操作用ユーティリティクラス
+ * 文字列操作用ユティリティー
  *
- * @auth
- *
+ * @author y_ha
+ * @version 0.0.1
  */
 public class StringUtils {
 

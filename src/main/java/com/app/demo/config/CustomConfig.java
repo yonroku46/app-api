@@ -60,11 +60,6 @@ public class CustomConfig implements WebMvcConfigurer {
         return localValidatorFactoryBean;
     }
 
-    /**
-     * Validation Message by UTF-8
-     *
-     * @return
-     */
     @Bean(name = "messageSource")
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource bean = new ReloadableResourceBundleMessageSource();

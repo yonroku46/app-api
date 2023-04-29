@@ -19,12 +19,12 @@ public class LocaleAspect {
 
     public static Locale LOCALE;
 
-    @Value("${app.language.ja}")
-    private String SYSTEM_LANGUAGE_JA;
+    @Value("${app.language.default}")
+    private String SYSTEM_LANGUAGE_DEFAULT;
 
     @Before("execution(* com.app.demo.controller.*.*(..))")
     public void getLocale() {
         String language = request.getHeader(SecurityConst.LANGUAGE);
-        LOCALE = SYSTEM_LANGUAGE_JA.equalsIgnoreCase(language) ? Locale.JAPAN : Locale.ENGLISH;
+        LOCALE = SYSTEM_LANGUAGE_DEFAULT.equalsIgnoreCase(language) ? Locale.JAPAN : Locale.ENGLISH;
     }
 }

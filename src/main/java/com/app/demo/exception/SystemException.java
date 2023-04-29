@@ -3,7 +3,8 @@ package com.app.demo.exception;
 /**
  * システムエラー用例外クラス
  *
- * @author
+ * @author y_ha
+ * @version 0.0.1
  */
 public class SystemException extends RuntimeException {
 

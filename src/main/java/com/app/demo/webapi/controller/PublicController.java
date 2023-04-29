@@ -10,12 +10,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * 共通機能コントローラー
+ *
+ * @author y_ha
+ * @version 0.0.1
+ */
 @RestController
 @Slf4j
-public class MainController extends BaseController {
+public class PublicController extends BaseController {
 
     @Autowired
     private MessageSource messageSource;
@@ -34,7 +39,7 @@ public class MainController extends BaseController {
     }
 
 
-    @PostMapping Mapping("/login")
+    @PostMapping("/login")
     public ResponseDto login() {
         try {
             return null;

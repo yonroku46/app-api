@@ -5,7 +5,8 @@ import org.springframework.http.HttpStatus;
 /**
  * 業務エラー用例外クラス
  *
- * @author
+ * @author y_ha
+ * @version 0.0.1
  */
 public class ApplicationException extends RuntimeException {
 

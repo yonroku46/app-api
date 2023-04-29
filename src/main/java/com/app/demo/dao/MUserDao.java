@@ -25,7 +25,12 @@ public class MUserDao {
     @Autowired
     private MUserMapper mUserMapper;
 
-    // ユーザ情報を取得
+    /**
+     * ユーザー情報を取得
+     *
+     * @author y_ha
+     * @version 0.0.1
+     */
     public MUser findUserById(String userId, String userMail) {
         try {
             return mUserMapper.findUserById(userId, userMail);
@@ -41,7 +46,12 @@ public class MUserDao {
         }
     }
 
-    // ユーザ情報を取得
+    /**
+     * ユーザーのアクセス権限情報を取得
+     *
+     * @author y_ha
+     * @version 0.0.1
+     */
     public MenuAuthInfoDto getAccessibleInfo(String userId, String userMail, String path) {
         try {
             return mUserMapper.getAccessibleInfo(userId, userMail, path);

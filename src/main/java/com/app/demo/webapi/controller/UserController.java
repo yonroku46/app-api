@@ -12,6 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * ユーザー機能コントローラー
+ *
+ * @author y_ha
+ * @version 0.0.1
+ */
 @RestController
 @RequestMapping("user")
 @Slf4j

@@ -5,23 +5,19 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/ccm
-    url: jdbc:mysql://localhost:3306/ccm?allowPublicKeyRetrieval=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
-    username: root
+    url: jdbc:mysql://13.125.213.129:3306/ccm?allowPublicKeyRetrieval=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+#    url: jdbc:mysql://localhost:3306/ccm?allowPublicKeyRetrieval=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username: admin
+#    username: root
     password: teamBEP0
     hikari:
       minimum-idle: 10
       maximum-pool-size: 100
       idleTimeout: 300000
 
-#mybatis:
-#  config: mybatis-config.xml
-#  type-aliases-package: com.app.demo.dao
-#  mapper-locations: sql/**/*.xml
-
 app:
   language:
-    ja: ja
+    default: ja
   datetime:
     format: yyyy/MM/dd HH:mm
   log:

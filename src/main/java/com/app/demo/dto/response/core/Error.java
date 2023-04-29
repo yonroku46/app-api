@@ -1,13 +1,14 @@
 package com.app.demo.dto.response.core;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
 /**
+ * レスポンスエラークラス
  *
- * @author
+ * @author y_ha
+ * @version 0.0.1
  */
 @EqualsAndHashCode(callSuper = true)
 public class Error extends Information implements Serializable {

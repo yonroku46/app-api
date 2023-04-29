@@ -12,8 +12,10 @@ import com.app.demo.exception.ApplicationException;
 import org.springframework.http.HttpStatus;
 
 /**
+ * レスポンス返却関連ユティリティー
  *
- * @auth
+ * @author y_ha
+ * @version 0.0.1
  */
 public class ResponseUtils {
 

@@ -11,9 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * これらのオブジェクトがサブクラスによって直接使用される理由
+ * コントローラー共通部品
  *
- * @author auth
+ * @author y_ha
+ * @version 0.0.1
  */
 public class BaseController {
 
@@ -40,7 +41,7 @@ public class BaseController {
     }
 
     /**
-     * ログインしているユーザ名
+     * ログインしているユーザー名
      *
      * @return
      */
@@ -50,7 +51,7 @@ public class BaseController {
     }
 
     /**
-     * ログインしているユーザID
+     * ログインしているユーザーID
      *
      * @return
      */
@@ -60,7 +61,7 @@ public class BaseController {
     }
 
     /**
-     * ログインしているユーザメール
+     * ログインしているユーザーメール
      *
      * @return
      */
@@ -70,7 +71,7 @@ public class BaseController {
     }
 
     /**
-     * ログインしているユーザが法人フラグ
+     * ログインしているユーザーの法人フラグ
      *
      * @return
      */

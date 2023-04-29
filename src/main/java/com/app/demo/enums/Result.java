@@ -1,8 +1,14 @@
 package com.app.demo.enums;
 
 /**
+ * レスポンス返却コードを列挙
+ * <PRE>
+ * SUCCESS:0
+ * FAILED:1
+ * </PRE>
  *
- * @author
+ * @author y_ha
+ * @version 0.0.1
  */
 public enum Result {
 

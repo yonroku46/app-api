@@ -1,6 +1,18 @@
 package com.app.demo.constants;
 
+/**
+ * セキュリティー関連を定義
+ *
+ * @author y_ha
+ * @version 0.0.1
+ */
 public class SecurityConst {
+
+    /**
+     * インスタンス生成不可
+     */
+    private SecurityConst() {
+    }
 
     /**
      * JWT署名鍵

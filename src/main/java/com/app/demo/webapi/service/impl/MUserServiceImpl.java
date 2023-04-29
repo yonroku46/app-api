@@ -14,6 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
+/**
+ * ユーザー機能サービス詳細
+ *
+ * @author y_ha
+ * @version 0.0.1
+ */
 @Service
 @Slf4j
 public class MUserServiceImpl implements MUserService {

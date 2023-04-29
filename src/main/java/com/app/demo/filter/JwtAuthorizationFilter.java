@@ -29,8 +29,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * JWT認証処理クラス
  *
- * @author CatenaRentalSystem
+ * @author y_ha
+ * @version 0.0.1
  */
 @Component
 public class JwtAuthorizationFilter implements HandlerInterceptor {
@@ -111,7 +113,7 @@ public class JwtAuthorizationFilter implements HandlerInterceptor {
 
         try {
             Claims claims = JwtUtils.parseJWT(token);
-            // ログインしていたユーザのアクセストークンがDBに保存されているものと一致しているかどうかを判断する。
+            // ログインしていたユーザーのアクセストークンがDBに保存されているものと一致しているかどうかを判断する。
             MUser userForBase = this.getAuthentication(claims);
             if (userForBase != null) {
                 return true;

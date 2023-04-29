@@ -8,8 +8,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
+ * レスポンスクラス
  *
- * @author
+ * @author y_ha
+ * @version 0.0.1
  */
 @Data
 @NoArgsConstructor
