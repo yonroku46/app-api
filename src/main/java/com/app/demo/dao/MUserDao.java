@@ -26,6 +26,27 @@ public class MUserDao {
     private MUserMapper mUserMapper;
 
     /**
+     * ユーザーのログイン情報を取得
+     *
+     * @author y_ha
+     * @version 0.0.1
+     */
+    public MUser login(String userMail, String userPw) {
+        try {
+            return mUserMapper.login(userMail, userPw);
+        } catch (Exception exception) {
+            final String methodName = "UserMapper#login";
+            Map<String, Object> paramMap = new HashMap<>();
+            paramMap.put("userMail", userMail);
+            paramMap.put("userPw", userPw);
+            String overview = messageSource.getMessage(MessageIdConst.E_SQL_ISSUE, null, LocaleAspect.LOCALE);
+            String detail = StringUtils.convertInterfaceErrorMsg(methodName, paramMap, exception);
+            log.error(overview + detail);
+            throw new SystemException(MessageIdConst.E_SQL_ISSUE, overview, detail);
+        }
+    }
+
+    /**
      * ユーザー情報を取得
      *
      * @author y_ha

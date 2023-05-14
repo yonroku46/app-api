@@ -45,6 +45,8 @@ public interface MUserMapper {
      */
     int updateByExample(@Param("row") MUser row, @Param("example") MUserExample example);
 
+    MUser login(@Param("userMail") String userMail, @Param("userPw") String userPw);
+
     MUser findUserById(@Param("userId") String userId, @Param("userMail") String userMail);
 
     MenuAuthInfoDto getAccessibleInfo(@Param("userId")String userId, @Param("userMail") String userMail, @Param("path") String path);

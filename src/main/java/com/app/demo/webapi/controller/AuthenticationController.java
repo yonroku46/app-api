@@ -1,5 +1,6 @@
 package com.app.demo.webapi.controller;
 
+import com.app.demo.dto.request.LoginReqDto;
 import com.app.demo.dto.response.core.Information;
 import com.app.demo.dto.response.core.ResponseDto;
 import com.app.demo.exception.ApplicationException;
@@ -8,9 +9,7 @@ import com.app.demo.webapi.service.MUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 共通機能コントローラー
@@ -19,8 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
  * @version 0.0.1
  */
 @RestController
+@RequestMapping("/auth")
 @Slf4j
-public class PublicController extends BaseController {
+public class AuthenticationController extends BaseController {
 
     @Autowired
     private MessageSource messageSource;
@@ -40,9 +40,9 @@ public class PublicController extends BaseController {
 
 
     @PostMapping("/login")
-    public ResponseDto login() {
+    public ResponseDto login(@RequestBody LoginReqDto req) {
         try {
-            return null;
+            return userService.login(req.getUserMail(), req.getUserPw());
         } catch (ApplicationException exception) {
             ResponseUtils.isClientError(exception);
             return ResponseUtils.generateDtoSuccessAbnormal(new Information(exception.getErrorCode(), exception.getMessage()), null);

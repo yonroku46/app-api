@@ -10,5 +10,7 @@ import com.app.demo.dto.response.core.ResponseDto;
  */
 public interface MUserService {
 
+    public ResponseDto login(String userMail, String userPw);
+
     public ResponseDto findUserById(String userId, String userMail);
 }

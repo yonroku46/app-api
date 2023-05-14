@@ -2,8 +2,8 @@ package com.app.demo.webapi.service.impl;
 
 import com.app.demo.aspect.LocaleAspect;
 import com.app.demo.constants.MessageIdConst;
+import com.app.demo.dao.MUserDao;
 import com.app.demo.dao.entity.MUser;
-import com.app.demo.dao.mapper.MUserMapper;
 import com.app.demo.dto.response.UserInfoResDto;
 import com.app.demo.dto.response.core.Information;
 import com.app.demo.dto.response.core.ResponseDto;
@@ -28,15 +28,27 @@ public class MUserServiceImpl implements MUserService {
     MessageSource messageSource;
 
     @Autowired
-    private MUserMapper mUserMapper;
+    private MUserDao mUserDao;
+
+    @Override
+    public ResponseDto login(String userMail, String userPw) {
+        UserInfoResDto res = new UserInfoResDto();
+        MUser user  = mUserDao.login(userMail, userPw);
+        if (user != null) {
+            res.setUserMail(user.getUserMail());
+            res.setUserName(user.getUserName());
+        }
+        return ResponseUtils.generateDtoSuccess(new Information(MessageIdConst.I_GETTING_SUCCESS,
+                messageSource.getMessage(MessageIdConst.I_GETTING_SUCCESS, null, LocaleAspect.LOCALE)), res);
+    }
 
     @Override
     public ResponseDto findUserById(String userId, String userMail) {
         UserInfoResDto res = new UserInfoResDto();
-        MUser user  = mUserMapper.findUserById(userId, userMail);
+        MUser user  = mUserDao.findUserById(userId, userMail);
         if (user != null) {
-            res.setUserId(user.getUserId());
-            res.setUserPw(user.getUserPw());
+            res.setUserMail(user.getUserMail());
+            res.setUserName(user.getUserName());
         }
         return ResponseUtils.generateDtoSuccess(new Information(MessageIdConst.I_GETTING_SUCCESS,
                 messageSource.getMessage(MessageIdConst.I_GETTING_SUCCESS, null, LocaleAspect.LOCALE)), res);

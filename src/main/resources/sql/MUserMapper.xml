@@ -11,6 +11,10 @@
     <result column="latest_login" jdbcType="TIMESTAMP" property="latestLogin" />
     <result column="delete_flg" jdbcType="BIT" property="deleteFlg" />
   </resultMap>
+  <resultMap type="com.app.demo.dto.MenuAuthInfoDto" id="menuAuthInfoDto">
+    <result property="requestMapping" column="requestMapping" jdbcType="VARCHAR" />
+    <result property="accessibleFlg" column="accessibleFlg" jdbcType="BOOLEAN" />
+  </resultMap>
   <sql id="Example_Where_Clause">
     <!-- @mbg.generated: generated automatically, do not modify! -->
     <where>
@@ -207,18 +211,28 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
+  <select id="login" parameterType="map" resultMap="BaseResultMap">
+    select
+      <include refid="Base_Column_List" />
+    from m_user
+    where
+      user_mail = #{userMail,jdbcType=VARCHAR} and
+      user_pw = #{userPw,jdbcType=VARCHAR} and
+      delete_flg = 0
+  </select>
   <select id="findUserById" parameterType="map" resultMap="BaseResultMap">
     select
       <include refid="Base_Column_List" />
     from m_user
     where
       user_id = #{userId,jdbcType=VARCHAR} and
-      user_mail = #{userMail,jdbcType=VARCHAR}
+      user_mail = #{userMail,jdbcType=VARCHAR} and
+      delete_flg = 0
   </select>
-  <select id="getAccessibleInfo" parameterType="map" resultMap="com.app.demo.dto.MenuAuthInfoDto">
+  <select id="getAccessibleInfo" parameterType="map" resultMap="menuAuthInfoDto">
     select
-      user_id as requestMapping,
-      delete_flg as accessibleFlg
+      #{path,jdbcType=VARCHAR} as requestMapping,
+      true as accessibleFlg
     from m_user
     where
       user_id = #{userId,jdbcType=VARCHAR} and

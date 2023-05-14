@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @version 0.0.1
  */
 @RestController
-@RequestMapping("user")
+@RequestMapping("/user")
 @Slf4j
 public class UserController extends BaseController {
 

@@ -18,7 +18,7 @@ public class UserInfoResDto extends ResponseData implements Serializable {
 
     private static final long serialVersionUID = 34895794374L;
 
-    private String userId;
+    private String userMail;
 
-    private String userPw;
+    private String userName;
 }
