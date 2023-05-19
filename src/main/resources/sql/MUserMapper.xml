@@ -3,17 +3,15 @@
 <mapper namespace="com.app.demo.dao.mapper.MUserMapper">
   <resultMap id="BaseResultMap" type="com.app.demo.dao.entity.MUser">
     <!-- @mbg.generated: generated automatically, do not modify! -->
-    <result column="user_id" jdbcType="VARCHAR" property="userId" />
-    <result column="user_pw" jdbcType="VARCHAR" property="userPw" />
-    <result column="user_mail" jdbcType="VARCHAR" property="userMail" />
+    <id column="uid" jdbcType="INTEGER" property="uid" />
+    <id column="mail" jdbcType="VARCHAR" property="mail" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="corp_flg" jdbcType="BIT" property="corpFlg" />
     <result column="latest_login" jdbcType="TIMESTAMP" property="latestLogin" />
+    <result column="token" jdbcType="VARCHAR" property="token" />
+    <result column="refresh_token" jdbcType="VARCHAR" property="refreshToken" />
     <result column="delete_flg" jdbcType="BIT" property="deleteFlg" />
-  </resultMap>
-  <resultMap type="com.app.demo.dto.MenuAuthInfoDto" id="menuAuthInfoDto">
-    <result property="requestMapping" column="requestMapping" jdbcType="VARCHAR" />
-    <result property="accessibleFlg" column="accessibleFlg" jdbcType="BOOLEAN" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -77,7 +75,8 @@
   </sql>
   <sql id="Base_Column_List">
     <!-- @mbg.generated: generated automatically, do not modify! -->
-    user_id, user_pw, user_mail, user_name, corp_flg, latest_login, delete_flg
+    `uid`, mail, `password`, user_name, corp_flg, latest_login, token, refresh_token, 
+    delete_flg
   </sql>
   <select id="selectByExample" parameterType="com.app.demo.dao.entity.MUserExample" resultMap="BaseResultMap">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -94,6 +93,20 @@
       order by ${orderByClause}
     </if>
   </select>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    select 
+    <include refid="Base_Column_List" />
+    from m_user
+    where `uid` = #{uid,jdbcType=INTEGER}
+      and mail = #{mail,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    delete from m_user
+    where `uid` = #{uid,jdbcType=INTEGER}
+      and mail = #{mail,jdbcType=VARCHAR}
+  </delete>
   <delete id="deleteByExample" parameterType="com.app.demo.dao.entity.MUserExample">
     <!-- @mbg.generated: generated automatically, do not modify! -->
     delete from m_user
@@ -103,25 +116,27 @@
   </delete>
   <insert id="insert" parameterType="com.app.demo.dao.entity.MUser">
     <!-- @mbg.generated: generated automatically, do not modify! -->
-    insert into m_user (user_id, user_pw, user_mail, 
+    insert into m_user (`uid`, mail, `password`, 
       user_name, corp_flg, latest_login, 
-      delete_flg)
-    values (#{userId,jdbcType=VARCHAR}, #{userPw,jdbcType=VARCHAR}, #{userMail,jdbcType=VARCHAR}, 
+      token, refresh_token, delete_flg
+      )
+    values (#{uid,jdbcType=INTEGER}, #{mail,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{userName,jdbcType=VARCHAR}, #{corpFlg,jdbcType=BIT}, #{latestLogin,jdbcType=TIMESTAMP}, 
-      #{deleteFlg,jdbcType=BIT})
+      #{token,jdbcType=VARCHAR}, #{refreshToken,jdbcType=VARCHAR}, #{deleteFlg,jdbcType=BIT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.app.demo.dao.entity.MUser">
     <!-- @mbg.generated: generated automatically, do not modify! -->
     insert into m_user
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="userId != null">
-        user_id,
+      <if test="uid != null">
+        `uid`,
       </if>
-      <if test="userPw != null">
-        user_pw,
+      <if test="mail != null">
+        mail,
       </if>
-      <if test="userMail != null">
-        user_mail,
+      <if test="password != null">
+        `password`,
       </if>
       <if test="userName != null">
         user_name,
@@ -132,19 +147,25 @@
       <if test="latestLogin != null">
         latest_login,
       </if>
+      <if test="token != null">
+        token,
+      </if>
+      <if test="refreshToken != null">
+        refresh_token,
+      </if>
       <if test="deleteFlg != null">
         delete_flg,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="userId != null">
-        #{userId,jdbcType=VARCHAR},
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
       </if>
-      <if test="userPw != null">
-        #{userPw,jdbcType=VARCHAR},
+      <if test="mail != null">
+        #{mail,jdbcType=VARCHAR},
       </if>
-      <if test="userMail != null">
-        #{userMail,jdbcType=VARCHAR},
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
       </if>
       <if test="userName != null">
         #{userName,jdbcType=VARCHAR},
@@ -154,6 +175,12 @@
       </if>
       <if test="latestLogin != null">
         #{latestLogin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="token != null">
+        #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="refreshToken != null">
+        #{refreshToken,jdbcType=VARCHAR},
       </if>
       <if test="deleteFlg != null">
         #{deleteFlg,jdbcType=BIT},
@@ -171,14 +198,14 @@
     <!-- @mbg.generated: generated automatically, do not modify! -->
     update m_user
     <set>
-      <if test="row.userId != null">
-        user_id = #{row.userId,jdbcType=VARCHAR},
+      <if test="row.uid != null">
+        `uid` = #{row.uid,jdbcType=INTEGER},
       </if>
-      <if test="row.userPw != null">
-        user_pw = #{row.userPw,jdbcType=VARCHAR},
+      <if test="row.mail != null">
+        mail = #{row.mail,jdbcType=VARCHAR},
       </if>
-      <if test="row.userMail != null">
-        user_mail = #{row.userMail,jdbcType=VARCHAR},
+      <if test="row.password != null">
+        `password` = #{row.password,jdbcType=VARCHAR},
       </if>
       <if test="row.userName != null">
         user_name = #{row.userName,jdbcType=VARCHAR},
@@ -188,6 +215,12 @@
       </if>
       <if test="row.latestLogin != null">
         latest_login = #{row.latestLogin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="row.token != null">
+        token = #{row.token,jdbcType=VARCHAR},
+      </if>
+      <if test="row.refreshToken != null">
+        refresh_token = #{row.refreshToken,jdbcType=VARCHAR},
       </if>
       <if test="row.deleteFlg != null">
         delete_flg = #{row.deleteFlg,jdbcType=BIT},
@@ -200,33 +233,71 @@
   <update id="updateByExample" parameterType="map">
     <!-- @mbg.generated: generated automatically, do not modify! -->
     update m_user
-    set user_id = #{row.userId,jdbcType=VARCHAR},
-      user_pw = #{row.userPw,jdbcType=VARCHAR},
-      user_mail = #{row.userMail,jdbcType=VARCHAR},
+    set `uid` = #{row.uid,jdbcType=INTEGER},
+      mail = #{row.mail,jdbcType=VARCHAR},
+      `password` = #{row.password,jdbcType=VARCHAR},
       user_name = #{row.userName,jdbcType=VARCHAR},
       corp_flg = #{row.corpFlg,jdbcType=BIT},
       latest_login = #{row.latestLogin,jdbcType=TIMESTAMP},
+      token = #{row.token,jdbcType=VARCHAR},
+      refresh_token = #{row.refreshToken,jdbcType=VARCHAR},
       delete_flg = #{row.deleteFlg,jdbcType=BIT}
     <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.app.demo.dao.entity.MUser">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    update m_user
+    <set>
+      <if test="password != null">
+        `password` = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="corpFlg != null">
+        corp_flg = #{corpFlg,jdbcType=BIT},
+      </if>
+      <if test="latestLogin != null">
+        latest_login = #{latestLogin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="token != null">
+        token = #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="refreshToken != null">
+        refresh_token = #{refreshToken,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteFlg != null">
+        delete_flg = #{deleteFlg,jdbcType=BIT},
+      </if>
+    </set>
+    where `uid` = #{uid,jdbcType=INTEGER}
+      and mail = #{mail,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.app.demo.dao.entity.MUser">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    update m_user
+    set `password` = #{password,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      corp_flg = #{corpFlg,jdbcType=BIT},
+      latest_login = #{latestLogin,jdbcType=TIMESTAMP},
+      token = #{token,jdbcType=VARCHAR},
+      refresh_token = #{refreshToken,jdbcType=VARCHAR},
+      delete_flg = #{deleteFlg,jdbcType=BIT}
+    where `uid` = #{uid,jdbcType=INTEGER}
+      and mail = #{mail,jdbcType=VARCHAR}
+  </update>
+  <resultMap id="menuAuthInfoDto" type="com.app.demo.dto.MenuAuthInfoDto">
+    <result column="requestMapping" jdbcType="VARCHAR" property="requestMapping" />
+    <result column="accessibleFlg" jdbcType="BOOLEAN" property="accessibleFlg" />
+  </resultMap>
   <select id="login" parameterType="map" resultMap="BaseResultMap">
     select
       <include refid="Base_Column_List" />
     from m_user
     where
-      user_mail = #{userMail,jdbcType=VARCHAR} and
-      user_pw = #{userPw,jdbcType=VARCHAR} and
-      delete_flg = 0
-  </select>
-  <select id="findUserById" parameterType="map" resultMap="BaseResultMap">
-    select
-      <include refid="Base_Column_List" />
-    from m_user
-    where
-      user_id = #{userId,jdbcType=VARCHAR} and
-      user_mail = #{userMail,jdbcType=VARCHAR} and
+      mail = #{mail,jdbcType=VARCHAR} and
       delete_flg = 0
   </select>
   <select id="getAccessibleInfo" parameterType="map" resultMap="menuAuthInfoDto">
@@ -235,7 +306,7 @@
       true as accessibleFlg
     from m_user
     where
-      user_id = #{userId,jdbcType=VARCHAR} and
-      user_mail = #{userMail,jdbcType=VARCHAR}
+      `uid` = #{userKey.uid,jdbcType=INTEGER} and
+      mail = #{userKey.mail,jdbcType=VARCHAR}
   </select>
 </mapper>

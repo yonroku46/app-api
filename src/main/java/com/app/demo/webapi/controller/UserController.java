@@ -32,9 +32,9 @@ public class UserController extends BaseController {
     @GetMapping("/info")
     public ResponseDto getUserInfo() {
         try {
-            String userId = "a";
-            String userMail = "a@a.a";
-            return userService.findUserById(userId, userMail);
+            Integer uid = 1;
+            String mail = "a@a.a";
+            return userService.findUserByPk(uid, mail);
         } catch (ApplicationException exception) {
             ResponseUtils.isClientError(exception);
             return ResponseUtils.generateDtoSuccessAbnormal(new Information(exception.getErrorCode(), exception.getMessage()), null);

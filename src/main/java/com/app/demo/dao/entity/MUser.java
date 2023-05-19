@@ -9,22 +9,22 @@ import lombok.Data;
 @Data
 public class MUser {
     /**
-     * Column: user_id
-     * Type: VARCHAR(100)
+     * Column: uid
+     * Type: INT
      */
-    private String userId;
+    private Integer uid;
 
     /**
-     * Column: user_pw
-     * Type: VARCHAR(100)
+     * Column: mail
+     * Type: VARCHAR(300)
      */
-    private String userPw;
+    private String mail;
 
     /**
-     * Column: user_mail
-     * Type: VARCHAR(100)
+     * Column: password
+     * Type: TEXT
      */
-    private String userMail;
+    private String password;
 
     /**
      * Column: user_name
@@ -35,6 +35,7 @@ public class MUser {
     /**
      * Column: corp_flg
      * Type: BIT
+     * Default value: b'0'
      */
     private Boolean corpFlg;
 
@@ -45,8 +46,21 @@ public class MUser {
     private Date latestLogin;
 
     /**
+     * Column: token
+     * Type: TEXT
+     */
+    private String token;
+
+    /**
+     * Column: refresh_token
+     * Type: TEXT
+     */
+    private String refreshToken;
+
+    /**
      * Column: delete_flg
      * Type: BIT
+     * Default value: b'0'
      */
     private Boolean deleteFlg;
 }

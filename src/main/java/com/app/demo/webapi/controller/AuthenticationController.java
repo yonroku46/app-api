@@ -28,21 +28,22 @@ public class AuthenticationController extends BaseController {
     @Autowired
     private MUserService userService;
 
-    @GetMapping("/check")
-    public ResponseDto serverCheck() {
+    @PostMapping("/login")
+    public ResponseDto login(@RequestBody LoginReqDto req) {
         try {
-            return null;
+            return userService.login(req);
         } catch (ApplicationException exception) {
             ResponseUtils.isClientError(exception);
             return ResponseUtils.generateDtoSuccessAbnormal(new Information(exception.getErrorCode(), exception.getMessage()), null);
         }
     }
 
-
-    @PostMapping("/login")
-    public ResponseDto login(@RequestBody LoginReqDto req) {
+    @PostMapping("/logout")
+    public ResponseDto logout() {
         try {
-            return userService.login(req.getUserMail(), req.getUserPw());
+            Integer uid = super.getCurrentUserId();
+            String mail = super.getCurrentUserEmail();
+            return userService.loginOut(uid, mail);
         } catch (ApplicationException exception) {
             ResponseUtils.isClientError(exception);
             return ResponseUtils.generateDtoSuccessAbnormal(new Information(exception.getErrorCode(), exception.getMessage()), null);

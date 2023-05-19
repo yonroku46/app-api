@@ -21,10 +21,10 @@ public class LoginReqDto implements Serializable {
     /**
      * メールアドレス.
      */
-    private String userMail;
+    private String mail;
 
     /**
      * パスワード.
      */
-    private String userPw;
+    private String password;
 }
