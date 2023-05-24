@@ -55,6 +55,21 @@ public class MessageIdConst {
     public static final String I_SAVE_SUCCESS = "info.save.success";
 
     /**
+     * INFO：サーバー実行中.
+     */
+    public static final String I_SERVER_RUNNING = "info.server.running";
+
+    /**
+     * INFO：ログイン成功.
+     */
+    public static final String I_LOGIN = "info.loginIn";
+
+    /**
+     * INFO：ログイン失敗.
+     */
+    public static final String I_LOGOUT = "info.loginOut";
+
+    /**
      * INFO：ダウンロード成功.
      */
     public static final String I_DOWNLOAD_SUCCESS = "info.download.success";

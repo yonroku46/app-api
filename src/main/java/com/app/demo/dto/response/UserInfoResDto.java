@@ -1,6 +1,7 @@
 package com.app.demo.dto.response;
 
 import com.app.demo.dto.response.core.ResponseData;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

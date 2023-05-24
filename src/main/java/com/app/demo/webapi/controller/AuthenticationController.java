@@ -1,5 +1,6 @@
 package com.app.demo.webapi.controller;
 
+import com.app.demo.aspect.attribute.LoginToken;
 import com.app.demo.dto.request.LoginReqDto;
 import com.app.demo.dto.response.core.Information;
 import com.app.demo.dto.response.core.ResponseDto;
@@ -10,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 共通機能コントローラー
@@ -24,6 +27,9 @@ public class AuthenticationController extends BaseController {
 
     @Autowired
     private MessageSource messageSource;
+
+    @Autowired
+    private HttpServletRequest request;
 
     @Autowired
     private MUserService userService;
@@ -44,6 +50,17 @@ public class AuthenticationController extends BaseController {
             Integer uid = super.getCurrentUserId();
             String mail = super.getCurrentUserEmail();
             return userService.loginOut(uid, mail);
+        } catch (ApplicationException exception) {
+            ResponseUtils.isClientError(exception);
+            return ResponseUtils.generateDtoSuccessAbnormal(new Information(exception.getErrorCode(), exception.getMessage()), null);
+        }
+    }
+
+    @GetMapping("/refreshToken")
+    @LoginToken
+    public ResponseDto refreshToken() {
+        try {
+            return userService.refreshToken(request);
         } catch (ApplicationException exception) {
             ResponseUtils.isClientError(exception);
             return ResponseUtils.generateDtoSuccessAbnormal(new Information(exception.getErrorCode(), exception.getMessage()), null);
