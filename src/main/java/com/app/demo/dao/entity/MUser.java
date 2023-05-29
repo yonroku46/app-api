@@ -9,20 +9,20 @@ import lombok.Data;
 @Data
 public class MUser {
     /**
-     * Column: uid
-     * Type: INT
-     */
-    private Integer uid;
-
-    /**
      * Column: mail
      * Type: VARCHAR(300)
      */
     private String mail;
 
     /**
+     * Column: uid
+     * Type: INT
+     */
+    private Integer uid;
+
+    /**
      * Column: password
-     * Type: TEXT
+     * Type: VARCHAR(500)
      */
     private String password;
 
@@ -47,13 +47,13 @@ public class MUser {
 
     /**
      * Column: token
-     * Type: TEXT
+     * Type: VARCHAR(500)
      */
     private String token;
 
     /**
      * Column: refresh_token
-     * Type: TEXT
+     * Type: VARCHAR(500)
      */
     private String refreshToken;
 

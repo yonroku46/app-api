@@ -34,7 +34,7 @@ public class UserController extends BaseController {
         try {
             Integer uid = 1;
             String mail = "a@a.a";
-            return userService.findUserByPk(uid, mail);
+            return userService.findUser(uid, mail);
         } catch (ApplicationException exception) {
             ResponseUtils.isClientError(exception);
             return ResponseUtils.generateDtoSuccessAbnormal(new Information(exception.getErrorCode(), exception.getMessage()), null);

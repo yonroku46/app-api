@@ -13,17 +13,7 @@ public interface MUserMapper {
     /**
      * @mbg.generated generated automatically, do not modify!
      */
-    long countByExample(MUserExample example);
-
-    /**
-     * @mbg.generated generated automatically, do not modify!
-     */
-    int deleteByExample(MUserExample example);
-
-    /**
-     * @mbg.generated generated automatically, do not modify!
-     */
-    int deleteByPrimaryKey(@Param("uid") Integer uid, @Param("mail") String mail);
+    int deleteByPrimaryKey(String mail);
 
     /**
      * @mbg.generated generated automatically, do not modify!
@@ -38,22 +28,7 @@ public interface MUserMapper {
     /**
      * @mbg.generated generated automatically, do not modify!
      */
-    List<MUser> selectByExample(MUserExample example);
-
-    /**
-     * @mbg.generated generated automatically, do not modify!
-     */
-    MUser selectByPrimaryKey(@Param("uid") Integer uid, @Param("mail") String mail);
-
-    /**
-     * @mbg.generated generated automatically, do not modify!
-     */
-    int updateByExampleSelective(@Param("row") MUser row, @Param("example") MUserExample example);
-
-    /**
-     * @mbg.generated generated automatically, do not modify!
-     */
-    int updateByExample(@Param("row") MUser row, @Param("example") MUserExample example);
+    MUser selectByPrimaryKey(String mail);
 
     /**
      * @mbg.generated generated automatically, do not modify!
@@ -66,6 +41,8 @@ public interface MUserMapper {
     int updateByPrimaryKey(MUser row);
 
     MUser login(@Param("mail") String mail);
+
+    MUser findUser(@Param("userKey") MUserKey userKey);
 
     MenuAuthInfoDto getAccessibleInfo(@Param("userKey") MUserKey userKey, @Param("path") String path);
 }

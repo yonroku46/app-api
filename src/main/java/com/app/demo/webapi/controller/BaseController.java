@@ -1,8 +1,8 @@
 package com.app.demo.webapi.controller;
 
 import com.app.demo.constants.SecurityConst;
+import com.app.demo.dao.MUserDao;
 import com.app.demo.dao.entity.MUser;
-import com.app.demo.dao.mapper.MUserMapper;
 import com.app.demo.utils.JwtUtils;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class BaseController {
     protected HttpServletResponse response;
 
     @Autowired
-    MUserMapper mUserMapper;
+    MUserDao mUserDao;
 
     public MUser loadMUser() {
         String authorization = request.getHeader(SecurityConst.REFRESH_TOKEN_HEADER);
@@ -35,7 +35,7 @@ public class BaseController {
         Object userMailObj = claims.get("mail");
         MUser entity = new MUser();
         if (userIdObj != null && userMailObj != null) {
-            entity = mUserMapper.selectByPrimaryKey(Integer.parseInt(userIdObj.toString()), userMailObj.toString());
+            entity = mUserDao.findUser(Integer.parseInt(userIdObj.toString()), userMailObj.toString());
         }
         return entity;
     }

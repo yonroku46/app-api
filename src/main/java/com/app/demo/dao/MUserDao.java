@@ -52,11 +52,12 @@ public class MUserDao {
      * @author y_ha
      * @version 0.0.1
      */
-    public MUser findUserByPk(Integer uid, String mail) {
+    public MUser findUser(Integer uid, String mail) {
         try {
-            return mUserMapper.selectByPrimaryKey(uid, mail);
+            MUserKey userKey = new MUserKey(uid, mail);
+            return mUserMapper.findUser(userKey);
         } catch (Exception exception) {
-            final String methodName = "UserMapper#findUserByPk";
+            final String methodName = "UserMapper#findUser";
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("uid", uid);
             paramMap.put("mail", mail);

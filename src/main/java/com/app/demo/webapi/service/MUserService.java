@@ -19,7 +19,7 @@ public interface MUserService {
 
     public ResponseDto refreshToken(HttpServletRequest httpServletRequest);
 
-    public ResponseDto findUserByPk(Integer uid, String mail);
+    public ResponseDto findUser(Integer uid, String mail);
 
     public int updateUserAccessToken(Integer uid, String mail, String accessToken);
 }
