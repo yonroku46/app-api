@@ -1,6 +1,7 @@
 package com.app.demo.dto.response;
 
 import com.app.demo.dto.response.core.ResponseData;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -18,7 +19,13 @@ public class UserInfoResDto extends ResponseData implements Serializable {
 
     private static final long serialVersionUID = 34895794374L;
 
-    private String userMail;
+    private Integer uid;
+
+    private String mail;
 
     private String userName;
+
+    private String token;
+
+    private String refreshToken;
 }

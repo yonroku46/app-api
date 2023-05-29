@@ -1,5 +1,7 @@
 package com.app.demo.webapi.controller;
 
+import com.app.demo.aspect.LocaleAspect;
+import com.app.demo.constants.MessageIdConst;
 import com.app.demo.dto.response.core.Information;
 import com.app.demo.dto.response.core.ResponseDto;
 import com.app.demo.exception.ApplicationException;
@@ -13,15 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * ユーザー機能コントローラー
+ * 共通機能コントローラー
  *
  * @author y_ha
  * @version 0.0.1
  */
 @RestController
-@RequestMapping("/user")
 @Slf4j
-public class UserController extends BaseController {
+public class PublicController extends BaseController {
 
     @Autowired
     private MessageSource messageSource;
@@ -29,12 +30,11 @@ public class UserController extends BaseController {
     @Autowired
     private MUserService userService;
 
-    @GetMapping("/info")
-    public ResponseDto getUserInfo() {
+    @GetMapping("/")
+    public ResponseDto serverCheck() {
         try {
-            Integer uid = 1;
-            String mail = "a@a.a";
-            return userService.findUser(uid, mail);
+            return ResponseUtils.generateDtoSuccess(
+                    new Information(MessageIdConst.I_SERVER_RUNNING, messageSource.getMessage(MessageIdConst.I_SERVER_RUNNING, null, LocaleAspect.LOCALE)), null);
         } catch (ApplicationException exception) {
             ResponseUtils.isClientError(exception);
             return ResponseUtils.generateDtoSuccessAbnormal(new Information(exception.getErrorCode(), exception.getMessage()), null);

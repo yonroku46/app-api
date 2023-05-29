@@ -24,23 +24,24 @@ public class JwtUtils {
      * ユーザーが正常にログインした後にJwtを生成するHs256アルゴリズムを使用する秘密キーがユーザーパスワードを使用する
      *
      * @param ttlMillis jwt期限切れ時間
-     * @param userid
+     * @param uid
      * @param userName
-     * @param userMail
+     * @param mail
      * @return
      */
-    public static String createJWT(long ttlMillis, String userid, String userName, String userMail) {
+    public static String createJWT(long ttlMillis, Integer uid, String userName, String mail, Boolean corpFlg) {
         byte[] secretKeyAsBytes = SecurityConst.JWT_SECRET_KEY.getBytes(StandardCharsets.UTF_8);
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
 
         // パスロードのプライベートステートメントを作成します。
         Map<String, Object> claims = new HashMap<>();
-        claims.put("userId", userid);
+        claims.put("uid", uid);
         claims.put("userName", userName);
-        claims.put("userMail", userMail);
+        claims.put("mail", mail);
+        claims.put("corpFlg", corpFlg);
         // 発行人
-        String subject = userid;
+        Integer subject = uid;
         // Jwt Buiderを設置して、jwtのbodyを設定します。
         JwtBuilder builder = Jwts.builder()
                 .setClaims(claims)
@@ -49,7 +50,7 @@ public class JwtUtils {
                 // iat:jwtの発行時間
                 .setIssuedAt(now)
                 // このJWTの主体であるすべての人を代表して、これはjson形式の文字列で、何をuserid、roldidなどを保存できます
-                .setSubject(subject)
+                .setSubject(subject.toString())
                 // 署名に使用する署名アルゴリズムと署名に使用する秘密鍵を設定します
                 .signWith(Keys.hmacShaKeyFor(secretKeyAsBytes));
 

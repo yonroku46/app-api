@@ -1,8 +1,8 @@
 package com.app.demo.webapi.controller;
 
 import com.app.demo.constants.SecurityConst;
+import com.app.demo.dao.MUserDao;
 import com.app.demo.dao.entity.MUser;
-import com.app.demo.dao.mapper.MUserMapper;
 import com.app.demo.utils.JwtUtils;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,17 +25,17 @@ public class BaseController {
     protected HttpServletResponse response;
 
     @Autowired
-    MUserMapper mUserMapper;
+    MUserDao mUserDao;
 
     public MUser loadMUser() {
         String authorization = request.getHeader(SecurityConst.REFRESH_TOKEN_HEADER);
         String token = authorization.replace(SecurityConst.TOKEN_PREFIX, "");
         Claims claims = JwtUtils.parseJWT(token);
-        Object userIdObj = claims.get("userId");
-        Object userMailObj = claims.get("userMail");
+        Object userIdObj = claims.get("uid");
+        Object userMailObj = claims.get("mail");
         MUser entity = new MUser();
         if (userIdObj != null && userMailObj != null) {
-            entity = mUserMapper.findUserById(userIdObj.toString(), userMailObj.toString());
+            entity = mUserDao.findUser(Integer.parseInt(userIdObj.toString()), userMailObj.toString());
         }
         return entity;
     }
@@ -55,9 +55,9 @@ public class BaseController {
      *
      * @return
      */
-    public String getCurrentUserId() {
+    public Integer getCurrentUserId() {
         MUser entity = loadMUser();
-        return entity.getUserId();
+        return entity.getUid();
     }
 
     /**
@@ -67,7 +67,7 @@ public class BaseController {
      */
     public String getCurrentUserEmail() {
         MUser entity = loadMUser();
-        return entity.getUserMail();
+        return entity.getMail();
     }
 
     /**

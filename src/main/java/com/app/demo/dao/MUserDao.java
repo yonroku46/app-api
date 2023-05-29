@@ -3,6 +3,7 @@ package com.app.demo.dao;
 import com.app.demo.aspect.LocaleAspect;
 import com.app.demo.constants.MessageIdConst;
 import com.app.demo.dao.entity.MUser;
+import com.app.demo.dao.entity.MUserKey;
 import com.app.demo.dao.mapper.MUserMapper;
 import com.app.demo.dto.MenuAuthInfoDto;
 import com.app.demo.exception.SystemException;
@@ -31,14 +32,13 @@ public class MUserDao {
      * @author y_ha
      * @version 0.0.1
      */
-    public MUser login(String userMail, String userPw) {
+    public MUser login(String mail) {
         try {
-            return mUserMapper.login(userMail, userPw);
+            return mUserMapper.login(mail);
         } catch (Exception exception) {
             final String methodName = "UserMapper#login";
             Map<String, Object> paramMap = new HashMap<>();
-            paramMap.put("userMail", userMail);
-            paramMap.put("userPw", userPw);
+            paramMap.put("mail", mail);
             String overview = messageSource.getMessage(MessageIdConst.E_SQL_ISSUE, null, LocaleAspect.LOCALE);
             String detail = StringUtils.convertInterfaceErrorMsg(methodName, paramMap, exception);
             log.error(overview + detail);
@@ -47,19 +47,40 @@ public class MUserDao {
     }
 
     /**
-     * ユーザー情報を取得
+     * PKでユーザーの情報を取得
      *
      * @author y_ha
      * @version 0.0.1
      */
-    public MUser findUserById(String userId, String userMail) {
+    public MUser findUser(Integer uid, String mail) {
         try {
-            return mUserMapper.findUserById(userId, userMail);
+            MUserKey userKey = new MUserKey(uid, mail);
+            return mUserMapper.findUser(userKey);
         } catch (Exception exception) {
-            final String methodName = "UserMapper#findUserById";
+            final String methodName = "UserMapper#findUser";
             Map<String, Object> paramMap = new HashMap<>();
-            paramMap.put("userId", userId);
-            paramMap.put("userMail", userMail);
+            paramMap.put("uid", uid);
+            paramMap.put("mail", mail);
+            String overview = messageSource.getMessage(MessageIdConst.E_SQL_ISSUE, null, LocaleAspect.LOCALE);
+            String detail = StringUtils.convertInterfaceErrorMsg(methodName, paramMap, exception);
+            log.error(overview + detail);
+            throw new SystemException(MessageIdConst.E_SQL_ISSUE, overview, detail);
+        }
+    }
+
+    /**
+     * ユーザーの情報を更新
+     *
+     * @author y_ha
+     * @version 0.0.1
+     */
+    public int updateUserData(MUser user) {
+        try {
+            return mUserMapper.updateByPrimaryKey(user);
+        } catch (Exception exception) {
+            final String methodName = "UserMapper#updateUserData";
+            Map<String, Object> paramMap = new HashMap<>();
+            paramMap.put("user", user);
             String overview = messageSource.getMessage(MessageIdConst.E_SQL_ISSUE, null, LocaleAspect.LOCALE);
             String detail = StringUtils.convertInterfaceErrorMsg(methodName, paramMap, exception);
             log.error(overview + detail);
@@ -73,14 +94,13 @@ public class MUserDao {
      * @author y_ha
      * @version 0.0.1
      */
-    public MenuAuthInfoDto getAccessibleInfo(String userId, String userMail, String path) {
+    public MenuAuthInfoDto getAccessibleInfo(MUserKey userKey, String path) {
         try {
-            return mUserMapper.getAccessibleInfo(userId, userMail, path);
+            return mUserMapper.getAccessibleInfo(userKey, path);
         } catch (Exception exception) {
             final String methodName = "UserMapper#getAccessibleInfo";
             Map<String, Object> paramMap = new HashMap<>();
-            paramMap.put("userId", userId);
-            paramMap.put("userMail", userMail);
+            paramMap.put("userKey", userKey);
             paramMap.put("path", path);
             String overview = messageSource.getMessage(MessageIdConst.E_SQL_ISSUE, null, LocaleAspect.LOCALE);
             String detail = StringUtils.convertInterfaceErrorMsg(methodName, paramMap, exception);

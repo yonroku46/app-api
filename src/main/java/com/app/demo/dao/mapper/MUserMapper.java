@@ -2,23 +2,18 @@ package com.app.demo.dao.mapper;
 
 import com.app.demo.dao.entity.MUser;
 import com.app.demo.dao.entity.MUserExample;
+import com.app.demo.dao.entity.MUserKey;
 import com.app.demo.dto.MenuAuthInfoDto;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
 public interface MUserMapper {
     /**
      * @mbg.generated generated automatically, do not modify!
      */
-    long countByExample(MUserExample example);
-
-    /**
-     * @mbg.generated generated automatically, do not modify!
-     */
-    int deleteByExample(MUserExample example);
+    int deleteByPrimaryKey(String mail);
 
     /**
      * @mbg.generated generated automatically, do not modify!
@@ -33,21 +28,21 @@ public interface MUserMapper {
     /**
      * @mbg.generated generated automatically, do not modify!
      */
-    List<MUser> selectByExample(MUserExample example);
+    MUser selectByPrimaryKey(String mail);
 
     /**
      * @mbg.generated generated automatically, do not modify!
      */
-    int updateByExampleSelective(@Param("row") MUser row, @Param("example") MUserExample example);
+    int updateByPrimaryKeySelective(MUser row);
 
     /**
      * @mbg.generated generated automatically, do not modify!
      */
-    int updateByExample(@Param("row") MUser row, @Param("example") MUserExample example);
+    int updateByPrimaryKey(MUser row);
 
-    MUser login(@Param("userMail") String userMail, @Param("userPw") String userPw);
+    MUser login(@Param("mail") String mail);
 
-    MUser findUserById(@Param("userId") String userId, @Param("userMail") String userMail);
+    MUser findUser(@Param("userKey") MUserKey userKey);
 
-    MenuAuthInfoDto getAccessibleInfo(@Param("userId")String userId, @Param("userMail") String userMail, @Param("path") String path);
+    MenuAuthInfoDto getAccessibleInfo(@Param("userKey") MUserKey userKey, @Param("path") String path);
 }
