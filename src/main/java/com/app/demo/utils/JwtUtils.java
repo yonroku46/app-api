@@ -37,9 +37,7 @@ public class JwtUtils {
         // パスロードのプライベートステートメントを作成します。
         Map<String, Object> claims = new HashMap<>();
         claims.put("uid", uid);
-        claims.put("userName", userName);
         claims.put("mail", mail);
-        claims.put("corpFlg", corpFlg);
         // 発行人
         Integer subject = uid;
         // Jwt Buiderを設置して、jwtのbodyを設定します。
