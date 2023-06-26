@@ -2,6 +2,7 @@ package com.app.demo.webapi.controller;
 
 import com.app.demo.aspect.attribute.LoginToken;
 import com.app.demo.dto.request.LoginReqDto;
+import com.app.demo.dto.request.SubmitReqDto;
 import com.app.demo.dto.response.core.Information;
 import com.app.demo.dto.response.core.ResponseDto;
 import com.app.demo.exception.ApplicationException;
@@ -50,6 +51,16 @@ public class AuthenticationController extends BaseController {
             Integer uid = super.getCurrentUserId();
             String mail = super.getCurrentUserEmail();
             return userService.loginOut(uid, mail);
+        } catch (ApplicationException exception) {
+            ResponseUtils.isClientError(exception);
+            return ResponseUtils.generateDtoSuccessAbnormal(new Information(exception.getErrorCode(), exception.getMessage()), null);
+        }
+    }
+
+    @PostMapping("/submit")
+    public ResponseDto submit(@RequestBody SubmitReqDto req) {
+        try {
+            return userService.submit(req);
         } catch (ApplicationException exception) {
             ResponseUtils.isClientError(exception);
             return ResponseUtils.generateDtoSuccessAbnormal(new Information(exception.getErrorCode(), exception.getMessage()), null);

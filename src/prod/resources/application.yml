@@ -15,6 +15,10 @@ spring:
       maximum-pool-size: 100
       idleTimeout: 300000
 
+security:
+  jwt:
+    secret-key: ZnItc4ktcmRzLWJlbWFjMi6jbHVzdGVyLWNibXpmZmltbWV8eS5hcC1ub3J0aGVhc3QtMS5yZHMuYW1hem9uYXdzLmNvbQ==
+
 app:
   language:
     default: ja

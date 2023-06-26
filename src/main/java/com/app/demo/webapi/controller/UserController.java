@@ -1,6 +1,6 @@
 package com.app.demo.webapi.controller;
 
-import com.app.demo.aspect.attribute.LoginToken;
+import com.app.demo.aspect.attribute.CheckToken;
 import com.app.demo.dto.response.core.Information;
 import com.app.demo.dto.response.core.ResponseDto;
 import com.app.demo.exception.ApplicationException;
@@ -31,7 +31,7 @@ public class UserController extends BaseController {
     private MUserService userService;
 
     @GetMapping("/info")
-    @LoginToken
+    @CheckToken
     public ResponseDto getUserInfo() {
         try {
             Integer uid = super.getCurrentUserId();

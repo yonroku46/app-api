@@ -6,6 +6,7 @@ import com.app.demo.constants.SecurityConst;
 import com.app.demo.dao.MUserDao;
 import com.app.demo.dao.entity.MUser;
 import com.app.demo.dto.request.LoginReqDto;
+import com.app.demo.dto.request.SubmitReqDto;
 import com.app.demo.dto.response.UserInfoResDto;
 import com.app.demo.dto.response.core.Information;
 import com.app.demo.dto.response.core.ResponseDto;
@@ -95,9 +96,28 @@ public class MUserServiceImpl implements MUserService {
     }
 
     @Override
+    public ResponseDto submit(SubmitReqDto reqDto) {
+        UserInfoResDto res = new UserInfoResDto();
+        MUser user = mUserDao.login(reqDto.getMail());
+        if (user == null) {
+            user = new MUser();
+            String encyptPsw = PasswordUtils.encode(reqDto.getPassword());
+            user.setPassword(encyptPsw);
+            user.setUserName(reqDto.getName());
+            user.setMail(reqDto.getMail());
+            mUserDao.submit(user);
+        } else {
+            String message = messageSource.getMessage("info.alreadyExist", null, LocaleAspect.LOCALE);
+            log.warn(message);
+            throw new ApplicationException(HttpStatus.OK, null, message);
+        }
+        return ResponseUtils.generateDtoSuccess(new Information(MessageIdConst.I_LOGIN,
+                messageSource.getMessage(MessageIdConst.I_SAVE_SUCCESS, null, LocaleAspect.LOCALE)), res);
+    }
+
+    @Override
     @Transactional
     public ResponseDto refreshToken(HttpServletRequest httpServletRequest) {
-
         String refreshTokenHeader = httpServletRequest.getHeader(SecurityConst.REFRESH_TOKEN_HEADER);
         String refreshToken = refreshTokenHeader.replace(SecurityConst.TOKEN_PREFIX, "");
         if (refreshToken == null) {

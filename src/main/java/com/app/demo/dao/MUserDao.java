@@ -69,6 +69,26 @@ public class MUserDao {
     }
 
     /**
+     * ユーザーの情報を登録
+     *
+     * @author y_ha
+     * @version 0.0.1
+     */
+    public int submit(MUser user) {
+        try {
+            return mUserMapper.insertSelective(user);
+        } catch (Exception exception) {
+            final String methodName = "UserMapper#submit";
+            Map<String, Object> paramMap = new HashMap<>();
+            paramMap.put("user", user);
+            String overview = messageSource.getMessage(MessageIdConst.E_SQL_ISSUE, null, LocaleAspect.LOCALE);
+            String detail = StringUtils.convertInterfaceErrorMsg(methodName, paramMap, exception);
+            log.error(overview + detail);
+            throw new SystemException(MessageIdConst.E_SQL_ISSUE, overview, detail);
+        }
+    }
+
+    /**
      * ユーザーの情報を更新
      *
      * @author y_ha

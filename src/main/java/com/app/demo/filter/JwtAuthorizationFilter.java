@@ -55,7 +55,6 @@ public class JwtAuthorizationFilter implements HandlerInterceptor {
             return true;
         }
         HandlerMethod handlerMethod = (HandlerMethod) object;
-        // controller
         Class<?> clazz = handlerMethod.getBeanType();
         Method method = handlerMethod.getMethod();
         if (method.isAnnotationPresent(LoginToken.class)) {
