@@ -8,8 +8,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://dad-db-instance.chgxokrx4m2o.ap-northeast-1.rds.amazonaws.com:3306/labo?allowPublicKeyRetrieval=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
-    username: admin
-    password: HIQReKVy2mbNjJbWeL1N
+    username: labo
+    password: HIAYeOVu4nbGjRbOeK6N
     hikari:
       minimum-idle: 10
       maximum-pool-size: 100
