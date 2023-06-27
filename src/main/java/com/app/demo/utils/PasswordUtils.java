@@ -10,6 +10,7 @@ import org.apache.commons.codec.binary.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.util.Random;
 
 /**
  * パスワードに基づくJava暗号化/復号化
@@ -19,10 +20,13 @@ public class PasswordUtils {
     private static final String KEY_ALGORITHM = "AES";
     
     private static final String DEFAULT_CIPHER_ALGORITHM = "AES/CBC/PKCS5Padding";
-    
+
+    private static final String CHARACTERS = "abcdefghijklmnop1234567890123456";
+
     public static final String ENCRYPT_KEY = "1234567890123456";
     
     public static final String ENCRYPT_IV = "abcdefghijklmnop";
+
 
     /**
      * 暗号化メソッド
@@ -105,6 +109,25 @@ public class PasswordUtils {
 
         // 復号化文字列を返却
         return strResult;
+    }
+
+    /**
+     * ランダムキー生成
+     *
+     * @param length 生成するキーの長さ
+     * @return 生成されたキー
+     */
+    public static String generateRandomKey(int length) {
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder(length);
+
+        for (int i = 0; i < length; i++) {
+            int randomIndex = random.nextInt(CHARACTERS.length());
+            char randomChar = CHARACTERS.charAt(randomIndex);
+            sb.append(randomChar);
+        }
+
+        return sb.toString();
     }
 
 }

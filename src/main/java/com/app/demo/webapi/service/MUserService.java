@@ -1,5 +1,6 @@
 package com.app.demo.webapi.service;
 
+import com.app.demo.dto.request.KeyCheckReqDto;
 import com.app.demo.dto.request.LoginReqDto;
 import com.app.demo.dto.request.SubmitReqDto;
 import com.app.demo.dto.response.core.ResponseDto;
@@ -23,6 +24,8 @@ public interface MUserService {
     public ResponseDto refreshToken(HttpServletRequest httpServletRequest);
 
     public ResponseDto findUser(Integer uid, String mail);
+
+    public ResponseDto keyCheck(KeyCheckReqDto req);
 
     public int updateUserAccessToken(Integer uid, String mail, String accessToken);
 }

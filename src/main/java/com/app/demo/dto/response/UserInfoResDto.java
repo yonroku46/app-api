@@ -28,4 +28,6 @@ public class UserInfoResDto extends ResponseData implements Serializable {
     private String token;
 
     private String refreshToken;
+
+    private Boolean mailAuth;
 }

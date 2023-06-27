@@ -44,5 +44,7 @@ public interface MUserMapper {
 
     MUser findUser(@Param("userKey") MUserKey userKey);
 
+    MUser findMailKeyUser(@Param("mail") String mail, @Param("mailKey") String mailKey);
+
     MenuAuthInfoDto getAccessibleInfo(@Param("userKey") MUserKey userKey, @Param("path") String path);
 }

@@ -58,6 +58,19 @@ public class MUser {
     private String refreshToken;
 
     /**
+     * Column: mail_key
+     * Type: VARCHAR(50)
+     */
+    private String mailKey;
+
+    /**
+     * Column: mail_auth
+     * Type: BIT
+     * Default value: b'0'
+     */
+    private Boolean mailAuth;
+
+    /**
      * Column: delete_flg
      * Type: BIT
      * Default value: b'0'

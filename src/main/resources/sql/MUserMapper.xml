@@ -11,12 +11,14 @@
     <result column="latest_login" jdbcType="TIMESTAMP" property="latestLogin" />
     <result column="token" jdbcType="VARCHAR" property="token" />
     <result column="refresh_token" jdbcType="VARCHAR" property="refreshToken" />
+    <result column="mail_key" jdbcType="VARCHAR" property="mailKey" />
+    <result column="mail_auth" jdbcType="BIT" property="mailAuth" />
     <result column="delete_flg" jdbcType="BIT" property="deleteFlg" />
   </resultMap>
   <sql id="Base_Column_List">
     <!-- @mbg.generated: generated automatically, do not modify! -->
     mail, `uid`, `password`, user_name, corp_flg, latest_login, token, refresh_token, 
-    delete_flg
+    mail_key, mail_auth, delete_flg
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -34,12 +36,12 @@
     <!-- @mbg.generated: generated automatically, do not modify! -->
     insert into m_user (mail, `uid`, `password`, 
       user_name, corp_flg, latest_login, 
-      token, refresh_token, delete_flg
-      )
+      token, refresh_token, mail_key, 
+      mail_auth, delete_flg)
     values (#{mail,jdbcType=VARCHAR}, #{uid,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR}, 
       #{userName,jdbcType=VARCHAR}, #{corpFlg,jdbcType=BIT}, #{latestLogin,jdbcType=TIMESTAMP}, 
-      #{token,jdbcType=VARCHAR}, #{refreshToken,jdbcType=VARCHAR}, #{deleteFlg,jdbcType=BIT}
-      )
+      #{token,jdbcType=VARCHAR}, #{refreshToken,jdbcType=VARCHAR}, #{mailKey,jdbcType=VARCHAR}, 
+      #{mailAuth,jdbcType=BIT}, #{deleteFlg,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.app.demo.dao.entity.MUser">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -69,6 +71,12 @@
       <if test="refreshToken != null">
         refresh_token,
       </if>
+      <if test="mailKey != null">
+        mail_key,
+      </if>
+      <if test="mailAuth != null">
+        mail_auth,
+      </if>
       <if test="deleteFlg != null">
         delete_flg,
       </if>
@@ -97,6 +105,12 @@
       </if>
       <if test="refreshToken != null">
         #{refreshToken,jdbcType=VARCHAR},
+      </if>
+      <if test="mailKey != null">
+        #{mailKey,jdbcType=VARCHAR},
+      </if>
+      <if test="mailAuth != null">
+        #{mailAuth,jdbcType=BIT},
       </if>
       <if test="deleteFlg != null">
         #{deleteFlg,jdbcType=BIT},
@@ -128,6 +142,12 @@
       <if test="refreshToken != null">
         refresh_token = #{refreshToken,jdbcType=VARCHAR},
       </if>
+      <if test="mailKey != null">
+        mail_key = #{mailKey,jdbcType=VARCHAR},
+      </if>
+      <if test="mailAuth != null">
+        mail_auth = #{mailAuth,jdbcType=BIT},
+      </if>
       <if test="deleteFlg != null">
         delete_flg = #{deleteFlg,jdbcType=BIT},
       </if>
@@ -144,6 +164,8 @@
       latest_login = #{latestLogin,jdbcType=TIMESTAMP},
       token = #{token,jdbcType=VARCHAR},
       refresh_token = #{refreshToken,jdbcType=VARCHAR},
+      mail_key = #{mailKey,jdbcType=VARCHAR},
+      mail_auth = #{mailAuth,jdbcType=BIT},
       delete_flg = #{deleteFlg,jdbcType=BIT}
     where mail = #{mail,jdbcType=VARCHAR}
   </update>
@@ -166,6 +188,14 @@
     where
       `uid` = #{userKey.uid,jdbcType=INTEGER} and mail = #{userKey.mail,jdbcType=VARCHAR} and
       delete_flg = 0
+  </select>
+  <select id="findMailKeyUser" parameterType="map" resultMap="BaseResultMap">
+    select
+      <include refid="Base_Column_List" />
+    from m_user
+    where
+      mail = #{mail,jdbcType=VARCHAR} and mail_key = #{mailKey,jdbcType=VARCHAR} and
+    delete_flg = 0
   </select>
   <select id="getAccessibleInfo" parameterType="map" resultMap="menuAuthInfoDto">
     select

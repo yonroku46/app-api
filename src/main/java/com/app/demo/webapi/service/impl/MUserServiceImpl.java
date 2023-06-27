@@ -5,8 +5,10 @@ import com.app.demo.constants.MessageIdConst;
 import com.app.demo.constants.SecurityConst;
 import com.app.demo.dao.MUserDao;
 import com.app.demo.dao.entity.MUser;
+import com.app.demo.dto.request.KeyCheckReqDto;
 import com.app.demo.dto.request.LoginReqDto;
 import com.app.demo.dto.request.SubmitReqDto;
+import com.app.demo.dto.response.FlgResDto;
 import com.app.demo.dto.response.UserInfoResDto;
 import com.app.demo.dto.response.core.Information;
 import com.app.demo.dto.response.core.ResponseDto;
@@ -16,6 +18,7 @@ import com.app.demo.utils.JwtUtils;
 import com.app.demo.utils.PasswordUtils;
 import com.app.demo.utils.ResponseUtils;
 import com.app.demo.webapi.service.MUserService;
+import com.app.demo.webapi.service.MailService;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +44,9 @@ public class MUserServiceImpl implements MUserService {
 
     @Autowired
     MessageSource messageSource;
+
+    @Autowired
+    private MailService mailService;
 
     @Autowired
     private MUserDao mUserDao;
@@ -75,6 +81,7 @@ public class MUserServiceImpl implements MUserService {
                 res.setMail(user.getMail());
                 res.setToken(token);
                 res.setRefreshToken(refrehToken);
+                res.setMailAuth(user.getMailAuth());
             }
         } else {
             String message = messageSource.getMessage("login.user.notExist", null, LocaleAspect.LOCALE);
@@ -97,15 +104,22 @@ public class MUserServiceImpl implements MUserService {
 
     @Override
     public ResponseDto submit(SubmitReqDto reqDto) {
-        UserInfoResDto res = new UserInfoResDto();
+        FlgResDto res = new FlgResDto();
         MUser user = mUserDao.login(reqDto.getMail());
         if (user == null) {
+            String mail = reqDto.getMail();
+            String mailKey = PasswordUtils.generateRandomKey(20);
+            String encryptPsw = PasswordUtils.encode(reqDto.getPassword());
+            // ユーザー登録
             user = new MUser();
-            String encyptPsw = PasswordUtils.encode(reqDto.getPassword());
-            user.setPassword(encyptPsw);
+            user.setPassword(encryptPsw);
             user.setUserName(reqDto.getName());
-            user.setMail(reqDto.getMail());
+            user.setMail(mail);
+            user.setMailKey(mailKey);
             mUserDao.submit(user);
+            // 認証メール送信
+            mailService.sendAuthMail(mail, mailKey);
+            res.setFlg(Boolean.TRUE);
         } else {
             String message = messageSource.getMessage("info.alreadyExist", null, LocaleAspect.LOCALE);
             log.warn(message);
@@ -113,6 +127,27 @@ public class MUserServiceImpl implements MUserService {
         }
         return ResponseUtils.generateDtoSuccess(new Information(MessageIdConst.I_LOGIN,
                 messageSource.getMessage(MessageIdConst.I_SAVE_SUCCESS, null, LocaleAspect.LOCALE)), res);
+    }
+
+    @Override
+    public ResponseDto keyCheck(KeyCheckReqDto req) {
+        FlgResDto res = new FlgResDto();
+        String mail = PasswordUtils.decode(req.getMail());
+        String mailKey = PasswordUtils.decode(req.getMailKey());
+        MUser user = mUserDao.findMailKeyUser(mail, mailKey);
+        if (user != null) {
+            // ユーザーメールフラグ更新
+            user.setMailKey(null);
+            user.setMailAuth(Boolean.TRUE);
+            mUserDao.updateUserData(user);
+            res.setFlg(Boolean.TRUE);
+        } else {
+            String message = messageSource.getMessage(MessageIdConst.E_DATA_NOT_FOUND, null, LocaleAspect.LOCALE);
+            log.warn(message);
+            throw new ApplicationException(HttpStatus.OK, null, message);
+        }
+        return ResponseUtils.generateDtoSuccess(new Information(MessageIdConst.I_LOGIN,
+                messageSource.getMessage(MessageIdConst.I_UPDATE_SUCCESS, null, LocaleAspect.LOCALE)), res);
     }
 
     @Override

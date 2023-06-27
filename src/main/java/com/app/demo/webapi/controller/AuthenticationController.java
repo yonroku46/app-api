@@ -1,6 +1,9 @@
 package com.app.demo.webapi.controller;
 
+import com.app.demo.aspect.LocaleAspect;
 import com.app.demo.aspect.attribute.LoginToken;
+import com.app.demo.constants.MessageIdConst;
+import com.app.demo.dto.request.KeyCheckReqDto;
 import com.app.demo.dto.request.LoginReqDto;
 import com.app.demo.dto.request.SubmitReqDto;
 import com.app.demo.dto.response.core.Information;
@@ -61,6 +64,17 @@ public class AuthenticationController extends BaseController {
     public ResponseDto submit(@RequestBody SubmitReqDto req) {
         try {
             return userService.submit(req);
+        } catch (ApplicationException exception) {
+            ResponseUtils.isClientError(exception);
+            return ResponseUtils.generateDtoSuccessAbnormal(new Information(exception.getErrorCode(), exception.getMessage()), null);
+        }
+    }
+
+    @PostMapping("/check")
+    @LoginToken
+    public ResponseDto keyCheck(@RequestBody KeyCheckReqDto req) {
+        try {
+            return userService.keyCheck(req);
         } catch (ApplicationException exception) {
             ResponseUtils.isClientError(exception);
             return ResponseUtils.generateDtoSuccessAbnormal(new Information(exception.getErrorCode(), exception.getMessage()), null);

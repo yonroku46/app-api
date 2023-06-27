@@ -69,6 +69,27 @@ public class MUserDao {
     }
 
     /**
+     * メールとキーを所有してるユーザーを取得
+     *
+     * @author y_ha
+     * @version 0.0.1
+     */
+    public MUser findMailKeyUser(String mail, String mailKey) {
+        try {
+            return mUserMapper.findMailKeyUser(mail, mailKey);
+        } catch (Exception exception) {
+            final String methodName = "UserMapper#findMailKeyUser";
+            Map<String, Object> paramMap = new HashMap<>();
+            paramMap.put("mail", mail);
+            paramMap.put("mailKey", mailKey);
+            String overview = messageSource.getMessage(MessageIdConst.E_SQL_ISSUE, null, LocaleAspect.LOCALE);
+            String detail = StringUtils.convertInterfaceErrorMsg(methodName, paramMap, exception);
+            log.error(overview + detail);
+            throw new SystemException(MessageIdConst.E_SQL_ISSUE, overview, detail);
+        }
+    }
+
+    /**
      * ユーザーの情報を登録
      *
      * @author y_ha
