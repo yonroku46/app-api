@@ -27,12 +27,12 @@ public class MUserDao {
     private MUserMapper mUserMapper;
 
     /**
-     * ユーザーのログイン情報を取得
+     * メールアドレスでユーザーの情報を取得
      *
      * @author y_ha
      * @version 0.0.1
      */
-    public MUser login(String mail) {
+    public MUser findUserByMail(String mail) {
         try {
             return mUserMapper.login(mail);
         } catch (Exception exception) {
@@ -52,7 +52,7 @@ public class MUserDao {
      * @author y_ha
      * @version 0.0.1
      */
-    public MUser findUser(Integer uid, String mail) {
+    public MUser findUserByPk(Integer uid, String mail) {
         try {
             MUserKey userKey = new MUserKey(uid, mail);
             return mUserMapper.findUser(userKey);
