@@ -71,6 +71,13 @@ public class MUser {
     private Boolean mailAuth;
 
     /**
+     * Column: create_time
+     * Type: TIMESTAMP
+     * Default value: CURRENT_TIMESTAMP
+     */
+    private Date createTime;
+
+    /**
      * Column: delete_flg
      * Type: BIT
      * Default value: b'0'

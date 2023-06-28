@@ -35,7 +35,7 @@ public class BaseController {
         Object userMailObj = claims.get("mail");
         MUser entity = new MUser();
         if (userIdObj != null && userMailObj != null) {
-            entity = mUserDao.findUser(Integer.parseInt(userIdObj.toString()), userMailObj.toString());
+            entity = mUserDao.findUserByPk(Integer.parseInt(userIdObj.toString()), userMailObj.toString());
         }
         return entity;
     }

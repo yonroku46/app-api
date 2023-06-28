@@ -13,12 +13,13 @@
     <result column="refresh_token" jdbcType="VARCHAR" property="refreshToken" />
     <result column="mail_key" jdbcType="VARCHAR" property="mailKey" />
     <result column="mail_auth" jdbcType="BIT" property="mailAuth" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="delete_flg" jdbcType="BIT" property="deleteFlg" />
   </resultMap>
   <sql id="Base_Column_List">
     <!-- @mbg.generated: generated automatically, do not modify! -->
     mail, `uid`, `password`, user_name, corp_flg, latest_login, token, refresh_token, 
-    mail_key, mail_auth, delete_flg
+    mail_key, mail_auth, create_time, delete_flg
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -37,11 +38,13 @@
     insert into m_user (mail, `uid`, `password`, 
       user_name, corp_flg, latest_login, 
       token, refresh_token, mail_key, 
-      mail_auth, delete_flg)
+      mail_auth, create_time, delete_flg
+      )
     values (#{mail,jdbcType=VARCHAR}, #{uid,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR}, 
       #{userName,jdbcType=VARCHAR}, #{corpFlg,jdbcType=BIT}, #{latestLogin,jdbcType=TIMESTAMP}, 
       #{token,jdbcType=VARCHAR}, #{refreshToken,jdbcType=VARCHAR}, #{mailKey,jdbcType=VARCHAR}, 
-      #{mailAuth,jdbcType=BIT}, #{deleteFlg,jdbcType=BIT})
+      #{mailAuth,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{deleteFlg,jdbcType=BIT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.app.demo.dao.entity.MUser">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -77,6 +80,9 @@
       <if test="mailAuth != null">
         mail_auth,
       </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
       <if test="deleteFlg != null">
         delete_flg,
       </if>
@@ -111,6 +117,9 @@
       </if>
       <if test="mailAuth != null">
         #{mailAuth,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="deleteFlg != null">
         #{deleteFlg,jdbcType=BIT},
@@ -148,6 +157,9 @@
       <if test="mailAuth != null">
         mail_auth = #{mailAuth,jdbcType=BIT},
       </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="deleteFlg != null">
         delete_flg = #{deleteFlg,jdbcType=BIT},
       </if>
@@ -166,6 +178,7 @@
       refresh_token = #{refreshToken,jdbcType=VARCHAR},
       mail_key = #{mailKey,jdbcType=VARCHAR},
       mail_auth = #{mailAuth,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
       delete_flg = #{deleteFlg,jdbcType=BIT}
     where mail = #{mail,jdbcType=VARCHAR}
   </update>

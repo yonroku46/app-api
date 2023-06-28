@@ -48,19 +48,18 @@ public class MailServiceImpl implements MailService {
         // メール送信
         try {
             String encryptMail = PasswordUtils.encode(mail);
-            String encryptMailKey = PasswordUtils.encode(mailKey);
 
             MimeMessage mailObj = mailSender.createMimeMessage();
             mailObj.setSubject("【DemoApp】メール認証案内", CHAR_SET);
             mailObj.setText(new StringBuffer().append("<h3>メール認証</h3>")
                     .append("<p style='margin-left: 10px;'>下記のボタンをクリックすると、認証完了になります。</p>")
-                    .append("<a style='display: inline-block; text-align: center; width: 60px; margin-top: 20px; margin-left: 10px; padding: 6px 14px; background-color: #007bff; color: #ffffff; text-decoration: none; border-radius: 4px;'")
+                    .append("<a style='display: inline-block; text-align: center; margin-top: 20px; margin-left: 10px; padding: 6px 20px; background-color: #007bff; color: #ffffff; text-decoration: none; border-radius: 4px;'")
                     .append(" href='")
                     .append(BASE_URL)
-                    .append("/auth?m=")
+                    .append("/auth?k=")
+                    .append(mailKey)
+                    .append("&m=")
                     .append(encryptMail)
-                    .append("&k=")
-                    .append(encryptMailKey)
                     .append("' target='_blenk'>認証確認</a>")
                     .toString(), CHAR_SET, SUB_TYPE);
             mailObj.setFrom("noreply@xxdadxx.jp");
