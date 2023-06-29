@@ -8,7 +8,6 @@ package com.app.demo.enums;
  * </PRE>
  *
  * @author y_ha
- * @version 0.0.1
  */
 public enum Result {
 

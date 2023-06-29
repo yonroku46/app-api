@@ -9,7 +9,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * Interceptor処理クラス
  *
  * @author y_ha
- * @version 0.0.1
  */
 @Configuration
 public class InterceptorConfig implements WebMvcConfigurer {

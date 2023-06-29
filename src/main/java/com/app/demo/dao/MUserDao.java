@@ -30,7 +30,6 @@ public class MUserDao {
      * メールアドレスでユーザーの情報を取得
      *
      * @author y_ha
-     * @version 0.0.1
      */
     public MUser findUserByMail(String mail) {
         try {
@@ -50,7 +49,6 @@ public class MUserDao {
      * PKでユーザーの情報を取得
      *
      * @author y_ha
-     * @version 0.0.1
      */
     public MUser findUserByPk(Integer uid, String mail) {
         try {
@@ -72,7 +70,6 @@ public class MUserDao {
      * メールとキーを所有してるユーザーを取得
      *
      * @author y_ha
-     * @version 0.0.1
      */
     public MUser findMailKeyUser(String mail, String mailKey) {
         try {
@@ -93,7 +90,6 @@ public class MUserDao {
      * ユーザーの情報を登録
      *
      * @author y_ha
-     * @version 0.0.1
      */
     public int submit(MUser user) {
         try {
@@ -113,7 +109,6 @@ public class MUserDao {
      * ユーザーの情報を更新
      *
      * @author y_ha
-     * @version 0.0.1
      */
     public int updateUserData(MUser user) {
         try {
@@ -133,7 +128,6 @@ public class MUserDao {
      * ユーザーのアクセス権限情報を取得
      *
      * @author y_ha
-     * @version 0.0.1
      */
     public MenuAuthInfoDto getAccessibleInfo(MUserKey userKey, String path) {
         try {

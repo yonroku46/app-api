@@ -36,7 +36,6 @@ import java.util.Date;
  * ユーザー機能サービス詳細
  *
  * @author y_ha
- * @version 0.0.1
  */
 @Service
 @Slf4j
@@ -119,7 +118,7 @@ public class MUserServiceImpl implements MUserService {
             mUserDao.submit(user);
             // 認証メール送信
             mailService.sendAuthMail(mail, mailKey);
-            res.setFlg(Boolean.TRUE);
+            res.setIsFlg(Boolean.TRUE);
         } else {
             String message = messageSource.getMessage("info.alreadyExist", null, LocaleAspect.LOCALE);
             log.warn(message);
@@ -140,7 +139,7 @@ public class MUserServiceImpl implements MUserService {
             user.setMailKey(null);
             user.setMailAuth(Boolean.TRUE);
             mUserDao.updateUserData(user);
-            res.setFlg(Boolean.TRUE);
+            res.setIsFlg(Boolean.TRUE);
         } else {
             String message = messageSource.getMessage(MessageIdConst.E_DATA_NOT_FOUND, null, LocaleAspect.LOCALE);
             log.warn(message);

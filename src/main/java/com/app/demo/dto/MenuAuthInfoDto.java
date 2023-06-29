@@ -7,7 +7,6 @@ import lombok.Data;
  * ユーザー権限情報DTO
  *
  * @author y_ha
- * @version 0.0.1
  */
 @Data
 public class MenuAuthInfoDto implements Serializable {

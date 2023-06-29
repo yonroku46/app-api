@@ -32,7 +32,6 @@ import javax.servlet.http.HttpServletResponse;
  * JWT認証処理クラス
  *
  * @author y_ha
- * @version 0.0.1
  */
 @Component
 public class JwtAuthorizationFilter implements HandlerInterceptor {

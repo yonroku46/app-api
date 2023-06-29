@@ -8,7 +8,6 @@ import java.io.Serializable;
  * ユーザー会員登録情報DTO
  *
  * @author y_ha
- * @version 0.0.1
  */
 @Data
 public class KeyCheckReqDto implements Serializable {

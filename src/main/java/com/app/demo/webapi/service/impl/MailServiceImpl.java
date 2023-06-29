@@ -23,7 +23,6 @@ import java.util.Arrays;
  * メール機能サービス詳細
  *
  * @author y_ha
- * @version 0.0.1
  */
 @Service
 @Slf4j

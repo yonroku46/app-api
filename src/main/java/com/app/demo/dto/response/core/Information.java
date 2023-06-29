@@ -8,7 +8,6 @@ import java.io.Serializable;
  * レスポンス情報クラス
  *
  * @author y_ha
- * @version 0.0.1
  */
 @Data
 public class Information implements Serializable {

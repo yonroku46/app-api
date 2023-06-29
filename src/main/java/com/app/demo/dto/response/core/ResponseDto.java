@@ -11,7 +11,6 @@ import lombok.Setter;
  * レスポンスクラス
  *
  * @author y_ha
- * @version 0.0.1
  */
 @Data
 @NoArgsConstructor

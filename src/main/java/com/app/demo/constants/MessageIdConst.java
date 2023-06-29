@@ -4,7 +4,6 @@ package com.app.demo.constants;
  * メッセージ作成キーを定義
  *
  * @author y_ha
- * @version 0.0.1
  */
 public class MessageIdConst {
 

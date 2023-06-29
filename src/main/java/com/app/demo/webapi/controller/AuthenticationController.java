@@ -22,7 +22,6 @@ import javax.servlet.http.HttpServletRequest;
  * 共通機能コントローラー
  *
  * @author y_ha
- * @version 0.0.1
  */
 @RestController
 @RequestMapping("/auth")

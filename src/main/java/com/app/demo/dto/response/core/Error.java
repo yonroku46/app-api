@@ -8,7 +8,6 @@ import java.io.Serializable;
  * レスポンスエラークラス
  *
  * @author y_ha
- * @version 0.0.1
  */
 @EqualsAndHashCode(callSuper = true)
 public class Error extends Information implements Serializable {

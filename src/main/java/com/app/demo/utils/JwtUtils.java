@@ -16,7 +16,6 @@ import java.util.UUID;
  * JWT関連ユティリティー
  *
  * @author y_ha
- * @version 0.0.1
  */
 public class JwtUtils {
 

@@ -1,13 +1,9 @@
 package com.app.demo.constants;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
 /**
  * セキュリティー関連を定義
  *
  * @author y_ha
- * @version 0.0.1
  */
 public class SecurityConst {
 

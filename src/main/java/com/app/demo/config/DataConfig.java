@@ -27,7 +27,6 @@ public class DataConfig {
      * @return SqlSessionFactoryBean
      * @throws IOException
      * @author y_ha
-     * @version 0.0.1
      */
     @Bean
     public SqlSessionFactoryBean sqlSessionFactoryBean(DataSource dataSource) throws IOException {

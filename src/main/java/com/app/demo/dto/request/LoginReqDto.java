@@ -8,7 +8,6 @@ import java.io.Serializable;
  * ユーザーログイン情報DTO
  *
  * @author y_ha
- * @version 0.0.1
  */
 @Data
 public class LoginReqDto implements Serializable {

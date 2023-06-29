@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
  * 共通機能コントローラー
  *
  * @author y_ha
- * @version 0.0.1
  */
 @RestController
 @Slf4j
