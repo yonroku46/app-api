@@ -1,10 +1,7 @@
 package com.app.demo.webapi.controller;
 
 import com.app.demo.aspect.attribute.CheckToken;
-import com.app.demo.dto.response.core.Information;
 import com.app.demo.dto.response.core.ResponseDto;
-import com.app.demo.exception.ApplicationException;
-import com.app.demo.utils.ResponseUtils;
 import com.app.demo.webapi.service.MUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,13 +29,8 @@ public class UserController extends BaseController {
     @GetMapping("/info")
     @CheckToken
     public ResponseDto getUserInfo() {
-        try {
-            Integer uid = super.getCurrentUserId();
-            String mail = super.getCurrentUserEmail();
-            return userService.findUser(uid, mail);
-        } catch (ApplicationException exception) {
-            ResponseUtils.isClientError(exception);
-            return ResponseUtils.generateDtoSuccessAbnormal(new Information(exception.getErrorCode(), exception.getMessage()), null);
-        }
+        Integer uid = super.getCurrentUserId();
+        String mail = super.getCurrentUserEmail();
+        return userService.findUser(uid, mail);
     }
 }

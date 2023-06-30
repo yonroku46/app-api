@@ -1,11 +1,11 @@
 package com.app.demo.webapi.controller;
 
 import com.app.demo.aspect.attribute.LoginToken;
-import com.app.demo.dto.request.*;
-import com.app.demo.dto.response.core.Information;
+import com.app.demo.dto.request.KeyCheckReqDto;
+import com.app.demo.dto.request.LoginReqDto;
+import com.app.demo.dto.request.RecoverReqDto;
+import com.app.demo.dto.request.SubmitReqDto;
 import com.app.demo.dto.response.core.ResponseDto;
-import com.app.demo.exception.ApplicationException;
-import com.app.demo.utils.ResponseUtils;
 import com.app.demo.webapi.service.MUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,74 +35,39 @@ public class AuthenticationController extends BaseController {
 
     @PostMapping("/login")
     public ResponseDto login(@RequestBody LoginReqDto req) {
-        try {
-            return userService.login(req);
-        } catch (ApplicationException exception) {
-            ResponseUtils.isClientError(exception);
-            return ResponseUtils.generateDtoSuccessAbnormal(new Information(exception.getErrorCode(), exception.getMessage()), null);
-        }
+        return userService.login(req);
     }
 
     @PostMapping("/logout")
     public ResponseDto logout() {
-        try {
-            Integer uid = super.getCurrentUserId();
-            String mail = super.getCurrentUserEmail();
-            return userService.loginOut(uid, mail);
-        } catch (ApplicationException exception) {
-            ResponseUtils.isClientError(exception);
-            return ResponseUtils.generateDtoSuccessAbnormal(new Information(exception.getErrorCode(), exception.getMessage()), null);
-        }
+        Integer uid = super.getCurrentUserId();
+        String mail = super.getCurrentUserEmail();
+        return userService.loginOut(uid, mail);
     }
 
     @PostMapping("/submit")
     public ResponseDto submit(@RequestBody SubmitReqDto req) {
-        try {
-            return userService.submit(req);
-        } catch (ApplicationException exception) {
-            ResponseUtils.isClientError(exception);
-            return ResponseUtils.generateDtoSuccessAbnormal(new Information(exception.getErrorCode(), exception.getMessage()), null);
-        }
+        return userService.submit(req);
     }
 
     @PostMapping("/recover")
     public ResponseDto recoverMail(@RequestBody RecoverReqDto req) {
-        try {
-            return userService.recoverMail(req);
-        } catch (ApplicationException exception) {
-            ResponseUtils.isClientError(exception);
-            return ResponseUtils.generateDtoSuccessAbnormal(new Information(exception.getErrorCode(), exception.getMessage()), null);
-        }
+        return userService.recoverMail(req);
     }
 
     @PatchMapping("/recover")
     public ResponseDto recover(@RequestBody RecoverReqDto req) {
-        try {
-            return userService.recover(req);
-        } catch (ApplicationException exception) {
-            ResponseUtils.isClientError(exception);
-            return ResponseUtils.generateDtoSuccessAbnormal(new Information(exception.getErrorCode(), exception.getMessage()), null);
-        }
+        return userService.recover(req);
     }
 
     @PostMapping("/check")
     public ResponseDto keyCheck(@RequestBody KeyCheckReqDto req) {
-        try {
-            return userService.keyCheck(req);
-        } catch (ApplicationException exception) {
-            ResponseUtils.isClientError(exception);
-            return ResponseUtils.generateDtoSuccessAbnormal(new Information(exception.getErrorCode(), exception.getMessage()), null);
-        }
+        return userService.keyCheck(req);
     }
 
     @GetMapping("/refreshToken")
     @LoginToken
     public ResponseDto refreshToken() {
-        try {
-            return userService.refreshToken(request);
-        } catch (ApplicationException exception) {
-            ResponseUtils.isClientError(exception);
-            return ResponseUtils.generateDtoSuccessAbnormal(new Information(exception.getErrorCode(), exception.getMessage()), null);
-        }
+        return userService.refreshToken(request);
     }
 }
