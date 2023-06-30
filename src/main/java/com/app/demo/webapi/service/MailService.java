@@ -7,5 +7,5 @@ package com.app.demo.webapi.service;
  */
 public interface MailService {
 
-    public void sendAuthMail(String mail, String mailKey);
+    public void sendAuthMail(String mail, String mailKey, String path);
 }

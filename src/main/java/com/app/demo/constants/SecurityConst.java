@@ -47,6 +47,16 @@ public class SecurityConst {
      * 言語種別
      */
     public static final String LANGUAGE = "Accept-Language";
+
+    /**
+     * 会員登録認証パス
+     */
+    public static final String SUBMIT_AUTH_PATH = "/auth";
+
+    /**
+     * 再発行認証パス
+     */
+    public static final String RECOVER_AUTH_PATH = "/auth/recover";
 }
 
 

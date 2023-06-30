@@ -7,8 +7,10 @@ import com.app.demo.dao.MUserDao;
 import com.app.demo.dao.entity.MUser;
 import com.app.demo.dto.request.KeyCheckReqDto;
 import com.app.demo.dto.request.LoginReqDto;
+import com.app.demo.dto.request.RecoverReqDto;
 import com.app.demo.dto.request.SubmitReqDto;
 import com.app.demo.dto.response.FlgResDto;
+import com.app.demo.dto.response.KeyCheckResDto;
 import com.app.demo.dto.response.UserInfoResDto;
 import com.app.demo.dto.response.core.Information;
 import com.app.demo.dto.response.core.ResponseDto;
@@ -117,20 +119,61 @@ public class MUserServiceImpl implements MUserService {
             user.setMailKey(mailKey);
             mUserDao.submit(user);
             // 認証メール送信
-            mailService.sendAuthMail(mail, mailKey);
+            mailService.sendAuthMail(mail, mailKey, SecurityConst.SUBMIT_AUTH_PATH);
             res.setIsFlg(Boolean.TRUE);
         } else {
             String message = messageSource.getMessage("info.alreadyExist", null, LocaleAspect.LOCALE);
             log.warn(message);
             throw new ApplicationException(HttpStatus.OK, null, message);
         }
-        return ResponseUtils.generateDtoSuccess(new Information(MessageIdConst.I_LOGIN,
+        return ResponseUtils.generateDtoSuccess(new Information(MessageIdConst.I_SAVE_SUCCESS,
                 messageSource.getMessage(MessageIdConst.I_SAVE_SUCCESS, null, LocaleAspect.LOCALE)), res);
     }
 
     @Override
-    public ResponseDto keyCheck(KeyCheckReqDto req) {
+    public ResponseDto recoverMail(RecoverReqDto reqDto) {
         FlgResDto res = new FlgResDto();
+        MUser user = mUserDao.findUserByMail(reqDto.getMail());
+        if (user != null) {
+            String mail = reqDto.getMail();
+            String mailKey = PasswordUtils.generateRandomKey(20);
+            // ユーザー認証キー登録
+            user.setMailKey(mailKey);
+            mUserDao.updateUserData(user);
+            // 認証メール送信
+            mailService.sendAuthMail(mail, mailKey, SecurityConst.RECOVER_AUTH_PATH);
+            res.setIsFlg(Boolean.TRUE);
+        } else {
+            String message = messageSource.getMessage(MessageIdConst.E_DATA_NOT_FOUND, null, LocaleAspect.LOCALE);
+            log.warn(message);
+            throw new ApplicationException(HttpStatus.OK, null, message);
+        }
+        return ResponseUtils.generateDtoSuccess(new Information(MessageIdConst.I_UPDATE_SUCCESS,
+                messageSource.getMessage(MessageIdConst.I_UPDATE_SUCCESS, null, LocaleAspect.LOCALE)), res);
+    }
+
+    @Override
+    public ResponseDto recover(RecoverReqDto reqDto) {
+        FlgResDto res = new FlgResDto();
+        MUser user = mUserDao.findUserByMail(reqDto.getMail());
+        if (user != null) {
+            String encryptPsw = PasswordUtils.encode(reqDto.getPassword());
+            // ユーザーパスワード更新
+            user.setPassword(encryptPsw);
+            mUserDao.updateUserData(user);
+            res.setIsFlg(Boolean.TRUE);
+        } else {
+            String message = messageSource.getMessage(MessageIdConst.E_DATA_NOT_FOUND, null, LocaleAspect.LOCALE);
+            log.warn(message);
+            throw new ApplicationException(HttpStatus.OK, null, message);
+        }
+        return ResponseUtils.generateDtoSuccess(new Information(MessageIdConst.I_UPDATE_SUCCESS,
+                messageSource.getMessage(MessageIdConst.I_UPDATE_SUCCESS, null, LocaleAspect.LOCALE)), res);
+    }
+
+    @Override
+    public ResponseDto keyCheck(KeyCheckReqDto req) {
+        KeyCheckResDto res = new KeyCheckResDto();
         String mail = PasswordUtils.decode(req.getMail());
         String mailKey = req.getMailKey();
         MUser user = mUserDao.findMailKeyUser(mail, mailKey);
@@ -139,7 +182,7 @@ public class MUserServiceImpl implements MUserService {
             user.setMailKey(null);
             user.setMailAuth(Boolean.TRUE);
             mUserDao.updateUserData(user);
-            res.setIsFlg(Boolean.TRUE);
+            res.setMail(mail);
         } else {
             String message = messageSource.getMessage(MessageIdConst.E_DATA_NOT_FOUND, null, LocaleAspect.LOCALE);
             log.warn(message);
@@ -176,6 +219,7 @@ public class MUserServiceImpl implements MUserService {
                 res.setUserName(user.getUserName());
                 res.setToken(newToken);
                 res.setRefreshToken(newRefreshToken);
+                res.setMailAuth(user.getMailAuth());
 
                 return ResponseUtils.generateDtoSuccess(
                         new Information("info.refreshToken", messageSource.getMessage("info.refreshToken", new String[]{}, LocaleAspect.LOCALE)), res);

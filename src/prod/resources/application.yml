@@ -34,6 +34,7 @@ security:
     secret-key: ZnItc4ktcmRzLWJlbWFjMi6jbHVzdGVyLWNibXpmZmltbWV8eS5hcC1ub3J0aGVhc3QtMS5yZHMuYW1hem9uYXdzLmNvbQ==
 
 app:
+  name: DemoApp
   base:
     url: https://dad-labo.com
   language:

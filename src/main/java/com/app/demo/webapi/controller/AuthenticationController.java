@@ -1,11 +1,7 @@
 package com.app.demo.webapi.controller;
 
-import com.app.demo.aspect.LocaleAspect;
 import com.app.demo.aspect.attribute.LoginToken;
-import com.app.demo.constants.MessageIdConst;
-import com.app.demo.dto.request.KeyCheckReqDto;
-import com.app.demo.dto.request.LoginReqDto;
-import com.app.demo.dto.request.SubmitReqDto;
+import com.app.demo.dto.request.*;
 import com.app.demo.dto.response.core.Information;
 import com.app.demo.dto.response.core.ResponseDto;
 import com.app.demo.exception.ApplicationException;
@@ -19,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * 共通機能コントローラー
+ * セキュリティ関連機能コントローラー
  *
  * @author y_ha
  */
@@ -69,8 +65,27 @@ public class AuthenticationController extends BaseController {
         }
     }
 
+    @PostMapping("/recover")
+    public ResponseDto recoverMail(@RequestBody RecoverReqDto req) {
+        try {
+            return userService.recoverMail(req);
+        } catch (ApplicationException exception) {
+            ResponseUtils.isClientError(exception);
+            return ResponseUtils.generateDtoSuccessAbnormal(new Information(exception.getErrorCode(), exception.getMessage()), null);
+        }
+    }
+
+    @PatchMapping("/recover")
+    public ResponseDto recover(@RequestBody RecoverReqDto req) {
+        try {
+            return userService.recover(req);
+        } catch (ApplicationException exception) {
+            ResponseUtils.isClientError(exception);
+            return ResponseUtils.generateDtoSuccessAbnormal(new Information(exception.getErrorCode(), exception.getMessage()), null);
+        }
+    }
+
     @PostMapping("/check")
-    @LoginToken
     public ResponseDto keyCheck(@RequestBody KeyCheckReqDto req) {
         try {
             return userService.keyCheck(req);

@@ -2,6 +2,7 @@ package com.app.demo.webapi.service;
 
 import com.app.demo.dto.request.KeyCheckReqDto;
 import com.app.demo.dto.request.LoginReqDto;
+import com.app.demo.dto.request.RecoverReqDto;
 import com.app.demo.dto.request.SubmitReqDto;
 import com.app.demo.dto.response.core.ResponseDto;
 
@@ -19,6 +20,10 @@ public interface MUserService {
     public ResponseDto loginOut(Integer uid, String mail);
 
     public ResponseDto submit(SubmitReqDto req);
+
+    public ResponseDto recoverMail(RecoverReqDto req);
+
+    public ResponseDto recover(RecoverReqDto req);
 
     public ResponseDto refreshToken(HttpServletRequest httpServletRequest);
 
