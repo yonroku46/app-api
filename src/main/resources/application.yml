@@ -48,3 +48,12 @@ taskexecutor:
   corepoolsize: 4
   queuecapacity: 16
   maxpoolsize: 16
+
+oauth2:
+  google:
+    client-id: ${CLIENT_ID}
+    client-secret: ${CLIENT_SECRET}
+    redirect-uri: http://${server.address}:${server.port}/api/oauth2/login/google/access-token
+    scope:
+      - profile
+      - email
