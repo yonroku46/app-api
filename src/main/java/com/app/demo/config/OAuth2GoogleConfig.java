@@ -24,14 +24,26 @@ public class OAuth2GoogleConfig {
     private String redirectUri;
     private List<String> scope;
 
+    /**
+     * GoogleログインページにリダイレクトするURI。
+     *
+     * @author chanu
+     */
     public String getCodeUrl() {
-        return BASE_CODE_URL +
-                "?client_id=" + clientId +
-                "&redirect_uri=" + redirectUri +
-                "&response_type=code" +
-                "&scope=" + String.join(" ", scope);
+        return new StringBuffer()
+                .append(BASE_CODE_URL)
+                .append("?client_id=").append(clientId)
+                .append("&redirect_uri=").append(redirectUri)
+                .append("&response_type=code")
+                .append("&scope=").append(String.join(" ", scope))
+                .toString();
     }
 
+    /**
+     * 発行されたユーザーのcodeを利用しGoogleにAccess Tokenを要求
+     *
+     * @author chanu
+     */
     public Map<String, String> getParams(String code) {
         Map<String, String> params = new HashMap<>();
         params.put("code", code);

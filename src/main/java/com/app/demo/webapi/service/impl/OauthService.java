@@ -13,6 +13,8 @@ public class OauthService {
     private final RestTemplate restTemplate = new RestTemplate();
 
     public ResponseEntity getGoogleAccessToken(String code) {
-        return restTemplate.postForEntity(oAuth2GoogleConfig.GOOGLE_TOKEN_URL, oAuth2GoogleConfig.getParams(code), String.class);
+        ResponseEntity<String> stringResponseEntity = restTemplate.postForEntity(oAuth2GoogleConfig.GOOGLE_TOKEN_URL, oAuth2GoogleConfig.getParams(code), String.class);
+        // TODO 受け取ったアクセストークン及びユーザー情報の処理
+        return null;
     }
 }
