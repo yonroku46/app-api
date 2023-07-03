@@ -70,19 +70,12 @@ public class BaseController {
     }
 
     /**
-     * ログインしているユーザーの法人フラグ
+     * ログインしているユーザーの権限
      *
      * @return
      */
-    public String getCurrentUserCorpFlg() {
-        String authorization = request.getHeader(SecurityConst.REFRESH_TOKEN_HEADER);
-        String token = authorization.replace(SecurityConst.TOKEN_PREFIX, "");
-        Claims claims = JwtUtils.parseJWT(token);
-        Object corpFlgObj = claims.get("corpFlg");
-        if (corpFlgObj != null) {
-            return corpFlgObj.toString();
-        } else {
-            return null;
-        }
+    public Integer getCurrentRoles() {
+        MUser entity = loadMUser();
+        return entity.getRoles();
     }
 }

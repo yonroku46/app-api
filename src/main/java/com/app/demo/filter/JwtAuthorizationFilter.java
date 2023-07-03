@@ -49,7 +49,7 @@ public class JwtAuthorizationFilter implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object object) throws Exception {
 
-        // マッピングされていない場合は、直接に通過します。
+        // マッピングされていない場合は、直接に通過
         if (!(object instanceof HandlerMethod)) {
             return true;
         }
@@ -63,7 +63,7 @@ public class JwtAuthorizationFilter implements HandlerInterceptor {
             }
         }
         boolean isNeedVerify = false;
-        //ユーザー権限が必要なコメントがあるか確認します。
+        //ユーザー権限が必要なコメントがあるか確認
         if (clazz.isAnnotationPresent(CheckToken.class)) {
             CheckToken checkCotrollerToken = clazz.getAnnotation(CheckToken.class);
             if (checkCotrollerToken.required()) {
@@ -95,7 +95,7 @@ public class JwtAuthorizationFilter implements HandlerInterceptor {
     }
 
     private boolean verifyToken(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
-        // リクエストヘッダからtokenを取得する
+        // リクエストヘッダからtokenを取得
         String authorization = httpServletRequest.getHeader(SecurityConst.TOKEN_HEADER);
         if (authorization == null) {
             String message = messageSource.getMessage("error.noAccessToken", null, LocaleAspect.LOCALE);
@@ -111,14 +111,14 @@ public class JwtAuthorizationFilter implements HandlerInterceptor {
 
         try {
             Claims claims = JwtUtils.parseJWT(token);
-            // ログインしていたユーザーのアクセストークンがDBに保存されているものと一致しているかどうかを判断する。
+            // ログインしていたユーザーのアクセストークンがDBに保存されているものと一致しているかどうかを判断
             MUser userForBase = this.getAuthentication(claims);
             if (userForBase != null) {
                 return true;
             } else {
                 return false;
             }
-            // リクエストされた画面に権限がない場合権限エラーを出力する。
+            // リクエストされた画面に権限がない場合権限エラーを出力
 //            MenuAuthInfoDto accessibleInfo = this.getUserAccessibleInfo(userForBase, httpServletRequest.getHeader("Mapping-Path"));
 //            if (accessibleInfo == null || !accessibleInfo.getAccessibleFlg()) {
 //                httpServletResponse.sendError((HttpServletResponse.SC_FORBIDDEN));

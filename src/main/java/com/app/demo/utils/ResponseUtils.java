@@ -22,7 +22,6 @@ public class ResponseUtils {
      * インスタンス生成制御（サブクラスのみ許容）.
      */
     public ResponseUtils() {
-
     }
 
     /**

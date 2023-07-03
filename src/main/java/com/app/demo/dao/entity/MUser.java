@@ -21,41 +21,29 @@ public class MUser {
     private Integer uid;
 
     /**
-     * Column: password
-     * Type: VARCHAR(500)
-     */
-    private String password;
-
-    /**
      * Column: user_name
      * Type: VARCHAR(100)
      */
     private String userName;
 
     /**
-     * Column: corp_flg
-     * Type: BIT
-     * Default value: b'0'
+     * Column: roles
+     * Type: INT
+     * Default value: 0
      */
-    private Boolean corpFlg;
+    private Integer roles;
+
+    /**
+     * Column: password
+     * Type: VARCHAR(500)
+     */
+    private String password;
 
     /**
      * Column: latest_login
      * Type: TIMESTAMP
      */
     private Date latestLogin;
-
-    /**
-     * Column: token
-     * Type: VARCHAR(500)
-     */
-    private String token;
-
-    /**
-     * Column: refresh_token
-     * Type: VARCHAR(500)
-     */
-    private String refreshToken;
 
     /**
      * Column: mail_key

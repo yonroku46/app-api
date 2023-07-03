@@ -1,22 +1,32 @@
 package com.app.demo.constants;
 
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+
 /**
  * セキュリティー関連を定義
  *
  * @author y_ha
  */
+@Component
+@NoArgsConstructor
 public class SecurityConst {
 
-    /**
-     * インスタンス生成不可
-     */
-    private SecurityConst() {
+    @Value("${security.jwt.secret-key}")
+    private String SECRET_KEY;
+
+    @PostConstruct
+    public void init() {
+        JWT_SECRET_KEY = SECRET_KEY;
     }
 
     /**
      * JWT署名鍵
      */
-    public static final String JWT_SECRET_KEY = "ZnItc4ktcmRzLWJlbWFjMi6jbHVzdGVyLWNibXpmZmltbWV8eS5hcC1ub3J0aGVhc3QtMS5yZHMuYW1hem9uYXdzLmNvbQ==";
+    public static String JWT_SECRET_KEY;
 
     /**
      * Authorizationリクエストヘッダ
@@ -39,9 +49,9 @@ public class SecurityConst {
     public static final Long EXPIRATION_TIME = 1000 * 60 * 30L;
 
     /**
-     * JWTリフレッシュ 有効時間 60min
+     * JWTリフレッシュ 有効時間 24h
      */
-    public static final Long REFRESH_EXPIRATION_TIME = 1000 * 60 * 60L;
+    public static final Long REFRESH_EXPIRATION_TIME = 1000 * 60 * 60L * 24;
 
     /**
      * 言語種別

@@ -347,66 +347,6 @@ public class MUserExample {
             return (Criteria) this;
         }
 
-        public Criteria andCorpFlgIsNull() {
-            addCriterion("corp_flg is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpFlgIsNotNull() {
-            addCriterion("corp_flg is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpFlgEqualTo(Boolean value) {
-            addCriterion("corp_flg =", value, "corpFlg");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpFlgNotEqualTo(Boolean value) {
-            addCriterion("corp_flg <>", value, "corpFlg");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpFlgGreaterThan(Boolean value) {
-            addCriterion("corp_flg >", value, "corpFlg");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpFlgGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("corp_flg >=", value, "corpFlg");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpFlgLessThan(Boolean value) {
-            addCriterion("corp_flg <", value, "corpFlg");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpFlgLessThanOrEqualTo(Boolean value) {
-            addCriterion("corp_flg <=", value, "corpFlg");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpFlgIn(List<Boolean> values) {
-            addCriterion("corp_flg in", values, "corpFlg");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpFlgNotIn(List<Boolean> values) {
-            addCriterion("corp_flg not in", values, "corpFlg");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpFlgBetween(Boolean value1, Boolean value2) {
-            addCriterion("corp_flg between", value1, value2, "corpFlg");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpFlgNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("corp_flg not between", value1, value2, "corpFlg");
-            return (Criteria) this;
-        }
-
         public Criteria andLatestLoginIsNull() {
             addCriterion("latest_login is null");
             return (Criteria) this;

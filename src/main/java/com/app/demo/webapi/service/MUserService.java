@@ -17,7 +17,7 @@ public interface MUserService {
 
     public ResponseDto login(LoginReqDto req);
 
-    public ResponseDto loginOut(Integer uid, String mail);
+    public ResponseDto logout(Integer uid, String mail);
 
     public ResponseDto submit(SubmitReqDto req);
 
@@ -30,6 +30,4 @@ public interface MUserService {
     public ResponseDto findUser(Integer uid, String mail);
 
     public ResponseDto keyCheck(KeyCheckReqDto req);
-
-    public int updateUserAccessToken(Integer uid, String mail, String accessToken);
 }

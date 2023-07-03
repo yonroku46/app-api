@@ -42,7 +42,7 @@ public class AuthenticationController extends BaseController {
     public ResponseDto logout() {
         Integer uid = super.getCurrentUserId();
         String mail = super.getCurrentUserEmail();
-        return userService.loginOut(uid, mail);
+        return userService.logout(uid, mail);
     }
 
     @PostMapping("/submit")
@@ -65,7 +65,7 @@ public class AuthenticationController extends BaseController {
         return userService.keyCheck(req);
     }
 
-    @GetMapping("/refreshToken")
+    @GetMapping("/refresh-token")
     @LoginToken
     public ResponseDto refreshToken() {
         return userService.refreshToken(request);

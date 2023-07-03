@@ -5,12 +5,10 @@
     <!-- @mbg.generated: generated automatically, do not modify! -->
     <id column="mail" jdbcType="VARCHAR" property="mail" />
     <result column="uid" jdbcType="INTEGER" property="uid" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
-    <result column="corp_flg" jdbcType="BIT" property="corpFlg" />
+    <result column="roles" jdbcType="INTEGER" property="roles" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="latest_login" jdbcType="TIMESTAMP" property="latestLogin" />
-    <result column="token" jdbcType="VARCHAR" property="token" />
-    <result column="refresh_token" jdbcType="VARCHAR" property="refreshToken" />
     <result column="mail_key" jdbcType="VARCHAR" property="mailKey" />
     <result column="mail_auth" jdbcType="BIT" property="mailAuth" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -18,8 +16,8 @@
   </resultMap>
   <sql id="Base_Column_List">
     <!-- @mbg.generated: generated automatically, do not modify! -->
-    mail, `uid`, `password`, user_name, corp_flg, latest_login, token, refresh_token, 
-    mail_key, mail_auth, create_time, delete_flg
+    mail, `uid`, user_name, roles, `password`, latest_login, mail_key, mail_auth, create_time, 
+    delete_flg
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -35,16 +33,14 @@
   </delete>
   <insert id="insert" parameterType="com.app.demo.dao.entity.MUser">
     <!-- @mbg.generated: generated automatically, do not modify! -->
-    insert into m_user (mail, `uid`, `password`, 
-      user_name, corp_flg, latest_login, 
-      token, refresh_token, mail_key, 
-      mail_auth, create_time, delete_flg
-      )
-    values (#{mail,jdbcType=VARCHAR}, #{uid,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR}, 
-      #{userName,jdbcType=VARCHAR}, #{corpFlg,jdbcType=BIT}, #{latestLogin,jdbcType=TIMESTAMP}, 
-      #{token,jdbcType=VARCHAR}, #{refreshToken,jdbcType=VARCHAR}, #{mailKey,jdbcType=VARCHAR}, 
-      #{mailAuth,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{deleteFlg,jdbcType=BIT}
-      )
+    insert into m_user (mail, `uid`, user_name, 
+      roles, `password`, latest_login, 
+      mail_key, mail_auth, create_time, 
+      delete_flg)
+    values (#{mail,jdbcType=VARCHAR}, #{uid,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, 
+      #{roles,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR}, #{latestLogin,jdbcType=TIMESTAMP}, 
+      #{mailKey,jdbcType=VARCHAR}, #{mailAuth,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{deleteFlg,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.app.demo.dao.entity.MUser">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -56,23 +52,17 @@
       <if test="uid != null">
         `uid`,
       </if>
-      <if test="password != null">
-        `password`,
-      </if>
       <if test="userName != null">
         user_name,
       </if>
-      <if test="corpFlg != null">
-        corp_flg,
+      <if test="roles != null">
+        roles,
+      </if>
+      <if test="password != null">
+        `password`,
       </if>
       <if test="latestLogin != null">
         latest_login,
-      </if>
-      <if test="token != null">
-        token,
-      </if>
-      <if test="refreshToken != null">
-        refresh_token,
       </if>
       <if test="mailKey != null">
         mail_key,
@@ -94,23 +84,17 @@
       <if test="uid != null">
         #{uid,jdbcType=INTEGER},
       </if>
-      <if test="password != null">
-        #{password,jdbcType=VARCHAR},
-      </if>
       <if test="userName != null">
         #{userName,jdbcType=VARCHAR},
       </if>
-      <if test="corpFlg != null">
-        #{corpFlg,jdbcType=BIT},
+      <if test="roles != null">
+        #{roles,jdbcType=INTEGER},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
       </if>
       <if test="latestLogin != null">
         #{latestLogin,jdbcType=TIMESTAMP},
-      </if>
-      <if test="token != null">
-        #{token,jdbcType=VARCHAR},
-      </if>
-      <if test="refreshToken != null">
-        #{refreshToken,jdbcType=VARCHAR},
       </if>
       <if test="mailKey != null">
         #{mailKey,jdbcType=VARCHAR},
@@ -133,23 +117,17 @@
       <if test="uid != null">
         `uid` = #{uid,jdbcType=INTEGER},
       </if>
-      <if test="password != null">
-        `password` = #{password,jdbcType=VARCHAR},
-      </if>
       <if test="userName != null">
         user_name = #{userName,jdbcType=VARCHAR},
       </if>
-      <if test="corpFlg != null">
-        corp_flg = #{corpFlg,jdbcType=BIT},
+      <if test="roles != null">
+        roles = #{roles,jdbcType=INTEGER},
+      </if>
+      <if test="password != null">
+        `password` = #{password,jdbcType=VARCHAR},
       </if>
       <if test="latestLogin != null">
         latest_login = #{latestLogin,jdbcType=TIMESTAMP},
-      </if>
-      <if test="token != null">
-        token = #{token,jdbcType=VARCHAR},
-      </if>
-      <if test="refreshToken != null">
-        refresh_token = #{refreshToken,jdbcType=VARCHAR},
       </if>
       <if test="mailKey != null">
         mail_key = #{mailKey,jdbcType=VARCHAR},
@@ -170,12 +148,10 @@
     <!-- @mbg.generated: generated automatically, do not modify! -->
     update m_user
     set `uid` = #{uid,jdbcType=INTEGER},
-      `password` = #{password,jdbcType=VARCHAR},
       user_name = #{userName,jdbcType=VARCHAR},
-      corp_flg = #{corpFlg,jdbcType=BIT},
+      roles = #{roles,jdbcType=INTEGER},
+      `password` = #{password,jdbcType=VARCHAR},
       latest_login = #{latestLogin,jdbcType=TIMESTAMP},
-      token = #{token,jdbcType=VARCHAR},
-      refresh_token = #{refreshToken,jdbcType=VARCHAR},
       mail_key = #{mailKey,jdbcType=VARCHAR},
       mail_auth = #{mailAuth,jdbcType=BIT},
       create_time = #{createTime,jdbcType=TIMESTAMP},

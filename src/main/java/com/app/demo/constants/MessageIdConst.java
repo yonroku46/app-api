@@ -1,17 +1,14 @@
 package com.app.demo.constants;
 
+import lombok.NoArgsConstructor;
+
 /**
  * メッセージ作成キーを定義
  *
  * @author y_ha
  */
+@NoArgsConstructor
 public class MessageIdConst {
-
-    /**
-     * インスタンス生成不可
-     */
-    private MessageIdConst() {
-    }
 
     /**
      * エラー：日付不整合.
