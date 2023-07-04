@@ -82,6 +82,7 @@ public class MUserServiceImpl implements MUserService {
                 res.setToken(token);
                 res.setRefreshToken(refrehToken);
                 res.setMailAuth(user.getMailAuth());
+                res.setRoles(user.getRoles());
             }
         } else {
             String message = messageSource.getMessage("login.user.notExist", null, LocaleAspect.LOCALE);
@@ -213,6 +214,7 @@ public class MUserServiceImpl implements MUserService {
                 res.setToken(newToken);
                 res.setRefreshToken(newRefreshToken);
                 res.setMailAuth(user.getMailAuth());
+                res.setRoles(user.getRoles());
 
                 return ResponseUtils.generateDtoSuccess(
                         new Information("info.refreshToken", messageSource.getMessage("info.refreshToken", new String[]{}, LocaleAspect.LOCALE)), res);

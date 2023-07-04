@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author chanu
  */
-@Slf4j
-@RequestMapping("/oauth2/login")
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/oauth2/login")
+@Slf4j
 public class Oauth2Controller {
 
     private final OAuth2GoogleConfig oAuth2GoogleConfig;
