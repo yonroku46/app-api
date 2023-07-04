@@ -3,6 +3,7 @@ package com.app.demo.webapi.controller;
 import com.app.demo.config.OAuth2GoogleConfig;
 import com.app.demo.dto.response.core.ResponseDto;
 import com.app.demo.webapi.service.impl.Oauth2ServiceImpl;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -30,12 +31,12 @@ public class Oauth2Controller {
     @GetMapping("/google/code")
     public ResponseEntity getCode() {
         return ResponseEntity
-                .status(HttpStatus.MOVED_TEMPORARILY)
+                .status(HttpStatus.FOUND)
                 .body(oAuth2GoogleConfig.getCodeUrl());
     }
 
     @GetMapping("/google/access-token")
-    public ResponseDto getAccessToken(@RequestParam("code") String code) {
+    public ResponseDto getAccessToken(@RequestParam("code") String code) throws JsonProcessingException {
         return oauthService.getGoogleAccessToken(code);
     }
 }
