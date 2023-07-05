@@ -29,8 +29,8 @@ public class UserController extends BaseController {
     @GetMapping("/info")
     @CheckToken
     public ResponseDto getUserInfo() {
-        Integer uid = super.getCurrentUserId();
+        Integer userId = super.getCurrentUserId();
         String mail = super.getCurrentUserEmail();
-        return userService.findUser(uid, mail);
+        return userService.findUser(userId, mail);
     }
 }

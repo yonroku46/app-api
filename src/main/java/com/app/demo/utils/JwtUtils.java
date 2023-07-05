@@ -2,7 +2,6 @@ package com.app.demo.utils;
 
 import com.app.demo.constants.SecurityConst;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -23,25 +22,25 @@ public class JwtUtils {
      * ユーザーが正常にログインした後にJwtを生成するHs256アルゴリズムを使用する秘密キーがユーザーパスワードを使用する
      *
      * @param ttlMillis jwt期限切れ時間
-     * @param uid
+     * @param userId
      * @param userName
      * @param mail
-     * @param roles
+     * @param role
      * @return
      */
-    public static String createJWT(long ttlMillis, Integer uid, String userName, String mail, Integer roles) {
+    public static String createJWT(long ttlMillis, Integer userId, String userName, String mail, Integer role) {
         byte[] secretKeyAsBytes = SecurityConst.JWT_SECRET_KEY.getBytes(StandardCharsets.UTF_8);
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
 
         // パスロードのプライベートステートメントを作成
         Map<String, Object> claims = new HashMap<>();
-        claims.put("uid", uid);
+        claims.put("userId", userId);
         claims.put("userName", userName);
         claims.put("mail", mail);
-        claims.put("roles", roles);
+        claims.put("role", role);
         // 発行人
-        Integer subject = uid;
+        Integer subject = userId;
         // JwtBuilderを設置して、jwtのbodyを設定
         JwtBuilder builder = Jwts.builder()
                 .setClaims(claims)

@@ -67,22 +67,23 @@ public class MUserServiceImpl implements MUserService {
                 throw new ApplicationException(HttpStatus.OK, null, message);
             } else {
                 // ログイン成功の場合ユーザマスタの最終ログイン日時を更新する
-                MUser record = mUserDao.findUserByPk(user.getUid(), user.getMail());
+                MUser record = mUserDao.findUserByPk(user.getUserId(), user.getMail());
                 // UTCで日時を取得
                 LocalDateTime latestLogin = DateUtils.getUTCdatetimeAsDate();
                 record.setLatestLogin(Date.from(latestLogin.atZone(ZoneId.systemDefault()).toInstant()));
                 mUserDao.updateUserData(record);
 
-                token = JwtUtils.createJWT(SecurityConst.EXPIRATION_TIME, user.getUid(), user.getUserName(), user.getMail(), user.getRoles());
-                refrehToken = JwtUtils.createJWT(SecurityConst.REFRESH_EXPIRATION_TIME, user.getUid(), user.getUserName(), user.getMail(), user.getRoles());
+                token = JwtUtils.createJWT(SecurityConst.EXPIRATION_TIME, user.getUserId(), user.getUserName(), user.getMail(), user.getRole());
+                refrehToken = JwtUtils.createJWT(SecurityConst.REFRESH_EXPIRATION_TIME, user.getUserId(), user.getUserName(), user.getMail(), user.getRole());
 
-                res.setUid(user.getUid());
+                res.setUserId(user.getUserId());
                 res.setUserName(user.getUserName());
+                res.setProfileImg(user.getProfileImg());
                 res.setMail(user.getMail());
                 res.setToken(token);
                 res.setRefreshToken(refrehToken);
                 res.setMailAuth(user.getMailAuth());
-                res.setRoles(user.getRoles());
+                res.setRole(user.getRole());
             }
         } else {
             String message = messageSource.getMessage("login.user.notExist", null, LocaleAspect.LOCALE);
@@ -94,7 +95,7 @@ public class MUserServiceImpl implements MUserService {
     }
 
     @Override
-    public ResponseDto logout(Integer uid, String mail) {
+    public ResponseDto logout(Integer userId, String mail) {
         UserInfoResDto res = null;
         return ResponseUtils.generateDtoSuccess(new Information(MessageIdConst.I_LOGOUT,
                 messageSource.getMessage(MessageIdConst.I_LOGOUT, null, LocaleAspect.LOCALE)), res);
@@ -200,21 +201,22 @@ public class MUserServiceImpl implements MUserService {
         }
         try {
             Claims claims = JwtUtils.parseJWT(refreshToken);
-            Integer uid = claims.get("uid", Integer.class);
+            Integer userId = claims.get("userId", Integer.class);
             String mail = claims.get("mail", String.class);
-            MUser user  = mUserDao.findUserByPk(uid, mail);
+            MUser user  = mUserDao.findUserByPk(userId, mail);
             if (user != null) {
-                String newToken = JwtUtils.createJWT(SecurityConst.EXPIRATION_TIME, user.getUid(), user.getUserName(), user.getMail(), user.getRoles());
-                String newRefreshToken = JwtUtils.createJWT(SecurityConst.REFRESH_EXPIRATION_TIME, user.getUid(), user.getUserName(), user.getMail(), user.getRoles());
+                String newToken = JwtUtils.createJWT(SecurityConst.EXPIRATION_TIME, user.getUserId(), user.getUserName(), user.getMail(), user.getRole());
+                String newRefreshToken = JwtUtils.createJWT(SecurityConst.REFRESH_EXPIRATION_TIME, user.getUserId(), user.getUserName(), user.getMail(), user.getRole());
 
                 UserInfoResDto res = new UserInfoResDto();
-                res.setUid(user.getUid());
+                res.setUserId(user.getUserId());
                 res.setUserName(user.getUserName());
+                res.setProfileImg(user.getProfileImg());
                 res.setMail(user.getMail());
                 res.setToken(newToken);
                 res.setRefreshToken(newRefreshToken);
                 res.setMailAuth(user.getMailAuth());
-                res.setRoles(user.getRoles());
+                res.setRole(user.getRole());
 
                 return ResponseUtils.generateDtoSuccess(
                         new Information("info.refreshToken", messageSource.getMessage("info.refreshToken", new String[]{}, LocaleAspect.LOCALE)), res);
@@ -229,11 +231,11 @@ public class MUserServiceImpl implements MUserService {
     }
 
     @Override
-    public ResponseDto findUser(Integer uid, String mail) {
+    public ResponseDto findUser(Integer userId, String mail) {
         UserInfoResDto res = new UserInfoResDto();
-        MUser user  = mUserDao.findUserByPk(uid, mail);
+        MUser user  = mUserDao.findUserByPk(userId, mail);
         if (user != null) {
-            res.setUid(user.getUid());
+            res.setUserId(user.getUserId());
             res.setMail(user.getMail());
             res.setUserName(user.getUserName());
         }

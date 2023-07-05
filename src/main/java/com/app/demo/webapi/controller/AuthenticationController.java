@@ -40,9 +40,9 @@ public class AuthenticationController extends BaseController {
 
     @PostMapping("/logout")
     public ResponseDto logout() {
-        Integer uid = super.getCurrentUserId();
+        Integer userId = super.getCurrentUserId();
         String mail = super.getCurrentUserEmail();
-        return userService.logout(uid, mail);
+        return userService.logout(userId, mail);
     }
 
     @PostMapping("/submit")

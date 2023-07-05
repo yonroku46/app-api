@@ -27,9 +27,11 @@ import org.springframework.web.client.RestTemplate;
 public class Oauth2ServiceImpl implements Oauth2Service {
 
     private final OAuth2GoogleConfig oAuth2GoogleConfig;
+
     private final MUserDao mUserDao;
 
     private final RestTemplate restTemplate = new RestTemplate();
+
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
@@ -48,20 +50,14 @@ public class Oauth2ServiceImpl implements Oauth2Service {
         // 구글 이메일
         String email = payload.get("email", String.class);
 
-        // 성
-        String famailyName = payload.get("famaily_name", String.class);
-
-        // 이름
-        String givenName = payload.get("given_name", String.class);
-
         // 유저명
         String userName = new StringBuffer()
-                .append(famailyName)
-                .append(givenName)
+                .append(payload.get("famaily_name", String.class))
+                .append(payload.get("given_name", String.class))
                 .toString();
 
         // TODO sub를 string으로 변경
-        MUser muser = mUserDao.findUserByPk(sub, email);
+        MUser muser = mUserDao.findUserByPk(Integer.parseInt(sub), email);
 
         if (muser == null) {
             // 회원가입 로직

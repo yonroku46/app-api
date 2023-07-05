@@ -147,9 +147,9 @@ public class JwtAuthorizationFilter implements HandlerInterceptor {
     }
 
     private MUser getAuthentication(Claims claims) {
-        Integer uid = claims.get("uid", Integer.class);
+        Integer userId = claims.get("userId", Integer.class);
         String mail = claims.get("mail", String.class);
-        MUser userForBase = mUserDao.findUserByPk(uid, mail);
+        MUser userForBase = mUserDao.findUserByPk(userId, mail);
         return userForBase;
     }
 

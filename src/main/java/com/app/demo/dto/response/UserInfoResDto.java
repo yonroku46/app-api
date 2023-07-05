@@ -18,11 +18,13 @@ public class UserInfoResDto extends ResponseData implements Serializable {
 
     private static final long serialVersionUID = 34895794374L;
 
-    private Integer uid;
-
-    private String mail;
+    private Integer userId;
 
     private String userName;
+
+    private String profileImg;
+
+    private String mail;
 
     private String token;
 
@@ -30,5 +32,5 @@ public class UserInfoResDto extends ResponseData implements Serializable {
 
     private Boolean mailAuth;
 
-    private Integer roles;
+    private Integer role;
 }

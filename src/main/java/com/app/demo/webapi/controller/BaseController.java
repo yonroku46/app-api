@@ -30,7 +30,7 @@ public class BaseController {
         String authorization = request.getHeader(SecurityConst.REFRESH_TOKEN_HEADER);
         String token = authorization.replace(SecurityConst.TOKEN_PREFIX, "");
         Claims claims = JwtUtils.parseJWT(token);
-        Object userIdObj = claims.get("uid");
+        Object userIdObj = claims.get("userId");
         Object userMailObj = claims.get("mail");
         MUser entity = new MUser();
         if (userIdObj != null && userMailObj != null) {
@@ -56,7 +56,7 @@ public class BaseController {
      */
     public Integer getCurrentUserId() {
         MUser entity = loadMUser();
-        return entity.getUid();
+        return entity.getUserId();
     }
 
     /**
@@ -74,8 +74,8 @@ public class BaseController {
      *
      * @return
      */
-    public Integer getCurrentRoles() {
+    public Integer getCurrentUserRole() {
         MUser entity = loadMUser();
-        return entity.getRoles();
+        return entity.getRole();
     }
 }

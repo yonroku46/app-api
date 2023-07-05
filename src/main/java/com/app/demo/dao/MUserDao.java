@@ -50,14 +50,14 @@ public class MUserDao {
      *
      * @author y_ha
      */
-    public MUser findUserByPk(Integer uid, String mail) {
+    public MUser findUserByPk(Integer userId, String mail) {
         try {
-            MUserKey userKey = new MUserKey(uid, mail);
+            MUserKey userKey = new MUserKey(userId, mail);
             return mUserMapper.findUser(userKey);
         } catch (Exception exception) {
             final String methodName = "UserMapper#findUser";
             Map<String, Object> paramMap = new HashMap<>();
-            paramMap.put("uid", uid);
+            paramMap.put("userId", userId);
             paramMap.put("mail", mail);
             String overview = messageSource.getMessage(MessageIdConst.E_SQL_ISSUE, null, LocaleAspect.LOCALE);
             String detail = StringUtils.convertInterfaceErrorMsg(methodName, paramMap, exception);

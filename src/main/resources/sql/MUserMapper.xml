@@ -4,20 +4,23 @@
   <resultMap id="BaseResultMap" type="com.app.demo.dao.entity.MUser">
     <!-- @mbg.generated: generated automatically, do not modify! -->
     <id column="mail" jdbcType="VARCHAR" property="mail" />
-    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="uuid" jdbcType="VARCHAR" property="uuid" />
+    <result column="suid" jdbcType="VARCHAR" property="suid" />
+    <result column="role" jdbcType="INTEGER" property="role" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
-    <result column="roles" jdbcType="INTEGER" property="roles" />
+    <result column="profile_img" jdbcType="VARCHAR" property="profileImg" />
     <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="latest_login" jdbcType="TIMESTAMP" property="latestLogin" />
     <result column="mail_key" jdbcType="VARCHAR" property="mailKey" />
     <result column="mail_auth" jdbcType="BIT" property="mailAuth" />
+    <result column="latest_login" jdbcType="TIMESTAMP" property="latestLogin" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="delete_flg" jdbcType="BIT" property="deleteFlg" />
   </resultMap>
   <sql id="Base_Column_List">
     <!-- @mbg.generated: generated automatically, do not modify! -->
-    mail, `uid`, user_name, roles, `password`, latest_login, mail_key, mail_auth, create_time, 
-    delete_flg
+    mail, user_id, uuid, suid, `role`, user_name, profile_img, `password`, mail_key, 
+    mail_auth, latest_login, create_time, delete_flg
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -33,13 +36,15 @@
   </delete>
   <insert id="insert" parameterType="com.app.demo.dao.entity.MUser">
     <!-- @mbg.generated: generated automatically, do not modify! -->
-    insert into m_user (mail, `uid`, user_name, 
-      roles, `password`, latest_login, 
-      mail_key, mail_auth, create_time, 
+    insert into m_user (mail, user_id, uuid, 
+      suid, `role`, user_name, 
+      profile_img, `password`, mail_key, 
+      mail_auth, latest_login, create_time, 
       delete_flg)
-    values (#{mail,jdbcType=VARCHAR}, #{uid,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, 
-      #{roles,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR}, #{latestLogin,jdbcType=TIMESTAMP}, 
-      #{mailKey,jdbcType=VARCHAR}, #{mailAuth,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
+    values (#{mail,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, 
+      #{suid,jdbcType=VARCHAR}, #{role,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, 
+      #{profileImg,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{mailKey,jdbcType=VARCHAR}, 
+      #{mailAuth,jdbcType=BIT}, #{latestLogin,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
       #{deleteFlg,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.app.demo.dao.entity.MUser">
@@ -49,26 +54,33 @@
       <if test="mail != null">
         mail,
       </if>
-      <if test="uid != null">
-        `uid`,
+      <if test="userId != null">
+        user_id,
+      </if>
+        uuid,
+      <if test="suid != null">
+        suid,
+      </if>
+      <if test="role != null">
+        `role`,
       </if>
       <if test="userName != null">
         user_name,
       </if>
-      <if test="roles != null">
-        roles,
+      <if test="profileImg != null">
+        profile_img,
       </if>
       <if test="password != null">
         `password`,
-      </if>
-      <if test="latestLogin != null">
-        latest_login,
       </if>
       <if test="mailKey != null">
         mail_key,
       </if>
       <if test="mailAuth != null">
         mail_auth,
+      </if>
+      <if test="latestLogin != null">
+        latest_login,
       </if>
       <if test="createTime != null">
         create_time,
@@ -81,26 +93,33 @@
       <if test="mail != null">
         #{mail,jdbcType=VARCHAR},
       </if>
-      <if test="uid != null">
-        #{uid,jdbcType=INTEGER},
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+        REPLACE(uuid(), '-', ''),
+      <if test="suid != null">
+        #{suid,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null">
+        #{role,jdbcType=INTEGER},
       </if>
       <if test="userName != null">
         #{userName,jdbcType=VARCHAR},
       </if>
-      <if test="roles != null">
-        #{roles,jdbcType=INTEGER},
+      <if test="profileImg != null">
+        #{profileImg,jdbcType=VARCHAR},
       </if>
       <if test="password != null">
         #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="latestLogin != null">
-        #{latestLogin,jdbcType=TIMESTAMP},
       </if>
       <if test="mailKey != null">
         #{mailKey,jdbcType=VARCHAR},
       </if>
       <if test="mailAuth != null">
         #{mailAuth,jdbcType=BIT},
+      </if>
+      <if test="latestLogin != null">
+        #{latestLogin,jdbcType=TIMESTAMP},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -114,26 +133,35 @@
     <!-- @mbg.generated: generated automatically, do not modify! -->
     update m_user
     <set>
-      <if test="uid != null">
-        `uid` = #{uid,jdbcType=INTEGER},
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="uuid != null">
+        uuid = #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="suid != null">
+        suid = #{suid,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null">
+        `role` = #{role,jdbcType=INTEGER},
       </if>
       <if test="userName != null">
         user_name = #{userName,jdbcType=VARCHAR},
       </if>
-      <if test="roles != null">
-        roles = #{roles,jdbcType=INTEGER},
+      <if test="profileImg != null">
+        profile_img = #{profileImg,jdbcType=VARCHAR},
       </if>
       <if test="password != null">
         `password` = #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="latestLogin != null">
-        latest_login = #{latestLogin,jdbcType=TIMESTAMP},
       </if>
       <if test="mailKey != null">
         mail_key = #{mailKey,jdbcType=VARCHAR},
       </if>
       <if test="mailAuth != null">
         mail_auth = #{mailAuth,jdbcType=BIT},
+      </if>
+      <if test="latestLogin != null">
+        latest_login = #{latestLogin,jdbcType=TIMESTAMP},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -147,13 +175,16 @@
   <update id="updateByPrimaryKey" parameterType="com.app.demo.dao.entity.MUser">
     <!-- @mbg.generated: generated automatically, do not modify! -->
     update m_user
-    set `uid` = #{uid,jdbcType=INTEGER},
+    set user_id = #{userId,jdbcType=INTEGER},
+      uuid = #{uuid,jdbcType=VARCHAR},
+      suid = #{suid,jdbcType=VARCHAR},
+      `role` = #{role,jdbcType=INTEGER},
       user_name = #{userName,jdbcType=VARCHAR},
-      roles = #{roles,jdbcType=INTEGER},
+      profile_img = #{profileImg,jdbcType=VARCHAR},
       `password` = #{password,jdbcType=VARCHAR},
-      latest_login = #{latestLogin,jdbcType=TIMESTAMP},
       mail_key = #{mailKey,jdbcType=VARCHAR},
       mail_auth = #{mailAuth,jdbcType=BIT},
+      latest_login = #{latestLogin,jdbcType=TIMESTAMP},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       delete_flg = #{deleteFlg,jdbcType=BIT}
     where mail = #{mail,jdbcType=VARCHAR}
@@ -175,7 +206,7 @@
       <include refid="Base_Column_List" />
     from m_user
     where
-      `uid` = #{userKey.uid,jdbcType=INTEGER} and mail = #{userKey.mail,jdbcType=VARCHAR} and
+      user_id = #{userKey.userId,jdbcType=INTEGER} and mail = #{userKey.mail,jdbcType=VARCHAR} and
       delete_flg = 0
   </select>
   <select id="findMailKeyUser" parameterType="map" resultMap="BaseResultMap">
@@ -192,7 +223,7 @@
       true as accessibleFlg
     from m_user
     where
-      `uid` = #{userKey.uid,jdbcType=INTEGER} and
+      user_id = #{userKey.userId,jdbcType=INTEGER} and
       mail = #{userKey.mail,jdbcType=VARCHAR}
   </select>
 </mapper>

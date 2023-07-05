@@ -15,10 +15,29 @@ public class MUser {
     private String mail;
 
     /**
-     * Column: uid
+     * Column: user_id
      * Type: INT
      */
-    private Integer uid;
+    private Integer userId;
+
+    /**
+     * Column: uuid
+     * Type: VARCHAR(32)
+     */
+    private String uuid;
+
+    /**
+     * Column: suid
+     * Type: VARCHAR(30)
+     */
+    private String suid;
+
+    /**
+     * Column: role
+     * Type: INT
+     * Default value: 0
+     */
+    private Integer role;
 
     /**
      * Column: user_name
@@ -27,23 +46,16 @@ public class MUser {
     private String userName;
 
     /**
-     * Column: roles
-     * Type: INT
-     * Default value: 0
+     * Column: profile_img
+     * Type: VARCHAR(300)
      */
-    private Integer roles;
+    private String profileImg;
 
     /**
      * Column: password
      * Type: VARCHAR(500)
      */
     private String password;
-
-    /**
-     * Column: latest_login
-     * Type: TIMESTAMP
-     */
-    private Date latestLogin;
 
     /**
      * Column: mail_key
@@ -57,6 +69,12 @@ public class MUser {
      * Default value: b'0'
      */
     private Boolean mailAuth;
+
+    /**
+     * Column: latest_login
+     * Type: TIMESTAMP
+     */
+    private Date latestLogin;
 
     /**
      * Column: create_time
