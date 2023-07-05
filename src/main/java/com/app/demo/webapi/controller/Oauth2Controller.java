@@ -1,6 +1,7 @@
 package com.app.demo.webapi.controller;
 
 import com.app.demo.config.OAuth2GoogleConfig;
+import com.app.demo.config.OAuth2LineConfig;
 import com.app.demo.dto.response.core.ResponseDto;
 import com.app.demo.webapi.service.impl.Oauth2ServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -26,17 +27,31 @@ public class Oauth2Controller {
 
     private final OAuth2GoogleConfig oAuth2GoogleConfig;
 
-    private final Oauth2ServiceImpl oauthService;
+    private final OAuth2LineConfig oAuth2LineConfig;
+
+    private final Oauth2ServiceImpl oAuth2Service;
 
     @GetMapping("/google/code")
-    public ResponseEntity getCode() {
+    public ResponseEntity getGoogleCode() {
         return ResponseEntity
                 .status(HttpStatus.FOUND)
                 .body(oAuth2GoogleConfig.getCodeUrl());
     }
 
     @GetMapping("/google/access-token")
-    public ResponseDto getAccessToken(@RequestParam("code") String code) throws JsonProcessingException {
-        return oauthService.getGoogleAccessToken(code);
+    public ResponseDto getGoogleAccessToken(@RequestParam("code") String code) throws JsonProcessingException {
+        return oAuth2Service.getGoogleAccessToken(code);
+    }
+
+    @GetMapping("/line/code")
+    public ResponseEntity getLineCode() {
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(oAuth2LineConfig.getCodeUrl());
+    }
+
+    @GetMapping("/line/access-token")
+    public ResponseDto getLineAccessToken(@RequestParam("code") String code) throws JsonProcessingException {
+        return oAuth2Service.getLineAccessToken(code);
     }
 }

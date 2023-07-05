@@ -57,3 +57,7 @@ oauth2:
     scope:
       - profile
       - email
+  line:
+    client-id: 2000050381
+    client-secret: fadbacadfbc26f6e3451de989c39bf0d
+    redirect-uri: http://${server.address}:${server.port}/api/oauth2/login/line/access-token
