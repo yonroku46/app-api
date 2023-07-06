@@ -54,34 +54,33 @@ public class MUserServiceImpl implements MUserService {
 
     @Override
     public ResponseDto login(LoginReqDto reqDto) {
-        String token = "";
-        String refrehToken = "";
-
+        // ユーザーインスタンス
         UserInfoResDto res = new UserInfoResDto();
+
         MUser user = mUserDao.findUserByMail(reqDto.getMail());
         if (user != null) {
             String encyptPsw = PasswordUtils.encode(reqDto.getPassword());
-            if (!user.getPassword().equals(encyptPsw)) {
+            if (user.getPassword() == null || !user.getPassword().equals(encyptPsw)) {
                 String message = messageSource.getMessage("login.password.incorrect", null, LocaleAspect.LOCALE);
                 log.warn(message);
                 throw new ApplicationException(HttpStatus.OK, null, message);
             } else {
                 // ログイン成功の場合ユーザマスタの最終ログイン日時を更新する
                 MUser record = mUserDao.findUserByPk(user.getUserId(), user.getMail());
-                // UTCで日時を取得
+                // ログイン日時更新
                 LocalDateTime latestLogin = DateUtils.getUTCdatetimeAsDate();
                 record.setLatestLogin(Date.from(latestLogin.atZone(ZoneId.systemDefault()).toInstant()));
                 mUserDao.updateUserData(record);
 
-                token = JwtUtils.createJWT(SecurityConst.EXPIRATION_TIME, user.getUserId(), user.getUserName(), user.getMail(), user.getRole());
-                refrehToken = JwtUtils.createJWT(SecurityConst.REFRESH_EXPIRATION_TIME, user.getUserId(), user.getUserName(), user.getMail(), user.getRole());
+                String token = JwtUtils.createJWT(SecurityConst.EXPIRATION_TIME, user.getUserId(), user.getUserName(), user.getMail(), user.getRole());
+                String refreshToken = JwtUtils.createJWT(SecurityConst.REFRESH_EXPIRATION_TIME, user.getUserId(), user.getUserName(), user.getMail(), user.getRole());
 
                 res.setUserId(user.getUserId());
                 res.setUserName(user.getUserName());
                 res.setProfileImg(user.getProfileImg());
                 res.setMail(user.getMail());
                 res.setToken(token);
-                res.setRefreshToken(refrehToken);
+                res.setRefreshToken(refreshToken);
                 res.setMailAuth(user.getMailAuth());
                 res.setRole(user.getRole());
             }

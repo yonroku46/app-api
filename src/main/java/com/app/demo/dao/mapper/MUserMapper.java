@@ -40,7 +40,9 @@ public interface MUserMapper {
      */
     int updateByPrimaryKey(MUser row);
 
-    MUser login(@Param("mail") String mail);
+    MUser findUserByMail(@Param("mail") String mail);
+
+    MUser findUserBySuid(@Param("suid") String suid);
 
     MUser findUser(@Param("userKey") MUserKey userKey);
 

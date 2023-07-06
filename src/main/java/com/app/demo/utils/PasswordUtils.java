@@ -6,6 +6,7 @@
 package com.app.demo.utils;
 
 import org.apache.commons.codec.binary.Base64;
+import org.springframework.stereotype.Component;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
@@ -15,6 +16,7 @@ import java.util.Random;
 /**
  * パスワードに基づくJava暗号化/復号化
  */
+@Component
 public class PasswordUtils {
 
     private static final String KEY_ALGORITHM = "AES";

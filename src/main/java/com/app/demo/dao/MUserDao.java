@@ -33,11 +33,30 @@ public class MUserDao {
      */
     public MUser findUserByMail(String mail) {
         try {
-            return mUserMapper.login(mail);
+            return mUserMapper.findUserByMail(mail);
         } catch (Exception exception) {
-            final String methodName = "UserMapper#login";
+            final String methodName = "UserMapper#findUserByMail";
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("mail", mail);
+            String overview = messageSource.getMessage(MessageIdConst.E_SQL_ISSUE, null, LocaleAspect.LOCALE);
+            String detail = StringUtils.convertInterfaceErrorMsg(methodName, paramMap, exception);
+            log.error(overview + detail);
+            throw new SystemException(MessageIdConst.E_SQL_ISSUE, overview, detail);
+        }
+    }
+
+    /**
+     * SUIDでユーザーの情報を取得
+     *
+     * @author y_ha
+     */
+    public MUser findUserBySuid(String suid) {
+        try {
+            return mUserMapper.findUserBySuid(suid);
+        } catch (Exception exception) {
+            final String methodName = "UserMapper#findUserBySuid";
+            Map<String, Object> paramMap = new HashMap<>();
+            paramMap.put("suid", suid);
             String overview = messageSource.getMessage(MessageIdConst.E_SQL_ISSUE, null, LocaleAspect.LOCALE);
             String detail = StringUtils.convertInterfaceErrorMsg(methodName, paramMap, exception);
             log.error(overview + detail);
@@ -55,7 +74,7 @@ public class MUserDao {
             MUserKey userKey = new MUserKey(userId, mail);
             return mUserMapper.findUser(userKey);
         } catch (Exception exception) {
-            final String methodName = "UserMapper#findUser";
+            final String methodName = "UserMapper#findUserByPk";
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("userId", userId);
             paramMap.put("mail", mail);

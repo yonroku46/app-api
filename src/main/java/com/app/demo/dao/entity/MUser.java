@@ -28,7 +28,7 @@ public class MUser {
 
     /**
      * Column: suid
-     * Type: VARCHAR(30)
+     * Type: VARCHAR(50)
      */
     private String suid;
 

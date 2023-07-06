@@ -5,6 +5,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.stereotype.Component;
+
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,6 +18,7 @@ import java.util.UUID;
  *
  * @author y_ha
  */
+@Component
 public class JwtUtils {
 
     /**
@@ -29,7 +32,7 @@ public class JwtUtils {
      * @return
      */
     public static String createJWT(long ttlMillis, Integer userId, String userName, String mail, Integer role) {
-        byte[] secretKeyAsBytes = SecurityConst.JWT_SECRET_KEY.getBytes(StandardCharsets.UTF_8);
+        byte[] secretKeyAsBytes = SecurityConst.SECRET_KEY.getBytes(StandardCharsets.UTF_8);
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
 
@@ -70,7 +73,7 @@ public class JwtUtils {
      */
     public static Claims parseJWT(String token) {
         // 署名の秘密鍵は、生成された署名の秘密鍵と同じ
-        byte[] secretKeyAsBytes = SecurityConst.JWT_SECRET_KEY.getBytes(StandardCharsets.UTF_8);
+        byte[] secretKeyAsBytes = SecurityConst.SECRET_KEY.getBytes(StandardCharsets.UTF_8);
         Claims claims = Jwts.parserBuilder()
                 // 署名の秘密鍵を設定
                 .setSigningKey(Keys.hmacShaKeyFor(secretKeyAsBytes))

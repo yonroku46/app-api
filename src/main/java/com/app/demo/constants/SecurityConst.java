@@ -16,17 +16,17 @@ import javax.annotation.PostConstruct;
 public class SecurityConst {
 
     @Value("${security.jwt.secret-key}")
-    private String SECRET_KEY;
+    private String SYS_SECRET_KEY;
 
     @PostConstruct
     public void init() {
-        JWT_SECRET_KEY = SECRET_KEY;
+        SECRET_KEY = SYS_SECRET_KEY;
     }
 
     /**
      * JWT署名鍵
      */
-    public static String JWT_SECRET_KEY;
+    public static String SECRET_KEY;
 
     /**
      * Authorizationリクエストヘッダ

@@ -1,6 +1,7 @@
 server:
-  address: localhost
+  address: 127.0.0.1
   port: 8080
+  viewport: 3000
   servlet:
     context-path: /api
 
@@ -51,13 +52,13 @@ taskexecutor:
 
 oauth2:
   google:
-    client-id: ${CLIENT_ID}
-    client-secret: ${CLIENT_SECRET}
-    redirect-uri: http://${server.address}:${server.port}/api/oauth2/login/google/access-token
+    client-id: 1088998722997-ri0asd6o1gpbj6djenc5lej8ce7n2f37.apps.googleusercontent.com
+    client-secret: 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
+    redirect-uri: http://${server.address}:${server.viewport}/login/oauth2/google
     scope:
       - profile
       - email
   line:
     client-id: 2000050381
     client-secret: fadbacadfbc26f6e3451de989c39bf0d
-    redirect-uri: http://${server.address}:${server.port}/api/oauth2/login/line/access-token
+    redirect-uri: http://${server.address}:${server.viewport}/login/oauth2/line

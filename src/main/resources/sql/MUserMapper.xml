@@ -193,12 +193,20 @@
     <result column="requestMapping" jdbcType="VARCHAR" property="requestMapping" />
     <result column="accessibleFlg" jdbcType="BOOLEAN" property="accessibleFlg" />
   </resultMap>
-  <select id="login" parameterType="map" resultMap="BaseResultMap">
+  <select id="findUserByMail" parameterType="map" resultMap="BaseResultMap">
     select
       <include refid="Base_Column_List" />
     from m_user
     where
       mail = #{mail,jdbcType=VARCHAR} and
+      delete_flg = 0
+  </select>
+  <select id="findUserBySuid" parameterType="map" resultMap="BaseResultMap">
+    select
+      <include refid="Base_Column_List" />
+    from m_user
+    where
+      suid = #{suid,jdbcType=VARCHAR} and
       delete_flg = 0
   </select>
   <select id="findUser" parameterType="map" resultMap="BaseResultMap">
