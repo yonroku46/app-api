@@ -8,7 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
  *
  * @author chanu
  */
-public interface Oauth2Service {
+public interface OAuth2Service {
 
     public ResponseDto getGoogleAccessToken(String code) throws JsonProcessingException;
 

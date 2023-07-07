@@ -46,17 +46,18 @@ public class MUserDao {
     }
 
     /**
-     * SUIDでユーザーの情報を取得
+     * ソーシャルログインユーザーの情報を取得
      *
      * @author y_ha
      */
-    public MUser findUserBySuid(String suid) {
+    public MUser findSocialUser(String suid, String mail) {
         try {
-            return mUserMapper.findUserBySuid(suid);
+            return mUserMapper.findSocialUser(suid, mail);
         } catch (Exception exception) {
-            final String methodName = "UserMapper#findUserBySuid";
+            final String methodName = "UserMapper#findSocialUser";
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("suid", suid);
+            paramMap.put("mail", mail);
             String overview = messageSource.getMessage(MessageIdConst.E_SQL_ISSUE, null, LocaleAspect.LOCALE);
             String detail = StringUtils.convertInterfaceErrorMsg(methodName, paramMap, exception);
             log.error(overview + detail);

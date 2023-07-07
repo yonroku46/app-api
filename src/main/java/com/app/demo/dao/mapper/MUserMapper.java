@@ -42,7 +42,7 @@ public interface MUserMapper {
 
     MUser findUserByMail(@Param("mail") String mail);
 
-    MUser findUserBySuid(@Param("suid") String suid);
+    MUser findSocialUser(@Param("suid") String suid, @Param("mail") String mail);
 
     MUser findUser(@Param("userKey") MUserKey userKey);
 

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 
 /**
- * Oauth2認証(LINE)関連を定義
+ * OAuth2認証(LINE)関連を定義
  *
  * @author y_ha
  */
@@ -61,6 +61,3 @@ public class OAuth2LineConst {
      */
     public static final String LINE_PROFILE_URL = "https://api.line.me/oauth2/v2.1/verify";
 }
-
-
-

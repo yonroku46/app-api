@@ -1,7 +1,7 @@
 package com.app.demo.webapi.controller;
 
 import com.app.demo.dto.response.core.ResponseDto;
-import com.app.demo.webapi.service.Oauth2Service;
+import com.app.demo.webapi.service.OAuth2Service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/oauth2/login")
 @Slf4j
-public class Oauth2Controller extends BaseController {
+public class OAuth2Controller extends BaseController {
 
-    private final Oauth2Service oAuth2Service;
+    private final OAuth2Service oAuth2Service;
 
     @GetMapping("/google/access-token")
     public ResponseDto getGoogleAccessToken(@RequestParam("code") String code) throws JsonProcessingException {

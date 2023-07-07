@@ -8,7 +8,7 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 
 /**
- * Oauth2認証(Google)関連を定義
+ * OAuth2認証(Google)関連を定義
  *
  * @author y_ha
  */
@@ -53,11 +53,6 @@ public class OAuth2GoogleConst {
     public static String REDIRECT_URI;
 
     /**
-     * 取得範囲
-     */
-    private List<String> scope;
-
-    /**
      * アクセストークン取得パス
      */
     public static final String GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token";
@@ -65,8 +60,5 @@ public class OAuth2GoogleConst {
     /**
      * プロフィール情報取得パス
      */
-    public static final String GOOGLE_PROFILE_URL = "https://accounts.google.com/o/oauth2/v2/auth";
+    public static final String GOOGLE_PROFILE_URL = "https://www.googleapis.com/oauth2/v2/userinfo";
 }
-
-
-

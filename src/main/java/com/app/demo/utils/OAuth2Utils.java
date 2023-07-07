@@ -11,11 +11,10 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Oauth2認証関連ユティリティー
+ * OAuth2認証関連ユティリティー
  *
  * @author y_ha
  */
@@ -27,7 +26,11 @@ public class OAuth2Utils {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
-     * LINEリクエスト発行用のヘッダー
+     * LINE OAuth2認証
+     */
+
+    /**
+     * LINEリクエスト発行用ヘッダー
      *
      * @author y_ha
      */
@@ -38,7 +41,7 @@ public class OAuth2Utils {
     }
 
     /**
-     * LINEアクセス要求リクエスト用のパラメータ
+     * LINEアクセス要求リクエスト用パラメータ
      *
      * @author y_ha
      */
@@ -53,7 +56,7 @@ public class OAuth2Utils {
     }
 
     /**
-     * LINEの会員情報取得用のパラメータ
+     * LINEの会員情報取得用パラメータ
      *
      * @author y_ha
      */
@@ -89,17 +92,56 @@ public class OAuth2Utils {
     }
 
     /**
-     * 発行されたユーザーのcodeを利用しGoogleにAccessTokenを要求
-     *
-     * @author chanu
+     * GoogleOAuth2 認証
      */
-    public Map<String, String> googleAccessParams(String code) {
-        Map<String, String> params = new HashMap<>();
-        params.put("grant_type", OAuth2GoogleConst.GRANT_TYPE);
-        params.put("code", code);
-        params.put("client_id", OAuth2GoogleConst.CLIENT_ID);
-        params.put("client_secret", OAuth2GoogleConst.CLIENT_SECRET);
-        params.put("redirect_uri", OAuth2GoogleConst.REDIRECT_URI);
+
+    /**
+     * Googleアクセス要求リクエスト用パラメータ
+     *
+     * @author y_ha
+     */
+    public static MultiValueMap<String, String> googleAccessTokenParams(String code) {
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("grant_type", OAuth2GoogleConst.GRANT_TYPE);
+        params.add("code", code);
+        params.add("redirect_uri", OAuth2GoogleConst.REDIRECT_URI);
+        params.add("client_id", OAuth2GoogleConst.CLIENT_ID);
+        params.add("client_secret", OAuth2GoogleConst.CLIENT_SECRET);
         return params;
+    }
+
+    /**
+     * Googleの会員情報取得用パラメータ
+     *
+     * @author y_ha
+     */
+    public static HttpHeaders googleProfileHeaders(String accessToken) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", new StringBuffer().append("Bearer ").append(accessToken).toString());
+        return headers;
+    }
+
+    /**
+     * Googleのアクセス情報取得
+     *
+     * @author y_ha
+     */
+    public static Map<String, Object> getGoogleToken(String code) throws JsonProcessingException {
+        HttpEntity<MultiValueMap<String, String>> tokenRequestEntity = new HttpEntity<>(googleAccessTokenParams(code), requestHeaders());
+        ResponseEntity<String> res = restTemplate.exchange(
+                OAuth2GoogleConst.GOOGLE_TOKEN_URL, HttpMethod.POST, tokenRequestEntity, String.class);
+        return objectMapper.readValue(res.getBody(), new TypeReference<>(){});
+    }
+
+    /**
+     * Googleの会員情報取得
+     *
+     * @author y_ha
+     */
+    public static Map<String, Object> getGoogleProfile(String accessToken) throws JsonProcessingException {
+        HttpEntity<MultiValueMap<String, String>> profileRequestEntity = new HttpEntity<>(null, googleProfileHeaders(accessToken));
+        ResponseEntity<String> res = restTemplate.exchange(
+                OAuth2GoogleConst.GOOGLE_PROFILE_URL, HttpMethod.GET, profileRequestEntity, String.class);
+        return objectMapper.readValue(res.getBody(), new TypeReference<>(){});
     }
 }

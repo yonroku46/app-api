@@ -65,12 +65,10 @@ public class MUserServiceImpl implements MUserService {
                 log.warn(message);
                 throw new ApplicationException(HttpStatus.OK, null, message);
             } else {
-                // ログイン成功の場合ユーザマスタの最終ログイン日時を更新する
-                MUser record = mUserDao.findUserByPk(user.getUserId(), user.getMail());
-                // ログイン日時更新
+                // ログイン成功の場合ユーザマスタの最終ログイン日時を更新
                 LocalDateTime latestLogin = DateUtils.getUTCdatetimeAsDate();
-                record.setLatestLogin(Date.from(latestLogin.atZone(ZoneId.systemDefault()).toInstant()));
-                mUserDao.updateUserData(record);
+                user.setLatestLogin(Date.from(latestLogin.atZone(ZoneId.systemDefault()).toInstant()));
+                mUserDao.updateUserData(user);
 
                 String token = JwtUtils.createJWT(SecurityConst.EXPIRATION_TIME, user.getUserId(), user.getUserName(), user.getMail(), user.getRole());
                 String refreshToken = JwtUtils.createJWT(SecurityConst.REFRESH_EXPIRATION_TIME, user.getUserId(), user.getUserName(), user.getMail(), user.getRole());
