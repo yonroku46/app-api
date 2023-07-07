@@ -54,35 +54,33 @@ public class MUserServiceImpl implements MUserService {
 
     @Override
     public ResponseDto login(LoginReqDto reqDto) {
-        String token = "";
-        String refrehToken = "";
-
+        // ユーザーインスタンス
         UserInfoResDto res = new UserInfoResDto();
+
         MUser user = mUserDao.findUserByMail(reqDto.getMail());
         if (user != null) {
             String encyptPsw = PasswordUtils.encode(reqDto.getPassword());
-            if (!user.getPassword().equals(encyptPsw)) {
+            if (user.getPassword() == null || !user.getPassword().equals(encyptPsw)) {
                 String message = messageSource.getMessage("login.password.incorrect", null, LocaleAspect.LOCALE);
                 log.warn(message);
                 throw new ApplicationException(HttpStatus.OK, null, message);
             } else {
-                // ログイン成功の場合ユーザマスタの最終ログイン日時を更新する
-                MUser record = mUserDao.findUserByPk(user.getUid(), user.getMail());
-                // UTCで日時を取得
+                // ログイン成功の場合ユーザマスタの最終ログイン日時を更新
                 LocalDateTime latestLogin = DateUtils.getUTCdatetimeAsDate();
-                record.setLatestLogin(Date.from(latestLogin.atZone(ZoneId.systemDefault()).toInstant()));
-                mUserDao.updateUserData(record);
+                user.setLatestLogin(Date.from(latestLogin.atZone(ZoneId.systemDefault()).toInstant()));
+                mUserDao.updateUserData(user);
 
-                token = JwtUtils.createJWT(SecurityConst.EXPIRATION_TIME, user.getUid(), user.getUserName(), user.getMail(), user.getCorpFlg());
-                refrehToken = JwtUtils.createJWT(SecurityConst.REFRESH_EXPIRATION_TIME, user.getUid(), user.getUserName(), user.getMail(), user.getCorpFlg());
-                this.updateUserAccessToken(user.getUid(), user.getMail(), token);
+                String token = JwtUtils.createJWT(SecurityConst.EXPIRATION_TIME, user.getUserId(), user.getUserName(), user.getMail(), user.getRole());
+                String refreshToken = JwtUtils.createJWT(SecurityConst.REFRESH_EXPIRATION_TIME, user.getUserId(), user.getUserName(), user.getMail(), user.getRole());
 
-                res.setUid(user.getUid());
+                res.setUserId(user.getUserId());
                 res.setUserName(user.getUserName());
+                res.setProfileImg(user.getProfileImg());
                 res.setMail(user.getMail());
                 res.setToken(token);
-                res.setRefreshToken(refrehToken);
+                res.setRefreshToken(refreshToken);
                 res.setMailAuth(user.getMailAuth());
+                res.setRole(user.getRole());
             }
         } else {
             String message = messageSource.getMessage("login.user.notExist", null, LocaleAspect.LOCALE);
@@ -94,11 +92,8 @@ public class MUserServiceImpl implements MUserService {
     }
 
     @Override
-    public ResponseDto loginOut(Integer uid, String mail) {
+    public ResponseDto logout(Integer userId, String mail) {
         UserInfoResDto res = null;
-        MUser record = mUserDao.findUserByPk(uid, mail);
-        record.setToken("");
-        mUserDao.updateUserData(record);
         return ResponseUtils.generateDtoSuccess(new Information(MessageIdConst.I_LOGOUT,
                 messageSource.getMessage(MessageIdConst.I_LOGOUT, null, LocaleAspect.LOCALE)), res);
     }
@@ -201,25 +196,24 @@ public class MUserServiceImpl implements MUserService {
             String message = messageSource.getMessage("error.noAccessToken", null, LocaleAspect.LOCALE);
             throw new ApplicationException(HttpStatus.OK, "error.noAccessToken", message);
         }
-        String authorization = httpServletRequest.getHeader(SecurityConst.TOKEN_HEADER);
-        String accessToken = authorization.replace(SecurityConst.TOKEN_PREFIX, "");
         try {
             Claims claims = JwtUtils.parseJWT(refreshToken);
-            Integer uid = claims.get("uid", Integer.class);
+            Integer userId = claims.get("userId", Integer.class);
             String mail = claims.get("mail", String.class);
-            MUser user  = mUserDao.findUserByPk(uid, mail);
-            if (user.getToken().equals(accessToken)) {
-                String newToken = JwtUtils.createJWT(SecurityConst.EXPIRATION_TIME, user.getUid(), user.getUserName(), user.getMail(), user.getCorpFlg());
-                String newRefreshToken = JwtUtils.createJWT(SecurityConst.REFRESH_EXPIRATION_TIME, user.getUid(), user.getUserName(), user.getMail(), user.getCorpFlg());
-                this.updateUserAccessToken(user.getUid(), user.getMail(), newToken);
+            MUser user  = mUserDao.findUserByPk(userId, mail);
+            if (user != null) {
+                String newToken = JwtUtils.createJWT(SecurityConst.EXPIRATION_TIME, user.getUserId(), user.getUserName(), user.getMail(), user.getRole());
+                String newRefreshToken = JwtUtils.createJWT(SecurityConst.REFRESH_EXPIRATION_TIME, user.getUserId(), user.getUserName(), user.getMail(), user.getRole());
 
                 UserInfoResDto res = new UserInfoResDto();
-                res.setUid(user.getUid());
-                res.setMail(user.getMail());
+                res.setUserId(user.getUserId());
                 res.setUserName(user.getUserName());
+                res.setProfileImg(user.getProfileImg());
+                res.setMail(user.getMail());
                 res.setToken(newToken);
                 res.setRefreshToken(newRefreshToken);
                 res.setMailAuth(user.getMailAuth());
+                res.setRole(user.getRole());
 
                 return ResponseUtils.generateDtoSuccess(
                         new Information("info.refreshToken", messageSource.getMessage("info.refreshToken", new String[]{}, LocaleAspect.LOCALE)), res);
@@ -234,24 +228,15 @@ public class MUserServiceImpl implements MUserService {
     }
 
     @Override
-    public ResponseDto findUser(Integer uid, String mail) {
+    public ResponseDto findUser(Integer userId, String mail) {
         UserInfoResDto res = new UserInfoResDto();
-        MUser user  = mUserDao.findUserByPk(uid, mail);
+        MUser user  = mUserDao.findUserByPk(userId, mail);
         if (user != null) {
-            res.setUid(user.getUid());
+            res.setUserId(user.getUserId());
             res.setMail(user.getMail());
             res.setUserName(user.getUserName());
-            res.setToken(user.getToken());
-            res.setRefreshToken(user.getRefreshToken());
         }
         return ResponseUtils.generateDtoSuccess(new Information(MessageIdConst.I_GETTING_SUCCESS,
                 messageSource.getMessage(MessageIdConst.I_GETTING_SUCCESS, null, LocaleAspect.LOCALE)), res);
-    }
-
-    @Override
-    public int updateUserAccessToken(Integer uid, String mail, String accessToken) {
-        MUser record = mUserDao.findUserByPk(uid, mail);
-        record.setToken(accessToken);
-        return mUserDao.updateUserData(record);
     }
 }

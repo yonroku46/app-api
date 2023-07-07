@@ -2,6 +2,8 @@ package com.app.demo.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Component;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.regex.Pattern;
@@ -12,6 +14,7 @@ import java.util.regex.Matcher;
  *
  * @author y_ha
  */
+@Component
 public class StringUtils {
 
     /**

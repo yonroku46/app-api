@@ -33,10 +33,30 @@ public class MUserDao {
      */
     public MUser findUserByMail(String mail) {
         try {
-            return mUserMapper.login(mail);
+            return mUserMapper.findUserByMail(mail);
         } catch (Exception exception) {
-            final String methodName = "UserMapper#login";
+            final String methodName = "UserMapper#findUserByMail";
             Map<String, Object> paramMap = new HashMap<>();
+            paramMap.put("mail", mail);
+            String overview = messageSource.getMessage(MessageIdConst.E_SQL_ISSUE, null, LocaleAspect.LOCALE);
+            String detail = StringUtils.convertInterfaceErrorMsg(methodName, paramMap, exception);
+            log.error(overview + detail);
+            throw new SystemException(MessageIdConst.E_SQL_ISSUE, overview, detail);
+        }
+    }
+
+    /**
+     * ソーシャルログインユーザーの情報を取得
+     *
+     * @author y_ha
+     */
+    public MUser findSocialUser(String suid, String mail) {
+        try {
+            return mUserMapper.findSocialUser(suid, mail);
+        } catch (Exception exception) {
+            final String methodName = "UserMapper#findSocialUser";
+            Map<String, Object> paramMap = new HashMap<>();
+            paramMap.put("suid", suid);
             paramMap.put("mail", mail);
             String overview = messageSource.getMessage(MessageIdConst.E_SQL_ISSUE, null, LocaleAspect.LOCALE);
             String detail = StringUtils.convertInterfaceErrorMsg(methodName, paramMap, exception);
@@ -50,14 +70,14 @@ public class MUserDao {
      *
      * @author y_ha
      */
-    public MUser findUserByPk(Integer uid, String mail) {
+    public MUser findUserByPk(Integer userId, String mail) {
         try {
-            MUserKey userKey = new MUserKey(uid, mail);
+            MUserKey userKey = new MUserKey(userId, mail);
             return mUserMapper.findUser(userKey);
         } catch (Exception exception) {
-            final String methodName = "UserMapper#findUser";
+            final String methodName = "UserMapper#findUserByPk";
             Map<String, Object> paramMap = new HashMap<>();
-            paramMap.put("uid", uid);
+            paramMap.put("userId", userId);
             paramMap.put("mail", mail);
             String overview = messageSource.getMessage(MessageIdConst.E_SQL_ISSUE, null, LocaleAspect.LOCALE);
             String detail = StringUtils.convertInterfaceErrorMsg(methodName, paramMap, exception);

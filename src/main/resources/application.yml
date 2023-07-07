@@ -1,6 +1,7 @@
 server:
-  address: localhost
+  address: 127.0.0.1
   port: 8080
+  viewport: 3000
   servlet:
     context-path: /api
 
@@ -17,8 +18,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: ha@xxdadxx.jp
-    password: retheidkspjszicq
+    username: app@xxdadxx.jp
+    password: ozvarxuyamqnjdjv
     properties:
       mail:
         smtp:
@@ -30,6 +31,8 @@ spring:
             required: true
 
 security:
+  oauth2:
+    base: http://${server.address}:${server.viewport}
   jwt:
     secret-key: ZnItc4ktcmRzLWJlbWFjMi6jbHVzdGVyLWNibXpmZmltbWV8eS5hcC1ub3J0aGVhc3QtMS5yZHMuYW1hem9uYXdzLmNvbQ==
 
@@ -48,3 +51,13 @@ taskexecutor:
   corepoolsize: 4
   queuecapacity: 16
   maxpoolsize: 16
+
+oauth2:
+  google:
+    client-id: 1088998722997-ri0asd6o1gpbj6djenc5lej8ce7n2f37.apps.googleusercontent.com
+    client-secret: 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
+    redirect-uri: ${security.oauth2.base}/login/oauth2/google
+  line:
+    client-id: 2000050381
+    client-secret: fadbacadfbc26f6e3451de989c39bf0d
+    redirect-uri: ${security.oauth2.base}/login/oauth2/line

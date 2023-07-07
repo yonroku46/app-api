@@ -12,10 +12,10 @@ import java.util.Date;
 @AllArgsConstructor
 public class MUserKey {
     /**
-     * Column: uid
+     * Column: user_id
      * Type: INT
      */
-    private Integer uid;
+    private Integer userId;
 
     /**
      * Column: mail

@@ -18,7 +18,8 @@ public class InterceptorConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        // すべての要求をブロックし、@LoginaRequiredコメントがあるかどうかを判断することにより登録が必要かどうかを決定
         registry.addInterceptor(authenticationInterceptor)
-                .addPathPatterns("/**");    // すべての要求をブロックし、@LoginaRequiredコメントがあるかどうかを判断することにより登録が必要かどうかを決定する。
+                .addPathPatterns("/**");
     }
 }

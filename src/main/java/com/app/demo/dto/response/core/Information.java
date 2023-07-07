@@ -1,5 +1,6 @@
 package com.app.demo.dto.response.core;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -10,6 +11,7 @@ import java.io.Serializable;
  * @author y_ha
  */
 @Data
+@AllArgsConstructor
 public class Information implements Serializable {
 
     private static final long serialVersionUID = 34895794371L;
@@ -23,15 +25,4 @@ public class Information implements Serializable {
      * メッセージ.
      */
     private String message;
-
-    /**
-     * コンストラクタ
-     *
-     * @param messageId メッセージID
-     * @param message メッセージ
-     */
-    public Information(String messageId, String message) {
-        this.messageId = messageId;
-        this.message = message;
-    }
 }

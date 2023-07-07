@@ -217,66 +217,6 @@ public class MUserExample {
             return (Criteria) this;
         }
 
-        public Criteria andUidIsNull() {
-            addCriterion("`uid` is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andUidIsNotNull() {
-            addCriterion("`uid` is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andUidEqualTo(Integer value) {
-            addCriterion("`uid` =", value, "uid");
-            return (Criteria) this;
-        }
-
-        public Criteria andUidNotEqualTo(Integer value) {
-            addCriterion("`uid` <>", value, "uid");
-            return (Criteria) this;
-        }
-
-        public Criteria andUidGreaterThan(Integer value) {
-            addCriterion("`uid` >", value, "uid");
-            return (Criteria) this;
-        }
-
-        public Criteria andUidGreaterThanOrEqualTo(Integer value) {
-            addCriterion("`uid` >=", value, "uid");
-            return (Criteria) this;
-        }
-
-        public Criteria andUidLessThan(Integer value) {
-            addCriterion("`uid` <", value, "uid");
-            return (Criteria) this;
-        }
-
-        public Criteria andUidLessThanOrEqualTo(Integer value) {
-            addCriterion("`uid` <=", value, "uid");
-            return (Criteria) this;
-        }
-
-        public Criteria andUidIn(List<Integer> values) {
-            addCriterion("`uid` in", values, "uid");
-            return (Criteria) this;
-        }
-
-        public Criteria andUidNotIn(List<Integer> values) {
-            addCriterion("`uid` not in", values, "uid");
-            return (Criteria) this;
-        }
-
-        public Criteria andUidBetween(Integer value1, Integer value2) {
-            addCriterion("`uid` between", value1, value2, "uid");
-            return (Criteria) this;
-        }
-
-        public Criteria andUidNotBetween(Integer value1, Integer value2) {
-            addCriterion("`uid` not between", value1, value2, "uid");
-            return (Criteria) this;
-        }
-
         public Criteria andUserNameIsNull() {
             addCriterion("user_name is null");
             return (Criteria) this;
@@ -344,66 +284,6 @@ public class MUserExample {
 
         public Criteria andUserNameNotBetween(String value1, String value2) {
             addCriterion("user_name not between", value1, value2, "userName");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpFlgIsNull() {
-            addCriterion("corp_flg is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpFlgIsNotNull() {
-            addCriterion("corp_flg is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpFlgEqualTo(Boolean value) {
-            addCriterion("corp_flg =", value, "corpFlg");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpFlgNotEqualTo(Boolean value) {
-            addCriterion("corp_flg <>", value, "corpFlg");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpFlgGreaterThan(Boolean value) {
-            addCriterion("corp_flg >", value, "corpFlg");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpFlgGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("corp_flg >=", value, "corpFlg");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpFlgLessThan(Boolean value) {
-            addCriterion("corp_flg <", value, "corpFlg");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpFlgLessThanOrEqualTo(Boolean value) {
-            addCriterion("corp_flg <=", value, "corpFlg");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpFlgIn(List<Boolean> values) {
-            addCriterion("corp_flg in", values, "corpFlg");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpFlgNotIn(List<Boolean> values) {
-            addCriterion("corp_flg not in", values, "corpFlg");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpFlgBetween(Boolean value1, Boolean value2) {
-            addCriterion("corp_flg between", value1, value2, "corpFlg");
-            return (Criteria) this;
-        }
-
-        public Criteria andCorpFlgNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("corp_flg not between", value1, value2, "corpFlg");
             return (Criteria) this;
         }
 

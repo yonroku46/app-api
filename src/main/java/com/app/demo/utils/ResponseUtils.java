@@ -10,19 +10,20 @@ import com.app.demo.dto.response.core.ResponseDto;
 import com.app.demo.enums.Result;
 import com.app.demo.exception.ApplicationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 
 /**
  * レスポンス返却関連ユティリティー
  *
  * @author y_ha
  */
+@Component
 public class ResponseUtils {
 
     /**
      * インスタンス生成制御（サブクラスのみ許容）.
      */
     public ResponseUtils() {
-
     }
 
     /**

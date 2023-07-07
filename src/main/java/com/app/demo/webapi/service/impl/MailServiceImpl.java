@@ -62,9 +62,8 @@ public class MailServiceImpl implements MailService {
                     .append(mailKey)
                     .append("&m=")
                     .append(encryptMail)
-                    .append("' target='_blenk'>認証確認</a>")
+                    .append("' target='_blank'>認証確認</a>")
                     .toString(), CHAR_SET, SUB_TYPE);
-            mailObj.setFrom("noreply@dad-labo.com");
             mailObj.addRecipients(Message.RecipientType.TO, mail);
             mailSender.send(mailObj);
         } catch (MessagingException e) {
