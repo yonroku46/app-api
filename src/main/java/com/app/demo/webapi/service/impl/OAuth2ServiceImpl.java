@@ -8,10 +8,7 @@ import com.app.demo.dao.entity.MUser;
 import com.app.demo.dto.response.UserInfoResDto;
 import com.app.demo.dto.response.core.Information;
 import com.app.demo.dto.response.core.ResponseDto;
-import com.app.demo.utils.DateUtils;
-import com.app.demo.utils.JwtUtils;
-import com.app.demo.utils.OAuth2Utils;
-import com.app.demo.utils.ResponseUtils;
+import com.app.demo.utils.*;
 import com.app.demo.webapi.service.OAuth2Service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
@@ -72,7 +69,7 @@ public class OAuth2ServiceImpl implements OAuth2Service {
         LocalDateTime latestLogin = DateUtils.getUTCdatetimeAsDate();
         user.setLatestLogin(Date.from(latestLogin.atZone(ZoneId.systemDefault()).toInstant()));
         // 既に会員登録済みのユーザーはSUIDがNULLのため、設定することで連動
-        if (record.getSuid().isEmpty()) {
+        if (StringUtils.isEmpty(record.getSuid())) {
             user.setSuid(suid);
         }
         mUserDao.updateUserData(user);
@@ -125,7 +122,7 @@ public class OAuth2ServiceImpl implements OAuth2Service {
         LocalDateTime latestLogin = DateUtils.getUTCdatetimeAsDate();
         user.setLatestLogin(Date.from(latestLogin.atZone(ZoneId.systemDefault()).toInstant()));
         // 既に会員登録済みのユーザーはSUIDがNULLのため、設定することで連動
-        if (record.getSuid().isEmpty()) {
+        if (StringUtils.isEmpty(record.getSuid())) {
             user.setSuid(suid);
         }
         mUserDao.updateUserData(user);
