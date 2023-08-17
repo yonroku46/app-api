@@ -2,7 +2,7 @@ package com.app.demo.webapi.controller;
 
 import com.app.demo.aspect.attribute.CheckToken;
 import com.app.demo.dto.response.core.ResponseDto;
-import com.app.demo.webapi.service.MUserService;
+import com.app.demo.webapi.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -24,13 +24,13 @@ public class UserController extends BaseController {
     private MessageSource messageSource;
 
     @Autowired
-    private MUserService userService;
+    private UserService userService;
 
     @GetMapping("/info")
     @CheckToken
     public ResponseDto getUserInfo() {
         Integer userId = super.getCurrentUserId();
         String mail = super.getCurrentUserEmail();
-        return userService.findUser(userId, mail);
+        return userService.getUserInfo(userId, mail);
     }
 }

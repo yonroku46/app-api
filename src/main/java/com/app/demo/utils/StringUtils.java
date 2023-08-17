@@ -2,10 +2,16 @@ package com.app.demo.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.springframework.stereotype.Component;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -160,5 +166,73 @@ public class StringUtils {
         Matcher m = PATTERN_HANKAKU.matcher(str);
 
         return m.find();
+    }
+
+    /**
+     * JSON文字をMAP型に変換
+     *
+     * @param json JSON文字列
+     * @return
+     */
+    public static Map<String, Object> jsonStringToMap(String json) {
+        Map<String, Object> resultMap = null;
+        try {
+            Gson gson = new Gson();
+            Type type = new TypeToken<Map<String, Object>>(){}.getType();
+            resultMap = gson.fromJson(json, type);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultMap;
+    }
+
+    /**
+     * 文字をList<String>型に変換
+     *
+     * @param str Array文字列
+     * @return
+     */
+    public static List<String> stringToStringList(String str) {
+        List<String> resultList = new ArrayList<>();
+        try {
+            Gson gson = new Gson();
+            resultList = gson.fromJson(str, new TypeToken<List<String>>() {}.getType());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultList;
+    }
+
+    /**
+     * 文字をList<Integer>型に変換
+     *
+     * @param str Array文字列
+     * @return
+     */
+    public static List<Integer> stringToIntegerList(String str) {
+        List<Integer> resultList = new ArrayList<>();
+        try {
+            Gson gson = new Gson();
+            List<String> parsedList = gson.fromJson(str, new TypeToken<List<String>>() {}.getType());
+            for (String element : parsedList) {
+                if (isNumeric(element)) {
+                    Integer number = Integer.parseInt(element);
+                    resultList.add(number);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultList;
+    }
+
+    /**
+     * 文字が数字か判断
+     *
+     * @param str 文字列
+     * @return
+     */
+    public static boolean isNumeric(String str) {
+        return str.matches("-?\\d+(\\.\\d+)?");
     }
 }

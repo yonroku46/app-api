@@ -6,7 +6,7 @@ import com.app.demo.dto.request.LoginReqDto;
 import com.app.demo.dto.request.RecoverReqDto;
 import com.app.demo.dto.request.SubmitReqDto;
 import com.app.demo.dto.response.core.ResponseDto;
-import com.app.demo.webapi.service.MUserService;
+import com.app.demo.webapi.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -31,7 +31,7 @@ public class AuthenticationController extends BaseController {
     private HttpServletRequest request;
 
     @Autowired
-    private MUserService userService;
+    private UserService userService;
 
     @PostMapping("/login")
     public ResponseDto login(@RequestBody LoginReqDto req) {

@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author y_ha
  */
-public interface MUserService {
+public interface UserService {
 
     public ResponseDto login(LoginReqDto req);
 
@@ -27,7 +27,7 @@ public interface MUserService {
 
     public ResponseDto refreshToken(HttpServletRequest httpServletRequest);
 
-    public ResponseDto findUser(Integer userId, String mail);
+    public ResponseDto getUserInfo(Integer userId, String mail);
 
     public ResponseDto keyCheck(KeyCheckReqDto req);
 }

@@ -5,7 +5,7 @@ import com.app.demo.constants.MessageIdConst;
 import com.app.demo.dto.response.core.Information;
 import com.app.demo.dto.response.core.ResponseDto;
 import com.app.demo.utils.ResponseUtils;
-import com.app.demo.webapi.service.MUserService;
+import com.app.demo.webapi.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -25,7 +25,7 @@ public class PublicController extends BaseController {
     private MessageSource messageSource;
 
     @Autowired
-    private MUserService userService;
+    private UserService userService;
 
     @GetMapping("/")
     public ResponseDto serverCheck() {

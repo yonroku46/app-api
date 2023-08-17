@@ -35,7 +35,7 @@ public class MUser {
     /**
      * Column: role
      * Type: INT
-     * Default value: 0
+     * Default value: 1
      */
     private Integer role;
 

@@ -1,11 +1,15 @@
 package com.app.demo.webapi.controller;
 
+import com.app.demo.aspect.LocaleAspect;
 import com.app.demo.constants.SecurityConst;
 import com.app.demo.dao.MUserDao;
 import com.app.demo.dao.entity.MUser;
+import com.app.demo.exception.ApplicationException;
 import com.app.demo.utils.JwtUtils;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.http.HttpStatus;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +22,9 @@ import javax.servlet.http.HttpServletResponse;
 public class BaseController {
 
     @Autowired
+    private MessageSource messageSource;
+
+    @Autowired
     protected HttpServletRequest request;
 
     @Autowired
@@ -27,14 +34,16 @@ public class BaseController {
     MUserDao mUserDao;
 
     public MUser loadMUser() {
-        String authorization = request.getHeader(SecurityConst.REFRESH_TOKEN_HEADER);
-        String token = authorization.replace(SecurityConst.TOKEN_PREFIX, "");
-        Claims claims = JwtUtils.parseJWT(token);
-        Object userIdObj = claims.get("userId");
-        Object userMailObj = claims.get("mail");
         MUser entity = new MUser();
-        if (userIdObj != null && userMailObj != null) {
-            entity = mUserDao.findUserByPk(Integer.parseInt(userIdObj.toString()), userMailObj.toString());
+        String authorization = request.getHeader(SecurityConst.REFRESH_TOKEN_HEADER);
+        if (authorization != null) {
+            String token = authorization.replace(SecurityConst.TOKEN_PREFIX, "");
+            Claims claims = JwtUtils.parseJWT(token);
+            Object userIdObj = claims.get("userId");
+            Object userMailObj = claims.get("mail");
+            if (userIdObj != null && userMailObj != null) {
+                entity = mUserDao.findUserByPk(Integer.parseInt(userIdObj.toString()), userMailObj.toString());
+            }
         }
         return entity;
     }

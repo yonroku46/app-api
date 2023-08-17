@@ -19,7 +19,7 @@ import com.app.demo.utils.DateUtils;
 import com.app.demo.utils.JwtUtils;
 import com.app.demo.utils.PasswordUtils;
 import com.app.demo.utils.ResponseUtils;
-import com.app.demo.webapi.service.MUserService;
+import com.app.demo.webapi.service.UserService;
 import com.app.demo.webapi.service.MailService;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +41,7 @@ import java.util.Date;
  */
 @Service
 @Slf4j
-public class MUserServiceImpl implements MUserService {
+public class UserServiceImpl implements UserService {
 
     @Autowired
     MessageSource messageSource;
@@ -228,7 +228,7 @@ public class MUserServiceImpl implements MUserService {
     }
 
     @Override
-    public ResponseDto findUser(Integer userId, String mail) {
+    public ResponseDto getUserInfo(Integer userId, String mail) {
         UserInfoResDto res = new UserInfoResDto();
         MUser user  = mUserDao.findUserByPk(userId, mail);
         if (user != null) {

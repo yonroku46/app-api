@@ -3,8 +3,6 @@ package com.app.demo.dao.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.Date;
-
 /**
  * Table: m_user
  */

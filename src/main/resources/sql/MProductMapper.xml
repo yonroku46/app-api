@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.demo.dao.mapper.MProductMapper">
+  <resultMap id="BaseResultMap" type="com.app.demo.dao.entity.MProduct">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    <id column="product_id" jdbcType="INTEGER" property="productId" />
+    <result column="current_owner" jdbcType="INTEGER" property="currentOwner" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="product_imgs" jdbcType="VARCHAR" property="productImgs" />
+    <result column="price" jdbcType="INTEGER" property="price" />
+    <result column="price_sale" jdbcType="INTEGER" property="priceSale" />
+    <result column="brand" jdbcType="VARCHAR" property="brand" />
+    <result column="colors" jdbcType="VARCHAR" property="colors" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="size" jdbcType="CHAR" property="size" />
+    <result column="size_idx" jdbcType="TINYINT" property="sizeIdx" />
+    <result column="main_category" jdbcType="VARCHAR" property="mainCategory" />
+    <result column="sub_category" jdbcType="VARCHAR" property="subCategory" />
+    <result column="gender" jdbcType="VARCHAR" property="gender" />
+    <result column="tags" jdbcType="VARCHAR" property="tags" />
+    <result column="additional" jdbcType="CHAR" property="additional" />
+    <result column="history" jdbcType="VARCHAR" property="history" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="delete_flg" jdbcType="BIT" property="deleteFlg" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    product_id, current_owner, product_name, product_imgs, price, price_sale, brand, 
+    colors, `status`, `size`, size_idx, main_category, sub_category, gender, tags, additional, 
+    history, create_time, delete_flg
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    select 
+    <include refid="Base_Column_List" />
+    from m_product
+    where product_id = #{productId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    delete from m_product
+    where product_id = #{productId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.app.demo.dao.entity.MProduct">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    insert into m_product (product_id, current_owner, product_name, 
+      product_imgs, price, price_sale, 
+      brand, colors, `status`, 
+      `size`, size_idx, main_category, 
+      sub_category, gender, tags, 
+      additional, history, create_time, 
+      delete_flg)
+    values (#{productId,jdbcType=INTEGER}, #{currentOwner,jdbcType=INTEGER}, #{productName,jdbcType=VARCHAR}, 
+      #{productImgs,jdbcType=VARCHAR}, #{price,jdbcType=INTEGER}, #{priceSale,jdbcType=INTEGER}, 
+      #{brand,jdbcType=VARCHAR}, #{colors,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{size,jdbcType=CHAR}, #{sizeIdx,jdbcType=TINYINT}, #{mainCategory,jdbcType=VARCHAR}, 
+      #{subCategory,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, #{tags,jdbcType=VARCHAR}, 
+      #{additional,jdbcType=CHAR}, #{history,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{deleteFlg,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.app.demo.dao.entity.MProduct">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    insert into m_product
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="productId != null">
+        product_id,
+      </if>
+      <if test="currentOwner != null">
+        current_owner,
+      </if>
+      <if test="productName != null">
+        product_name,
+      </if>
+      <if test="productImgs != null">
+        product_imgs,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="priceSale != null">
+        price_sale,
+      </if>
+      <if test="brand != null">
+        brand,
+      </if>
+      <if test="colors != null">
+        colors,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="size != null">
+        `size`,
+      </if>
+      <if test="sizeIdx != null">
+        size_idx,
+      </if>
+      <if test="mainCategory != null">
+        main_category,
+      </if>
+      <if test="subCategory != null">
+        sub_category,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="tags != null">
+        tags,
+      </if>
+      <if test="additional != null">
+        additional,
+      </if>
+      <if test="history != null">
+        history,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="deleteFlg != null">
+        delete_flg,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="productId != null">
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="currentOwner != null">
+        #{currentOwner,jdbcType=INTEGER},
+      </if>
+      <if test="productName != null">
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productImgs != null">
+        #{productImgs,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=INTEGER},
+      </if>
+      <if test="priceSale != null">
+        #{priceSale,jdbcType=INTEGER},
+      </if>
+      <if test="brand != null">
+        #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="colors != null">
+        #{colors,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="size != null">
+        #{size,jdbcType=CHAR},
+      </if>
+      <if test="sizeIdx != null">
+        #{sizeIdx,jdbcType=TINYINT},
+      </if>
+      <if test="mainCategory != null">
+        #{mainCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="subCategory != null">
+        #{subCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="tags != null">
+        #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="additional != null">
+        #{additional,jdbcType=CHAR},
+      </if>
+      <if test="history != null">
+        #{history,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlg != null">
+        #{deleteFlg,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.app.demo.dao.entity.MProduct">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    update m_product
+    <set>
+      <if test="currentOwner != null">
+        current_owner = #{currentOwner,jdbcType=INTEGER},
+      </if>
+      <if test="productName != null">
+        product_name = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productImgs != null">
+        product_imgs = #{productImgs,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=INTEGER},
+      </if>
+      <if test="priceSale != null">
+        price_sale = #{priceSale,jdbcType=INTEGER},
+      </if>
+      <if test="brand != null">
+        brand = #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="colors != null">
+        colors = #{colors,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="size != null">
+        `size` = #{size,jdbcType=CHAR},
+      </if>
+      <if test="sizeIdx != null">
+        size_idx = #{sizeIdx,jdbcType=TINYINT},
+      </if>
+      <if test="mainCategory != null">
+        main_category = #{mainCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="subCategory != null">
+        sub_category = #{subCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="tags != null">
+        tags = #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="additional != null">
+        additional = #{additional,jdbcType=CHAR},
+      </if>
+      <if test="history != null">
+        history = #{history,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlg != null">
+        delete_flg = #{deleteFlg,jdbcType=BIT},
+      </if>
+    </set>
+    where product_id = #{productId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.app.demo.dao.entity.MProduct">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    update m_product
+    set current_owner = #{currentOwner,jdbcType=INTEGER},
+      product_name = #{productName,jdbcType=VARCHAR},
+      product_imgs = #{productImgs,jdbcType=VARCHAR},
+      price = #{price,jdbcType=INTEGER},
+      price_sale = #{priceSale,jdbcType=INTEGER},
+      brand = #{brand,jdbcType=VARCHAR},
+      colors = #{colors,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=INTEGER},
+      `size` = #{size,jdbcType=CHAR},
+      size_idx = #{sizeIdx,jdbcType=TINYINT},
+      main_category = #{mainCategory,jdbcType=VARCHAR},
+      sub_category = #{subCategory,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=VARCHAR},
+      tags = #{tags,jdbcType=VARCHAR},
+      additional = #{additional,jdbcType=CHAR},
+      history = #{history,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      delete_flg = #{deleteFlg,jdbcType=BIT}
+    where product_id = #{productId,jdbcType=INTEGER}
+  </update>
+  <select id="findProduct" parameterType="map" resultMap="BaseResultMap">
+    select
+      <include refid="Base_Column_List" />
+    from m_product
+    where
+      product_id = #{productId,jdbcType=INTEGER} and
+      delete_flg = 0
+  </select>
+  <select id="findProductByFilter" parameterType="map" resultMap="BaseResultMap">
+    select
+      <include refid="Base_Column_List" />
+    from m_product
+    where
+      delete_flg = 0
+  </select>
+</mapper>
