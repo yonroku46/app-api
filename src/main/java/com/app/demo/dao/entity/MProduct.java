@@ -77,16 +77,10 @@ public class MProduct {
     private Integer sizeIdx;
 
     /**
-     * Column: main_category
-     * Type: VARCHAR(100)
+     * Column: category
+     * Type: INT
      */
-    private String mainCategory;
-
-    /**
-     * Column: sub_category
-     * Type: VARCHAR(100)
-     */
-    private String subCategory;
+    private Integer category;
 
     /**
      * Column: gender

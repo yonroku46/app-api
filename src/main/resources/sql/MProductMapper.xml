@@ -13,9 +13,8 @@
     <result column="colors" jdbcType="VARCHAR" property="colors" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="size" jdbcType="CHAR" property="size" />
-    <result column="size_idx" jdbcType="TINYINT" property="sizeIdx" />
-    <result column="main_category" jdbcType="VARCHAR" property="mainCategory" />
-    <result column="sub_category" jdbcType="VARCHAR" property="subCategory" />
+    <result column="size_idx" jdbcType="INTEGER" property="sizeIdx" />
+    <result column="category" jdbcType="INTEGER" property="category" />
     <result column="gender" jdbcType="VARCHAR" property="gender" />
     <result column="tags" jdbcType="VARCHAR" property="tags" />
     <result column="additional" jdbcType="CHAR" property="additional" />
@@ -26,8 +25,8 @@
   <sql id="Base_Column_List">
     <!-- @mbg.generated: generated automatically, do not modify! -->
     product_id, current_owner, product_name, product_imgs, price, price_sale, brand, 
-    colors, `status`, `size`, size_idx, main_category, sub_category, gender, tags, additional, 
-    history, create_time, delete_flg
+    colors, `status`, `size`, size_idx, category, gender, tags, additional, history, 
+    create_time, delete_flg
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -46,17 +45,17 @@
     insert into m_product (product_id, current_owner, product_name, 
       product_imgs, price, price_sale, 
       brand, colors, `status`, 
-      `size`, size_idx, main_category, 
-      sub_category, gender, tags, 
-      additional, history, create_time, 
-      delete_flg)
+      `size`, size_idx, category, 
+      gender, tags, additional, 
+      history, create_time, delete_flg
+      )
     values (#{productId,jdbcType=INTEGER}, #{currentOwner,jdbcType=INTEGER}, #{productName,jdbcType=VARCHAR}, 
       #{productImgs,jdbcType=VARCHAR}, #{price,jdbcType=INTEGER}, #{priceSale,jdbcType=INTEGER}, 
       #{brand,jdbcType=VARCHAR}, #{colors,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
-      #{size,jdbcType=CHAR}, #{sizeIdx,jdbcType=TINYINT}, #{mainCategory,jdbcType=VARCHAR}, 
-      #{subCategory,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, #{tags,jdbcType=VARCHAR}, 
-      #{additional,jdbcType=CHAR}, #{history,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{deleteFlg,jdbcType=BIT})
+      #{size,jdbcType=CHAR}, #{sizeIdx,jdbcType=INTEGER}, #{category,jdbcType=INTEGER}, 
+      #{gender,jdbcType=VARCHAR}, #{tags,jdbcType=VARCHAR}, #{additional,jdbcType=CHAR}, 
+      #{history,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{deleteFlg,jdbcType=BIT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.app.demo.dao.entity.MProduct">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -95,11 +94,8 @@
       <if test="sizeIdx != null">
         size_idx,
       </if>
-      <if test="mainCategory != null">
-        main_category,
-      </if>
-      <if test="subCategory != null">
-        sub_category,
+      <if test="category != null">
+        category,
       </if>
       <if test="gender != null">
         gender,
@@ -152,13 +148,10 @@
         #{size,jdbcType=CHAR},
       </if>
       <if test="sizeIdx != null">
-        #{sizeIdx,jdbcType=TINYINT},
+        #{sizeIdx,jdbcType=INTEGER},
       </if>
-      <if test="mainCategory != null">
-        #{mainCategory,jdbcType=VARCHAR},
-      </if>
-      <if test="subCategory != null">
-        #{subCategory,jdbcType=VARCHAR},
+      <if test="category != null">
+        #{category,jdbcType=INTEGER},
       </if>
       <if test="gender != null">
         #{gender,jdbcType=VARCHAR},
@@ -212,13 +205,10 @@
         `size` = #{size,jdbcType=CHAR},
       </if>
       <if test="sizeIdx != null">
-        size_idx = #{sizeIdx,jdbcType=TINYINT},
+        size_idx = #{sizeIdx,jdbcType=INTEGER},
       </if>
-      <if test="mainCategory != null">
-        main_category = #{mainCategory,jdbcType=VARCHAR},
-      </if>
-      <if test="subCategory != null">
-        sub_category = #{subCategory,jdbcType=VARCHAR},
+      <if test="category != null">
+        category = #{category,jdbcType=INTEGER},
       </if>
       <if test="gender != null">
         gender = #{gender,jdbcType=VARCHAR},
@@ -253,9 +243,8 @@
       colors = #{colors,jdbcType=VARCHAR},
       `status` = #{status,jdbcType=INTEGER},
       `size` = #{size,jdbcType=CHAR},
-      size_idx = #{sizeIdx,jdbcType=TINYINT},
-      main_category = #{mainCategory,jdbcType=VARCHAR},
-      sub_category = #{subCategory,jdbcType=VARCHAR},
+      size_idx = #{sizeIdx,jdbcType=INTEGER},
+      category = #{category,jdbcType=INTEGER},
       gender = #{gender,jdbcType=VARCHAR},
       tags = #{tags,jdbcType=VARCHAR},
       additional = #{additional,jdbcType=CHAR},
@@ -272,11 +261,60 @@
       product_id = #{productId,jdbcType=INTEGER} and
       delete_flg = 0
   </select>
-  <select id="findProductByFilter" parameterType="map" resultMap="BaseResultMap">
+  <select id="findProductByFilter" parameterType="com.app.demo.dto.request.ProductFilterReqDto" resultMap="BaseResultMap">
     select
       <include refid="Base_Column_List" />
     from m_product
     where
       delete_flg = 0
+      <if test="keyword != null and keyword != ''">
+        and (
+          product_name like concat(#{keyword}, '%')
+          or brand like concat(#{keyword}, '%')
+          or tags like concat('%', #{keyword}, '%')
+        )
+      </if>
+      <if test="minPrice != null">
+        <choose>
+          <when test="maxPrice != null">
+            and (
+              (price_sale is not null and price_sale &gt;= #{minPrice} and price_sale &lt;= #{maxPrice})
+              or (price_sale is null and price &gt;= #{minPrice} and price &lt;= #{maxPrice})
+            )
+          </when>
+          <otherwise>
+            and (
+              (price_sale is not null and price_sale &gt;= #{minPrice})
+              or (price_sale is null and price &gt;= #{minPrice})
+            )
+          </otherwise>
+        </choose>
+      </if>
+      <if test="maxPrice != null">
+        and (
+          (price_sale is not null and price_sale &lt;= #{maxPrice})
+          or (price_sale is null and price &lt;= #{maxPrice})
+        )
+      </if>
+      <if test="brands != null and !brands.isEmpty()">
+        and brand in
+        <foreach close=")" collection="brands" item="brandValue" open="(" separator=",">
+          #{brandValue}
+        </foreach>
+      </if>
+      <if test="category != null and !category.isEmpty()">
+        and category in
+        <foreach close=")" collection="category" item="categoryValue" open="(" separator=",">
+          #{categoryValue}
+        </foreach>
+      </if>
+      <if test="status != null and !status.isEmpty()">
+        and status in
+        <foreach close=")" collection="status" item="statusValue" open="(" separator=",">
+          #{statusValue}
+        </foreach>
+      </if>
+    order by
+      create_time desc
   </select>
 </mapper>

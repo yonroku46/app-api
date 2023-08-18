@@ -39,5 +39,5 @@ public interface MProductMapper {
 
     MProduct findProduct(@Param("productId") Integer productId);
 
-    List<MProduct> findProductByFilter(@Param("filter") ProductFilterReqDto filter);
+    List<MProduct> findProductByFilter(ProductFilterReqDto filter);
 }

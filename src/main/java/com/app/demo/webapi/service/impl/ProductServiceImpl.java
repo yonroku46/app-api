@@ -2,14 +2,8 @@ package com.app.demo.webapi.service.impl;
 
 import com.app.demo.aspect.LocaleAspect;
 import com.app.demo.constants.MessageIdConst;
-import com.app.demo.dao.MProductDao;
-import com.app.demo.dao.MProductHistoryDao;
-import com.app.demo.dao.MProductLikeDao;
-import com.app.demo.dao.MProductStatusDao;
-import com.app.demo.dao.entity.MProduct;
-import com.app.demo.dao.entity.MProductHistory;
-import com.app.demo.dao.entity.MProductLike;
-import com.app.demo.dao.entity.MProductStatus;
+import com.app.demo.dao.*;
+import com.app.demo.dao.entity.*;
 import com.app.demo.dto.request.*;
 import com.app.demo.dto.response.FlgResDto;
 import com.app.demo.dto.response.ProductInfoListResDto;
@@ -54,6 +48,9 @@ public class ProductServiceImpl implements ProductService {
     private MProductStatusDao mProductStatusDao;
 
     @Autowired
+    private MProductCategoryDao mProductCategoryDao;
+
+    @Autowired
     private MProductHistoryDao mProductHistoryDao;
 
     @Override
@@ -64,7 +61,9 @@ public class ProductServiceImpl implements ProductService {
         if (product != null) {
             // 状態情報取得
             Map<Integer, MProductStatus> statusInfo = mProductStatusDao.getStatusInfo();
-            res = covertProductInfo(product, statusInfo);
+            // カテゴリー情報取得
+            Map<Integer, MProductCategory> categoryInfo = mProductCategoryDao.getCategoryInfo();
+            res = covertProductInfo(product, statusInfo, categoryInfo);
             // お気に入り判定
             if (userId != null) {
                 MProductLike liked = mProductLikeDao.findUserLiked(userId, productId);
@@ -85,10 +84,12 @@ public class ProductServiceImpl implements ProductService {
         List<MProduct> productList = mProductDao.findProductByFilter(filter);
         // 状態マスター情報取得
         Map<Integer, MProductStatus> statusInfo = mProductStatusDao.getStatusInfo();
+        // カテゴリー情報取得
+        Map<Integer, MProductCategory> categoryInfo = mProductCategoryDao.getCategoryInfo();
 
         // 表示用データで加工
         for (MProduct product : productList) {
-            res.add(covertProductInfo(product, statusInfo));
+            res.add(covertProductInfo(product, statusInfo, categoryInfo));
         }
 
         // お気に入り判定
@@ -150,7 +151,7 @@ public class ProductServiceImpl implements ProductService {
                 messageSource.getMessage(MessageIdConst.I_GETTING_SUCCESS, null, LocaleAspect.LOCALE)), res);
     }
 
-    public ProductInfoResDto covertProductInfo(MProduct product, Map<Integer, MProductStatus> statusInfo) {
+    public ProductInfoResDto covertProductInfo(MProduct product, Map<Integer, MProductStatus> statusInfo, Map<Integer, MProductCategory> categoryInfo) {
         // Mapに変換
         Map<String, Object> size = StringUtils.jsonStringToMap(product.getSize());
         Map<String, Object> additional = StringUtils.jsonStringToMap(product.getAdditional());
@@ -167,8 +168,8 @@ public class ProductServiceImpl implements ProductService {
         info.setStatus(statusInfo.get(product.getStatus()).getStatusName());
         info.setSize(size);
         info.setSizeIdx(product.getSizeIdx());
-        info.setMainCategory(product.getMainCategory());
-        info.setSubCategory(product.getSubCategory());
+        info.setMainCategory(categoryInfo.get(product.getCategory()).getMainCategory());
+        info.setSubCategory(categoryInfo.get(product.getCategory()).getSubCategory());
         info.setGender(product.getGender());
         info.setTags(StringUtils.stringToStringList(product.getTags()));
         info.setAdditional(additional);

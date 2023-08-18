@@ -3,6 +3,7 @@ package com.app.demo.dto.request;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 商品検索情報DTO
@@ -23,32 +24,27 @@ public class ProductFilterReqDto implements Serializable {
     private String keyword;
 
     /**
-     * 価格from.
+     * 価格最小値.
      */
-    private String fromPrice;
+    private String minPrice;
 
     /**
-     * 価格to.
+     * 価格最大値.
      */
-    private String toPrice;
+    private String maxPrice;
 
     /**
      * ブランド.
      */
-    private String brand;
+    private List<String> brands;
 
     /**
-     * メインカテゴリー.
+     * カテゴリー.
      */
-    private String mainCategory;
-
-    /**
-     * サブカテゴリー.
-     */
-    private String subCategory;
+    private List<String> category;
 
     /**
      * 状態.
      */
-    private Integer status;
+    private List<Integer> status;
 }

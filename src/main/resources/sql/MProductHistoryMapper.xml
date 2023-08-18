@@ -144,5 +144,7 @@
       </foreach>
       and product_id = #{productId,jdbcType=INTEGER}
       and delete_flg = 0
+    order by
+      create_time asc
   </select>
 </mapper>
