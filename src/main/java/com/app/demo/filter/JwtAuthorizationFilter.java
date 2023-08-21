@@ -6,6 +6,8 @@ import com.app.demo.aspect.attribute.LoginToken;
 import com.app.demo.constants.SecurityConst;
 import com.app.demo.dao.MUserDao;
 import com.app.demo.dao.entity.MUser;
+import com.app.demo.dao.entity.MUserKey;
+import com.app.demo.dto.MenuAuthInfoDto;
 import com.app.demo.utils.JwtUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -44,7 +46,7 @@ public class JwtAuthorizationFilter implements HandlerInterceptor {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthorizationFilter.class);
 
-    private static final List<String> PERMISSION_LIST = Arrays.asList("", "mypage");
+    private static final List<String> PERMISSION_LIST = Arrays.asList("");
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object object) throws Exception {
@@ -114,18 +116,17 @@ public class JwtAuthorizationFilter implements HandlerInterceptor {
             // ログインしていたユーザーのアクセストークンがDBに保存されているものと一致しているかどうかを判断
             MUser userForBase = this.getAuthentication(claims);
             if (userForBase != null) {
-                return true;
+                // リクエストされた画面に権限がない場合権限エラーを出力
+                MenuAuthInfoDto authInfo = this.getUserAccessibleInfo(userForBase, httpServletRequest.getHeader("Mapping-Path"));
+                if (authInfo == null || !authInfo.getAccessibleFlg()) {
+                    httpServletResponse.sendError((HttpServletResponse.SC_FORBIDDEN));
+                    return false;
+                } else {
+                    return true;
+                }
             } else {
                 return false;
             }
-            // リクエストされた画面に権限がない場合権限エラーを出力
-//            MenuAuthInfoDto accessibleInfo = this.getUserAccessibleInfo(userForBase, httpServletRequest.getHeader("Mapping-Path"));
-//            if (accessibleInfo == null || !accessibleInfo.getAccessibleFlg()) {
-//                httpServletResponse.sendError((HttpServletResponse.SC_FORBIDDEN));
-//                return false;
-//            } else {
-//                return true;
-//            }
         } catch (ExpiredJwtException exception) {
             String message = messageSource.getMessage("error.expiredJWT", new String[]{token, exception.getMessage()}, LocaleAspect.LOCALE);
             logger.info(message);
@@ -153,15 +154,15 @@ public class JwtAuthorizationFilter implements HandlerInterceptor {
         return userForBase;
     }
 
-//    private MenuAuthInfoDto getUserAccessibleInfo(MUser user, String path) {
-//        MenuAuthInfoDto accessibleInfo = new MenuAuthInfoDto();
-//        // 権限確認の必要がないパスはアクセス許可を設定
-//        if (PERMISSION_LIST.contains(path)) {
-//            accessibleInfo.setRequestMapping(path);
-//            accessibleInfo.setAccessibleFlg(Boolean.TRUE);
-//        } else {
-//            accessibleInfo = mUserDao.getAccessibleInfo(user.getUserId(), user.getUserMail(), path);
-//        }
-//        return accessibleInfo;
-//    }
+    private MenuAuthInfoDto getUserAccessibleInfo(MUser user, String path) {
+        MenuAuthInfoDto accessibleInfo = new MenuAuthInfoDto();
+        // 権限確認の必要がないパスはアクセス許可を設定
+        if (PERMISSION_LIST.contains(path)) {
+            accessibleInfo.setRequestMapping(path);
+            accessibleInfo.setAccessibleFlg(Boolean.TRUE);
+        } else {
+            accessibleInfo = mUserDao.getAccessibleInfo(new MUserKey(user.getUserId(), user.getMail()), path);
+        }
+        return accessibleInfo;
+    }
 }

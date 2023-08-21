@@ -189,7 +189,7 @@
       delete_flg = #{deleteFlg,jdbcType=BIT}
     where mail = #{mail,jdbcType=VARCHAR}
   </update>
-  <resultMap id="menuAuthInfoDto" type="com.app.demo.dto.MenuAuthInfoDto">
+  <resultMap id="menuAuthInfoMap" type="com.app.demo.dto.MenuAuthInfoDto">
     <result column="requestMapping" jdbcType="VARCHAR" property="requestMapping" />
     <result column="accessibleFlg" jdbcType="BOOLEAN" property="accessibleFlg" />
   </resultMap>
@@ -225,13 +225,21 @@
       mail = #{mail,jdbcType=VARCHAR} and mail_key = #{mailKey,jdbcType=VARCHAR} and
     delete_flg = 0
   </select>
-  <select id="getAccessibleInfo" parameterType="map" resultMap="menuAuthInfoDto">
+  <select id="getAccessibleInfo" parameterType="map" resultMap="menuAuthInfoMap">
     select
       #{path,jdbcType=VARCHAR} as requestMapping,
-      true as accessibleFlg
-    from m_user
+      case
+        when JSON_EXTRACT(mur.accessible_path, CONCAT('$.', #{path,jdbcType=VARCHAR})) = 1 then true
+        when JSON_EXTRACT(mur.accessible_path, CONCAT('$.', #{path,jdbcType=VARCHAR})) = 0 then false
+      end as accessibleFlg
+    from
+      m_user mu
+    inner join
+      m_user_role mur
+    on
+      mu.`role` = mur.role_id
     where
-      user_id = #{userKey.userId,jdbcType=INTEGER} and
-      mail = #{userKey.mail,jdbcType=VARCHAR}
+      mu.user_id = #{userKey.userId,jdbcType=INTEGER} and
+      mu.mail = #{userKey.mail,jdbcType=VARCHAR}
   </select>
 </mapper>

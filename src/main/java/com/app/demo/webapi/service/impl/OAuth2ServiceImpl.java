@@ -87,7 +87,7 @@ public class OAuth2ServiceImpl implements OAuth2Service {
         res.setRole(user.getRole());
 
         return ResponseUtils.generateDtoSuccess(new Information(MessageIdConst.I_LOGIN,
-                messageSource.getMessage(MessageIdConst.I_LOGIN, null, LocaleAspect.LOCALE)), res);
+                messageSource.getMessage(MessageIdConst.I_GETTING_SUCCESS, new String[]{"GoogleToken"}, LocaleAspect.LOCALE)), res);
     }
 
     @Override
@@ -140,6 +140,6 @@ public class OAuth2ServiceImpl implements OAuth2Service {
         res.setRole(user.getRole());
 
         return ResponseUtils.generateDtoSuccess(new Information(MessageIdConst.I_LOGIN,
-                messageSource.getMessage(MessageIdConst.I_LOGIN, null, LocaleAspect.LOCALE)), res);
+                messageSource.getMessage(MessageIdConst.I_GETTING_SUCCESS, new String[]{"LineToken"}, LocaleAspect.LOCALE)), res);
     }
 }

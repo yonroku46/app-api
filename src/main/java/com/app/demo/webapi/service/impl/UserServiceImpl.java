@@ -122,7 +122,7 @@ public class UserServiceImpl implements UserService {
             throw new ApplicationException(HttpStatus.OK, null, message);
         }
         return ResponseUtils.generateDtoSuccess(new Information(MessageIdConst.I_SAVE_SUCCESS,
-                messageSource.getMessage(MessageIdConst.I_SAVE_SUCCESS, null, LocaleAspect.LOCALE)), res);
+                messageSource.getMessage(MessageIdConst.I_SAVE_SUCCESS, new String[]{"UserInfo"}, LocaleAspect.LOCALE)), res);
     }
 
     @Override
@@ -144,7 +144,7 @@ public class UserServiceImpl implements UserService {
             throw new ApplicationException(HttpStatus.OK, null, message);
         }
         return ResponseUtils.generateDtoSuccess(new Information(MessageIdConst.I_UPDATE_SUCCESS,
-                messageSource.getMessage(MessageIdConst.I_UPDATE_SUCCESS, null, LocaleAspect.LOCALE)), res);
+                messageSource.getMessage(MessageIdConst.I_UPDATE_SUCCESS, new String[]{"UserMailKey"}, LocaleAspect.LOCALE)), res);
     }
 
     @Override
@@ -163,7 +163,7 @@ public class UserServiceImpl implements UserService {
             throw new ApplicationException(HttpStatus.OK, null, message);
         }
         return ResponseUtils.generateDtoSuccess(new Information(MessageIdConst.I_UPDATE_SUCCESS,
-                messageSource.getMessage(MessageIdConst.I_UPDATE_SUCCESS, null, LocaleAspect.LOCALE)), res);
+                messageSource.getMessage(MessageIdConst.I_UPDATE_SUCCESS, new String[]{"UserPassword"}, LocaleAspect.LOCALE)), res);
     }
 
     @Override
@@ -184,7 +184,7 @@ public class UserServiceImpl implements UserService {
             throw new ApplicationException(HttpStatus.OK, null, message);
         }
         return ResponseUtils.generateDtoSuccess(new Information(MessageIdConst.I_LOGIN,
-                messageSource.getMessage(MessageIdConst.I_UPDATE_SUCCESS, null, LocaleAspect.LOCALE)), res);
+                messageSource.getMessage(MessageIdConst.I_UPDATE_SUCCESS, new String[]{"UserMailAuth"}, LocaleAspect.LOCALE)), res);
     }
 
     @Override
@@ -237,6 +237,6 @@ public class UserServiceImpl implements UserService {
             res.setUserName(user.getUserName());
         }
         return ResponseUtils.generateDtoSuccess(new Information(MessageIdConst.I_GETTING_SUCCESS,
-                messageSource.getMessage(MessageIdConst.I_GETTING_SUCCESS, null, LocaleAspect.LOCALE)), res);
+                messageSource.getMessage(MessageIdConst.I_GETTING_SUCCESS, new String[]{"UserInfo"}, LocaleAspect.LOCALE)), res);
     }
 }
