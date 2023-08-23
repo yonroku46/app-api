@@ -15,6 +15,10 @@ spring:
       minimum-idle: 10
       maximum-pool-size: 100
       idleTimeout: 300000
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
   mail:
     host: smtp.gmail.com
     port: 587
@@ -51,6 +55,20 @@ taskexecutor:
   corepoolsize: 4
   queuecapacity: 16
   maxpoolsize: 16
+
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIAYIWFETD7TIS4W2GZ
+      secretKey: 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
+    region:
+      auto: false
+      static: ap-northeast-1
+    s3:
+      bucketName: dadlabo
+      prefix:
+        user: user
+        products: products
 
 oauth2:
   google:

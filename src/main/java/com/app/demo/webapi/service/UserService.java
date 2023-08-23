@@ -5,6 +5,7 @@ import com.app.demo.dto.request.LoginReqDto;
 import com.app.demo.dto.request.RecoverReqDto;
 import com.app.demo.dto.request.SubmitReqDto;
 import com.app.demo.dto.response.core.ResponseDto;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,7 +28,9 @@ public interface UserService {
 
     public ResponseDto refreshToken(HttpServletRequest httpServletRequest);
 
+    public ResponseDto keyCheck(KeyCheckReqDto req);
+
     public ResponseDto getUserInfo(Integer userId, String mail);
 
-    public ResponseDto keyCheck(KeyCheckReqDto req);
+    public ResponseDto updateUserInfo(Integer userId, String mail, MultipartFile profileImg);
 }

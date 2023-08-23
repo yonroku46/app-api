@@ -1,5 +1,6 @@
 package com.app.demo.webapi.controller;
 
+import com.app.demo.aspect.attribute.CheckToken;
 import com.app.demo.dto.request.ProductFilterReqDto;
 import com.app.demo.dto.request.ProductHistoryReqDto;
 import com.app.demo.dto.request.ProductLikeReqDto;
@@ -45,12 +46,14 @@ public class ProductController extends BaseController {
     }
 
     @PutMapping("/like")
+    @CheckToken
     public ResponseDto productLikeInsert(@RequestBody ProductLikeReqDto req) {
         Integer userId = super.getCurrentUserId();
         return productService.productLikeInsert(userId, req.getProductId());
     }
 
     @DeleteMapping("/like")
+    @CheckToken
     public ResponseDto productLikeDelete(@RequestParam("productId") Integer productId) {
         Integer userId = super.getCurrentUserId();
         return productService.productLikeDelete(userId, productId);

@@ -1,38 +1,39 @@
 package com.app.demo.webapi.service.impl;
 
+import com.amazonaws.services.s3.AmazonS3;
 import com.app.demo.aspect.LocaleAspect;
 import com.app.demo.constants.MessageIdConst;
 import com.app.demo.constants.SecurityConst;
 import com.app.demo.dao.MUserDao;
 import com.app.demo.dao.entity.MUser;
-import com.app.demo.dto.request.KeyCheckReqDto;
-import com.app.demo.dto.request.LoginReqDto;
-import com.app.demo.dto.request.RecoverReqDto;
-import com.app.demo.dto.request.SubmitReqDto;
+import com.app.demo.dto.request.*;
 import com.app.demo.dto.response.FlgResDto;
 import com.app.demo.dto.response.KeyCheckResDto;
 import com.app.demo.dto.response.UserInfoResDto;
 import com.app.demo.dto.response.core.Information;
 import com.app.demo.dto.response.core.ResponseDto;
 import com.app.demo.exception.ApplicationException;
-import com.app.demo.utils.DateUtils;
-import com.app.demo.utils.JwtUtils;
-import com.app.demo.utils.PasswordUtils;
-import com.app.demo.utils.ResponseUtils;
+import com.app.demo.exception.SystemException;
+import com.app.demo.utils.*;
 import com.app.demo.webapi.service.UserService;
 import com.app.demo.webapi.service.MailService;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 
 /**
  * ユーザー機能サービス詳細
@@ -51,6 +52,21 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private MUserDao mUserDao;
+
+    /**
+     * S3 バケット名
+     */
+    @Value("${cloud.aws.s3.bucketName}")
+    private String AWS_S3_BUCKET_NAME;
+
+    /**
+     * 処理が正常終了した際のプリフィックス名
+     */
+    @Value("${cloud.aws.s3.prefix.user}")
+    private String AWS_S3_PREFIX_USER;
+
+    @Autowired
+    AmazonS3 amazonS3;
 
     @Override
     public ResponseDto login(LoginReqDto reqDto) {
@@ -93,9 +109,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseDto logout(Integer userId, String mail) {
-        UserInfoResDto res = null;
         return ResponseUtils.generateDtoSuccess(new Information(MessageIdConst.I_LOGOUT,
-                messageSource.getMessage(MessageIdConst.I_LOGOUT, null, LocaleAspect.LOCALE)), res);
+                messageSource.getMessage(MessageIdConst.I_LOGOUT, null, LocaleAspect.LOCALE)), null);
     }
 
     @Override
@@ -230,7 +245,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseDto getUserInfo(Integer userId, String mail) {
         UserInfoResDto res = new UserInfoResDto();
-        MUser user  = mUserDao.findUserByPk(userId, mail);
+        MUser user = mUserDao.findUserByPk(userId, mail);
         if (user != null) {
             res.setUserId(user.getUserId());
             res.setMail(user.getMail());
@@ -238,5 +253,56 @@ public class UserServiceImpl implements UserService {
         }
         return ResponseUtils.generateDtoSuccess(new Information(MessageIdConst.I_GETTING_SUCCESS,
                 messageSource.getMessage(MessageIdConst.I_GETTING_SUCCESS, new String[]{"UserInfo"}, LocaleAspect.LOCALE)), res);
+    }
+
+    @Override
+    public ResponseDto updateUserInfo(Integer userId, String mail,  MultipartFile profileImg) {
+        UserInfoResDto res = new UserInfoResDto();
+        MUser user = mUserDao.findUserByPk(userId, mail);
+        if (user != null) {
+            // ファイルをs3に保存する
+            try {
+                String profilePrefix = userId + "/profile/";
+                // ファイルのコンテンツタイプを取得する
+                String fileType = profileImg.getOriginalFilename().substring(profileImg.getOriginalFilename().lastIndexOf("."));
+                // サーバー保存用にファイル名をリネームする
+                String saveFileName = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date()) + fileType;
+
+                // アップロードしてユーザー情報更新
+                String profileSaveName = profilePrefix + saveFileName;
+                String filePath = S3Utils.uploadFile(profileSaveName, profileImg.getInputStream(), AWS_S3_BUCKET_NAME, AWS_S3_PREFIX_USER, amazonS3);
+                user.setProfileImg(filePath);
+                mUserDao.updateUserData(user);
+
+                // 前のユーザープロフィール削除
+                List<String> userFileList = S3Utils.getFileList(AWS_S3_BUCKET_NAME, AWS_S3_PREFIX_USER + "/" + profilePrefix, amazonS3);
+                for (String fileName : userFileList) {
+                    if (!fileName.equals(filePath)) {
+                        S3Utils.deleteFile(AWS_S3_BUCKET_NAME, fileName, amazonS3);
+                    }
+                }
+
+                String token = JwtUtils.createJWT(SecurityConst.EXPIRATION_TIME, user.getUserId(), user.getUserName(), user.getMail(), user.getRole());
+                String refreshToken = JwtUtils.createJWT(SecurityConst.REFRESH_EXPIRATION_TIME, user.getUserId(), user.getUserName(), user.getMail(), user.getRole());
+
+                //更新されたユーザー情報セット
+                MUser updatedUser = mUserDao.findUserByPk(userId, mail);
+                res.setUserId(updatedUser.getUserId());
+                res.setUserName(updatedUser.getUserName());
+                res.setProfileImg(updatedUser.getProfileImg());
+                res.setMail(updatedUser.getMail());
+                res.setToken(token);
+                res.setRefreshToken(refreshToken);
+                res.setMailAuth(updatedUser.getMailAuth());
+                res.setRole(updatedUser.getRole());
+            } catch (IOException exception) {
+                String message = messageSource.getMessage("error.system", null, LocaleAspect.LOCALE);
+                String errorDetail = StringUtils.convertStackTraceToString(exception);
+                log.error(errorDetail);
+                throw new SystemException("error.file", message, errorDetail);
+            }
+        }
+        return ResponseUtils.generateDtoSuccess(new Information(MessageIdConst.I_UPDATE_SUCCESS,
+                messageSource.getMessage(MessageIdConst.I_UPDATE_SUCCESS, new String[]{"UserInfo"}, LocaleAspect.LOCALE)), res);
     }
 }

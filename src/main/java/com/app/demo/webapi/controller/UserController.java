@@ -6,9 +6,8 @@ import com.app.demo.webapi.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * ユーザー機能コントローラー
@@ -32,5 +31,13 @@ public class UserController extends BaseController {
         Integer userId = super.getCurrentUserId();
         String mail = super.getCurrentUserEmail();
         return userService.getUserInfo(userId, mail);
+    }
+
+    @PatchMapping("/info")
+    @CheckToken
+    public ResponseDto updateUserInfo(@RequestParam("profileImg") MultipartFile profileImg) {
+        Integer userId = super.getCurrentUserId();
+        String mail = super.getCurrentUserEmail();
+        return userService.updateUserInfo(userId, mail, profileImg);
     }
 }
