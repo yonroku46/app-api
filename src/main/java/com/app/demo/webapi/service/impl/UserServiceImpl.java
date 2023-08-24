@@ -264,13 +264,13 @@ public class UserServiceImpl implements UserService {
             try {
                 String profilePrefix = userId + "/profile/";
                 // ファイルのコンテンツタイプを取得する
-                String fileType = profileImg.getOriginalFilename().substring(profileImg.getOriginalFilename().lastIndexOf("."));
+                String fileExtension = profileImg.getOriginalFilename().substring(profileImg.getOriginalFilename().lastIndexOf("."));
                 // サーバー保存用にファイル名をリネームする
-                String saveFileName = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date()) + fileType;
+                String saveFileName = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date()) + fileExtension;
 
                 // アップロードしてユーザー情報更新
                 String profileSaveName = profilePrefix + saveFileName;
-                String filePath = S3Utils.uploadFile(profileSaveName, profileImg.getInputStream(), AWS_S3_BUCKET_NAME, AWS_S3_PREFIX_USER, amazonS3);
+                String filePath = S3Utils.uploadFile(profileSaveName, profileImg.getContentType(), profileImg.getInputStream(), AWS_S3_BUCKET_NAME, AWS_S3_PREFIX_USER, amazonS3);
                 user.setProfileImg(filePath);
                 mUserDao.updateUserData(user);
 

@@ -38,18 +38,20 @@ public class S3Utils {
      * ファイルをアップロードする
      *
      * @param fileName ファイル名
+     * @param fileType ファイルタイプ
      * @param is アップロードするデータが入ったストリーム
      * @param bucketName バケット名
      * @param prefix プリフィックス名
      * @param amazonS3 S3実例
      * @return
      */
-    public static String uploadFile(String fileName, InputStream is, String bucketName, String prefix, AmazonS3 amazonS3) {
+    public static String uploadFile(String fileName, String fileType, InputStream is, String bucketName, String prefix, AmazonS3 amazonS3) {
         try {
             TransferManager transferManager = TransferManagerBuilder.standard().withS3Client(amazonS3).withMinimumUploadPartSize(1L * 1024 * 1024).build();
             byte[] bytes = IOUtils.toByteArray(is);
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentLength(bytes.length);
+            metadata.setContentType(fileType);
             ByteArrayInputStream byteArray = new ByteArrayInputStream(bytes);
             // アップロード実行
             String uploadName = new StringBuilder(prefix).append("/").append(fileName).toString();
