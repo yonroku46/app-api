@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.demo.dao.mapper.MSocialMapper">
+  <resultMap id="BaseResultMap" type="com.app.demo.dao.entity.MSocial">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    <id column="social_id" jdbcType="INTEGER" property="socialId" />
+    <result column="owner" jdbcType="INTEGER" property="owner" />
+    <result column="social_imgs" jdbcType="VARCHAR" property="socialImgs" />
+    <result column="contents" jdbcType="VARCHAR" property="contents" />
+    <result column="tags" jdbcType="VARCHAR" property="tags" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="delete_flg" jdbcType="BIT" property="deleteFlg" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    social_id, `owner`, social_imgs, contents, tags, create_time, delete_flg
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    select
+    <include refid="Base_Column_List" />
+    from m_social
+    where social_id = #{socialId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    delete from m_social
+    where social_id = #{socialId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.app.demo.dao.entity.MSocial">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    insert into m_social (social_id, `owner`, social_imgs,
+      contents, tags, create_time,
+      delete_flg)
+    values (#{socialId,jdbcType=INTEGER}, #{owner,jdbcType=INTEGER}, #{socialImgs,jdbcType=VARCHAR},
+      #{contents,jdbcType=VARCHAR}, #{tags,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+      #{deleteFlg,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.app.demo.dao.entity.MSocial">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    insert into m_social
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="socialId != null">
+        social_id,
+      </if>
+      <if test="owner != null">
+        `owner`,
+      </if>
+      <if test="socialImgs != null">
+        social_imgs,
+      </if>
+      <if test="contents != null">
+        contents,
+      </if>
+      <if test="tags != null">
+        tags,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="deleteFlg != null">
+        delete_flg,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="socialId != null">
+        #{socialId,jdbcType=INTEGER},
+      </if>
+      <if test="owner != null">
+        #{owner,jdbcType=INTEGER},
+      </if>
+      <if test="socialImgs != null">
+        #{socialImgs,jdbcType=VARCHAR},
+      </if>
+      <if test="contents != null">
+        #{contents,jdbcType=VARCHAR},
+      </if>
+      <if test="tags != null">
+        #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlg != null">
+        #{deleteFlg,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.app.demo.dao.entity.MSocial">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    update m_social
+    <set>
+      <if test="owner != null">
+        `owner` = #{owner,jdbcType=INTEGER},
+      </if>
+      <if test="socialImgs != null">
+        social_imgs = #{socialImgs,jdbcType=VARCHAR},
+      </if>
+      <if test="contents != null">
+        contents = #{contents,jdbcType=VARCHAR},
+      </if>
+      <if test="tags != null">
+        tags = #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlg != null">
+        delete_flg = #{deleteFlg,jdbcType=BIT},
+      </if>
+    </set>
+    where social_id = #{socialId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.app.demo.dao.entity.MSocial">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    update m_social
+    set `owner` = #{owner,jdbcType=INTEGER},
+      social_imgs = #{socialImgs,jdbcType=VARCHAR},
+      contents = #{contents,jdbcType=VARCHAR},
+      tags = #{tags,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      delete_flg = #{deleteFlg,jdbcType=BIT}
+    where social_id = #{socialId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="SocialInfoMap" type="com.app.demo.dto.response.SocialInfoResDto">
+    <id column="social_id" jdbcType="INTEGER" property="socialId" />
+    <result column="owner" jdbcType="INTEGER" property="owner" />
+    <result column="user_name" jdbcType="VARCHAR" property="name" />
+    <result column="profile_img" jdbcType="VARCHAR" property="profileImg" />
+    <result column="profile_height" jdbcType="INTEGER" property="profileHeight" />
+    <result column="social_imgs" jdbcType="VARCHAR" property="imgs" typeHandler="com.app.demo.utils.handler.StringListTypeHandler" />
+    <result column="contents" jdbcType="VARCHAR" property="contents" />
+    <result column="tags" jdbcType="VARCHAR" property="tags" typeHandler="com.app.demo.utils.handler.StringListTypeHandler" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="date" />
+  </resultMap>
+  <select id="findSocial" parameterType="map" resultMap="SocialInfoMap">
+    select
+      ms.social_id, ms.owner, ms.social_imgs, ms.contents, ms.tags, ms.create_time, ms.delete_flg,
+      mu.user_name, mu.profile_img, mu.profile_height
+    from m_social ms
+    left join m_user mu
+      on ms.`owner` = mu.user_id
+    where
+      ms.social_id = #{socialId,jdbcType=INTEGER} and
+      ms.delete_flg = 0
+  </select>
+  <select id="findSocialByFilter" parameterType="com.app.demo.dto.request.SocialFilterReqDto" resultMap="SocialInfoMap">
+    select
+      ms.social_id, ms.owner, ms.social_imgs, ms.contents, ms.tags, ms.create_time, ms.delete_flg,
+      mu.user_name, mu.profile_img, mu.profile_height
+    from m_social ms
+    left join m_user mu
+      on ms.`owner` = mu.user_id
+    where
+      ms.delete_flg = 0
+      <if test="keyword != null and keyword != ''">
+        and (
+          ms.contents like concat(#{keyword}, '%')
+          or ms.tags like concat('%', #{keyword}, '%')
+        )
+      </if>
+    order by
+      ms.create_time desc
+  </select>
+</mapper>

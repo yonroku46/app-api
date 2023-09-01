@@ -11,7 +11,6 @@ import com.app.demo.dto.response.ProductInfoResDto;
 import com.app.demo.dto.response.core.Information;
 import com.app.demo.dto.response.core.ResponseDto;
 import com.app.demo.utils.*;
-import com.app.demo.webapi.service.MailService;
 import com.app.demo.webapi.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.lang.reflect.Method;
 import java.util.*;
 
 /**
@@ -33,9 +31,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     MessageSource messageSource;
-
-    @Autowired
-    private MailService mailService;
 
     @Autowired
     private MProductDao mProductDao;
@@ -151,10 +146,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     public ProductInfoResDto covertProductInfo(MProduct product, Map<Integer, MProductStatus> statusInfo, Map<Integer, MProductCategory> categoryInfo) {
-        // Mapに変換
-        Map<String, Object> size = StringUtils.jsonStringToMap(product.getSize());
-        Map<String, Object> additional = StringUtils.jsonStringToMap(product.getAdditional());
-
         ProductInfoResDto info = new ProductInfoResDto();
         info.setProductId(product.getProductId());
         info.setOwner(product.getCurrentOwner());
@@ -165,13 +156,13 @@ public class ProductServiceImpl implements ProductService {
         info.setBrand(product.getBrand());
         info.setColors(StringUtils.stringToStringList(product.getColors()));
         info.setStatus(statusInfo.get(product.getStatus()).getStatusName());
-        info.setSize(size);
+        info.setSize(StringUtils.jsonStringToMap(product.getSize()));
         info.setSizeIdx(product.getSizeIdx());
         info.setMainCategory(categoryInfo.get(product.getCategory()).getMainCategory());
         info.setSubCategory(categoryInfo.get(product.getCategory()).getSubCategory());
         info.setGender(product.getGender());
         info.setTags(StringUtils.stringToStringList(product.getTags()));
-        info.setAdditional(additional);
+        info.setAdditional(StringUtils.jsonStringToMap(product.getAdditional()));
         info.setHistory(StringUtils.stringToIntegerList(product.getHistory()));
         info.setDate(product.getCreateTime());
 

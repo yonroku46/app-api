@@ -9,8 +9,9 @@
     <result column="suid" jdbcType="VARCHAR" property="suid" />
     <result column="role" jdbcType="INTEGER" property="role" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
-    <result column="profile_img" jdbcType="VARCHAR" property="profileImg" />
     <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="profile_img" jdbcType="VARCHAR" property="profileImg" />
+    <result column="profile_height" jdbcType="INTEGER" property="profileHeight" />
     <result column="mail_key" jdbcType="VARCHAR" property="mailKey" />
     <result column="mail_auth" jdbcType="BIT" property="mailAuth" />
     <result column="latest_login" jdbcType="TIMESTAMP" property="latestLogin" />
@@ -19,8 +20,8 @@
   </resultMap>
   <sql id="Base_Column_List">
     <!-- @mbg.generated: generated automatically, do not modify! -->
-    mail, user_id, uuid, suid, `role`, user_name, profile_img, `password`, mail_key, 
-    mail_auth, latest_login, create_time, delete_flg
+    mail, user_id, uuid, suid, `role`, user_name, `password`, profile_img, profile_height, 
+    mail_key, mail_auth, latest_login, create_time, delete_flg
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -38,14 +39,14 @@
     <!-- @mbg.generated: generated automatically, do not modify! -->
     insert into m_user (mail, user_id, uuid, 
       suid, `role`, user_name, 
-      profile_img, `password`, mail_key, 
-      mail_auth, latest_login, create_time, 
-      delete_flg)
+      `password`, profile_img, profile_height, 
+      mail_key, mail_auth, latest_login, 
+      create_time, delete_flg)
     values (#{mail,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, 
       #{suid,jdbcType=VARCHAR}, #{role,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, 
-      #{profileImg,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{mailKey,jdbcType=VARCHAR}, 
-      #{mailAuth,jdbcType=BIT}, #{latestLogin,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{deleteFlg,jdbcType=BIT})
+      #{password,jdbcType=VARCHAR}, #{profileImg,jdbcType=VARCHAR}, #{profileHeight,jdbcType=INTEGER}, 
+      #{mailKey,jdbcType=VARCHAR}, #{mailAuth,jdbcType=BIT}, #{latestLogin,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{deleteFlg,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.app.demo.dao.entity.MUser">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -57,7 +58,9 @@
       <if test="userId != null">
         user_id,
       </if>
+      <if test="uuid != null">
         uuid,
+      </if>
       <if test="suid != null">
         suid,
       </if>
@@ -67,11 +70,14 @@
       <if test="userName != null">
         user_name,
       </if>
+      <if test="password != null">
+        `password`,
+      </if>
       <if test="profileImg != null">
         profile_img,
       </if>
-      <if test="password != null">
-        `password`,
+      <if test="profileHeight != null">
+        profile_height,
       </if>
       <if test="mailKey != null">
         mail_key,
@@ -96,7 +102,9 @@
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
-        REPLACE(uuid(), '-', ''),
+      <if test="uuid != null">
+        #{uuid,jdbcType=VARCHAR},
+      </if>
       <if test="suid != null">
         #{suid,jdbcType=VARCHAR},
       </if>
@@ -106,11 +114,14 @@
       <if test="userName != null">
         #{userName,jdbcType=VARCHAR},
       </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
       <if test="profileImg != null">
         #{profileImg,jdbcType=VARCHAR},
       </if>
-      <if test="password != null">
-        #{password,jdbcType=VARCHAR},
+      <if test="profileHeight != null">
+        #{profileHeight,jdbcType=INTEGER},
       </if>
       <if test="mailKey != null">
         #{mailKey,jdbcType=VARCHAR},
@@ -148,11 +159,14 @@
       <if test="userName != null">
         user_name = #{userName,jdbcType=VARCHAR},
       </if>
+      <if test="password != null">
+        `password` = #{password,jdbcType=VARCHAR},
+      </if>
       <if test="profileImg != null">
         profile_img = #{profileImg,jdbcType=VARCHAR},
       </if>
-      <if test="password != null">
-        `password` = #{password,jdbcType=VARCHAR},
+      <if test="profileHeight != null">
+        profile_height = #{profileHeight,jdbcType=INTEGER},
       </if>
       <if test="mailKey != null">
         mail_key = #{mailKey,jdbcType=VARCHAR},
@@ -180,8 +194,9 @@
       suid = #{suid,jdbcType=VARCHAR},
       `role` = #{role,jdbcType=INTEGER},
       user_name = #{userName,jdbcType=VARCHAR},
-      profile_img = #{profileImg,jdbcType=VARCHAR},
       `password` = #{password,jdbcType=VARCHAR},
+      profile_img = #{profileImg,jdbcType=VARCHAR},
+      profile_height = #{profileHeight,jdbcType=INTEGER},
       mail_key = #{mailKey,jdbcType=VARCHAR},
       mail_auth = #{mailAuth,jdbcType=BIT},
       latest_login = #{latestLogin,jdbcType=TIMESTAMP},

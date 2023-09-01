@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.demo.dao.mapper.MSocialCommentMapper">
+  <resultMap id="BaseResultMap" type="com.app.demo.dao.entity.MSocialComment">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    <id column="comment_id" jdbcType="INTEGER" property="commentId" />
+    <result column="social_id" jdbcType="INTEGER" property="socialId" />
+    <result column="reply" jdbcType="INTEGER" property="reply" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="contents" jdbcType="VARCHAR" property="contents" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="delete_flg" jdbcType="BIT" property="deleteFlg" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    comment_id, social_id, reply, user_id, contents, create_time, delete_flg
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    select 
+    <include refid="Base_Column_List" />
+    from m_social_comment
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    delete from m_social_comment
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.app.demo.dao.entity.MSocialComment">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    insert into m_social_comment (comment_id, social_id, reply, 
+      user_id, contents, create_time, 
+      delete_flg)
+    values (#{commentId,jdbcType=INTEGER}, #{socialId,jdbcType=INTEGER}, #{reply,jdbcType=INTEGER}, 
+      #{userId,jdbcType=INTEGER}, #{contents,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{deleteFlg,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.app.demo.dao.entity.MSocialComment">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    insert into m_social_comment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="commentId != null">
+        comment_id,
+      </if>
+      <if test="socialId != null">
+        social_id,
+      </if>
+      <if test="reply != null">
+        reply,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="contents != null">
+        contents,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="deleteFlg != null">
+        delete_flg,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="commentId != null">
+        #{commentId,jdbcType=INTEGER},
+      </if>
+      <if test="socialId != null">
+        #{socialId,jdbcType=INTEGER},
+      </if>
+      <if test="reply != null">
+        #{reply,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="contents != null">
+        #{contents,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlg != null">
+        #{deleteFlg,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.app.demo.dao.entity.MSocialComment">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    update m_social_comment
+    <set>
+      <if test="socialId != null">
+        social_id = #{socialId,jdbcType=INTEGER},
+      </if>
+      <if test="reply != null">
+        reply = #{reply,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="contents != null">
+        contents = #{contents,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlg != null">
+        delete_flg = #{deleteFlg,jdbcType=BIT},
+      </if>
+    </set>
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.app.demo.dao.entity.MSocialComment">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    update m_social_comment
+    set social_id = #{socialId,jdbcType=INTEGER},
+      reply = #{reply,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      contents = #{contents,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      delete_flg = #{deleteFlg,jdbcType=BIT}
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="SocialComment" type="com.app.demo.dto.response.SocialCommentResDto">
+    <id column="comment_id" jdbcType="INTEGER" property="commentId" />
+    <result column="social_id" jdbcType="INTEGER" property="socialId" />
+    <result column="reply" jdbcType="INTEGER" property="reply" />
+    <result column="user_id" jdbcType="INTEGER" property="owner" />
+    <result column="user_name" jdbcType="VARCHAR" property="name" />
+    <result column="profile_img" jdbcType="VARCHAR" property="profileImg" />
+    <result column="contents" jdbcType="VARCHAR" property="contents" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="date" />
+  </resultMap>
+  <select id="findCommentList" parameterType="map" resultMap="SocialComment">
+    select
+      msc.comment_id, msc.social_id, msc.reply, msc.user_id, msc.contents, msc.create_time,
+      mu.user_name, mu.profile_img
+    from m_social_comment msc
+    left join m_user mu
+    on msc.user_id = mu.user_id
+    where
+      msc.social_id = #{socialId,jdbcType=INTEGER} and
+      msc.delete_flg = 0
+    order by
+      msc.create_time asc
+  </select>
+  <insert id="insertRow" parameterType="map">
+    insert into m_social_comment
+      (social_id, reply, user_id, contents)
+    values
+      (#{comment.socialId,jdbcType=INTEGER}, #{comment.reply,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{comment.contents,jdbcType=VARCHAR})
+  </insert>
+  <update id="deleteRow" parameterType="map">
+    update m_social_comment
+    set delete_flg = 1
+    where
+      comment_id  = #{commentId,jdbcType=INTEGER} and
+      social_id = #{socialId,jdbcType=INTEGER} and
+      user_id = #{userId,jdbcType=INTEGER}
+  </update>
+</mapper>

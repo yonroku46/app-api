@@ -206,6 +206,10 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public ResponseDto refreshToken(HttpServletRequest httpServletRequest) {
         String refreshTokenHeader = httpServletRequest.getHeader(SecurityConst.REFRESH_TOKEN_HEADER);
+        if (refreshTokenHeader == null) {
+            String message = messageSource.getMessage("error.noAccessToken", null, LocaleAspect.LOCALE);
+            throw new ApplicationException(HttpStatus.OK, "error.noAccessToken", message);
+        }
         String refreshToken = refreshTokenHeader.replace(SecurityConst.TOKEN_PREFIX, "");
         if (refreshToken == null) {
             String message = messageSource.getMessage("error.noAccessToken", null, LocaleAspect.LOCALE);

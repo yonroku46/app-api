@@ -28,7 +28,7 @@ public class MProduct {
 
     /**
      * Column: product_imgs
-     * Type: VARCHAR(1000)
+     * Type: VARCHAR(10000)
      * Default value: []
      */
     private String productImgs;

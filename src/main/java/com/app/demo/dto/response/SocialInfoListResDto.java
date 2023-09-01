@@ -6,21 +6,19 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
- * 商品情報リストレスポンス用DTO
+ * ソーシャル情報リストレスポンス用DTO
  *
  * @author y_ha
  */
 @Data
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class ProductInfoListResDto extends ResponseData implements Serializable {
+public class SocialInfoListResDto extends ResponseData implements Serializable {
 
     private static final long serialVersionUID = 34895794398L;
 
-    private List<ProductInfoResDto> productList;
+    private List<SocialInfoResDto> socialList;
 }

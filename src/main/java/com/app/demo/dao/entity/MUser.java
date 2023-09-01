@@ -46,16 +46,22 @@ public class MUser {
     private String userName;
 
     /**
+     * Column: password
+     * Type: VARCHAR(500)
+     */
+    private String password;
+
+    /**
      * Column: profile_img
      * Type: VARCHAR(300)
      */
     private String profileImg;
 
     /**
-     * Column: password
-     * Type: VARCHAR(500)
+     * Column: profile_height
+     * Type: INT
      */
-    private String password;
+    private Integer profileHeight;
 
     /**
      * Column: mail_key
