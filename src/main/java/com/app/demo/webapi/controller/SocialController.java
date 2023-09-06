@@ -40,7 +40,7 @@ public class SocialController extends BaseController {
         return socialService.getSocialList(userId, req);
     }
 
-    @PutMapping("/like")
+    @PostMapping("/like")
     @CheckToken
     public ResponseDto socialLikeInsert(@RequestBody SocialLikeReqDto req) {
         Integer userId = super.getCurrentUserId();
@@ -59,7 +59,7 @@ public class SocialController extends BaseController {
         return socialService.getSocialComment(socialId);
     }
 
-    @PutMapping("/comment")
+    @PostMapping("/comment")
     @CheckToken
     public ResponseDto socialCommentInsert(@RequestBody SocialCommentReqDto req) {
         Integer userId = super.getCurrentUserId();

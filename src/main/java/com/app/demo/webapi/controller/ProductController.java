@@ -45,7 +45,7 @@ public class ProductController extends BaseController {
         return productService.getProductHistory(req);
     }
 
-    @PutMapping("/like")
+    @PostMapping("/like")
     @CheckToken
     public ResponseDto productLikeInsert(@RequestBody ProductLikeReqDto req) {
         Integer userId = super.getCurrentUserId();
