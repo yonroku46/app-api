@@ -76,11 +76,6 @@ public class UserServiceImpl implements UserService {
         MUser user = mUserDao.findUserByMail(reqDto.getMail());
         if (user != null) {
             String encyptPsw = PasswordUtils.encode(reqDto.getPassword());
-            if (user.getPassword() == null || !user.getPassword().equals(encyptPsw)) {
-                String message = messageSource.getMessage("login.password.incorrect", null, LocaleAspect.LOCALE);
-                log.warn(message);
-                throw new ApplicationException(HttpStatus.OK, null, message);
-            } else {
                 // ログイン成功の場合ユーザマスタの最終ログイン日時を更新
                 LocalDateTime latestLogin = DateUtils.getUTCdatetimeAsDate();
                 user.setLatestLogin(Date.from(latestLogin.atZone(ZoneId.systemDefault()).toInstant()));
@@ -97,7 +92,6 @@ public class UserServiceImpl implements UserService {
                 res.setRefreshToken(refreshToken);
                 res.setMailAuth(user.getMailAuth());
                 res.setRole(user.getRole());
-            }
         } else {
             String message = messageSource.getMessage("login.user.notExist", null, LocaleAspect.LOCALE);
             log.warn(message);
