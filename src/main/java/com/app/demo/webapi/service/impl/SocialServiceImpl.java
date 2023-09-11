@@ -122,7 +122,7 @@ public class SocialServiceImpl implements SocialService {
         // ソーシャルのコメントリスト取得
         List<SocialCommentResDto> commentList = mSocialCommentDao.findCommentList(socialId);
         // コメントをグループ化するマップ生成
-        Map<Integer, SocialCommentResDto> commentMap = new HashMap<>();
+        Map<Integer, SocialCommentResDto> commentMap = new LinkedHashMap<>();
 
         // 返信されたコメントを整理
         for (SocialCommentResDto comment : commentList) {
@@ -133,16 +133,17 @@ public class SocialServiceImpl implements SocialService {
             if (reply == null) {
                 commentMap.put(commentId, comment);
             } else {
-                // 親コメントのreplyリストに追加
+                // 親コメントのreplyリストに最新順で追加
                 SocialCommentResDto parentComment = commentMap.get(reply);
                 if (parentComment != null) {
-                    parentComment.getReplies().add(comment);
+                    parentComment.getReplies().add(0, comment);
                 }
             }
         }
 
-        // 結果をもう一度リスト化
+        // 結果をもう一度リスト化して最新順に変更
         List<SocialCommentResDto> res = new ArrayList<>(commentMap.values());
+        Collections.reverse(res);
 
         return ResponseUtils.generateDtoSuccess(new Information(MessageIdConst.I_GETTING_SUCCESS,
                 messageSource.getMessage(MessageIdConst.I_GETTING_SUCCESS, new String[]{"SocialComment"}, LocaleAspect.LOCALE)), new SocialCommentListResDto(res));

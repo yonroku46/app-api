@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.demo.dao.mapper.MChatRoomMapper">
+  <resultMap id="BaseResultMap" type="com.app.demo.dao.entity.MChatRoom">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    <id column="room_uuid" jdbcType="VARCHAR" property="roomUuid" />
+    <result column="room_type" jdbcType="VARCHAR" property="roomType" />
+    <result column="room_name" jdbcType="VARCHAR" property="roomName" />
+    <result column="owner" jdbcType="INTEGER" property="owner" />
+    <result column="participant" jdbcType="VARCHAR" property="participant" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="delete_flg" jdbcType="BIT" property="deleteFlg" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    room_uuid, room_type, room_name, `owner`, participant, create_time, delete_flg
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    select 
+    <include refid="Base_Column_List" />
+    from m_chat_room
+    where room_uuid = #{roomUuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    delete from m_chat_room
+    where room_uuid = #{roomUuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.app.demo.dao.entity.MChatRoom">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    insert into m_chat_room (room_uuid, room_type, room_name, 
+      `owner`, participant, create_time, 
+      delete_flg)
+    values (#{roomUuid,jdbcType=VARCHAR}, #{roomType,jdbcType=VARCHAR}, #{roomName,jdbcType=VARCHAR}, 
+      #{owner,jdbcType=INTEGER}, #{participant,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{deleteFlg,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.app.demo.dao.entity.MChatRoom">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    insert into m_chat_room
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        room_uuid,
+      <if test="roomType != null">
+        room_type,
+      </if>
+      <if test="roomName != null">
+        room_name,
+      </if>
+      <if test="owner != null">
+        `owner`,
+      </if>
+      <if test="participant != null">
+        participant,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="deleteFlg != null">
+        delete_flg,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+        REPLACE(uuid(), '-', ''),
+      <if test="roomType != null">
+        #{roomType,jdbcType=VARCHAR},
+      </if>
+      <if test="roomName != null">
+        #{roomName,jdbcType=VARCHAR},
+      </if>
+      <if test="owner != null">
+        #{owner,jdbcType=INTEGER},
+      </if>
+      <if test="participant != null">
+        #{participant,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlg != null">
+        #{deleteFlg,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.app.demo.dao.entity.MChatRoom">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    update m_chat_room
+    <set>
+      <if test="roomType != null">
+        room_type = #{roomType,jdbcType=VARCHAR},
+      </if>
+      <if test="roomName != null">
+        room_name = #{roomName,jdbcType=VARCHAR},
+      </if>
+      <if test="owner != null">
+        `owner` = #{owner,jdbcType=INTEGER},
+      </if>
+      <if test="participant != null">
+        participant = #{participant,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlg != null">
+        delete_flg = #{deleteFlg,jdbcType=BIT},
+      </if>
+    </set>
+    where room_uuid = #{roomUuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.app.demo.dao.entity.MChatRoom">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    update m_chat_room
+    set room_type = #{roomType,jdbcType=VARCHAR},
+      room_name = #{roomName,jdbcType=VARCHAR},
+      `owner` = #{owner,jdbcType=INTEGER},
+      participant = #{participant,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      delete_flg = #{deleteFlg,jdbcType=BIT}
+    where room_uuid = #{roomUuid,jdbcType=VARCHAR}
+  </update>
+  <select id="findAllRooms" parameterType="map" resultMap="BaseResultMap">
+    select
+      <include refid="Base_Column_List" />
+    from m_chat_room
+    where
+      FIND_IN_SET(#{userId,jdbcType=INTEGER}, REPLACE(REPLACE(participant, '[', ''), ']', '')) > 0 and
+      delete_flg = 0
+    order by
+      create_time desc
+  </select>
+  <select id="findRoomById" parameterType="map" resultMap="BaseResultMap">
+    select
+      <include refid="Base_Column_List" />
+    from m_chat_room
+    where
+      FIND_IN_SET(#{userId,jdbcType=INTEGER}, REPLACE(REPLACE(participant, '[', ''), ']', '')) > 0 and
+      room_uuid = #{roomUuid,jdbcType=VARCHAR} and
+      delete_flg = 0
+  </select>
+</mapper>

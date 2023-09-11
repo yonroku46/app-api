@@ -58,9 +58,7 @@
       <if test="userId != null">
         user_id,
       </if>
-      <if test="uuid != null">
         uuid,
-      </if>
       <if test="suid != null">
         suid,
       </if>
@@ -102,9 +100,7 @@
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="uuid != null">
-        #{uuid,jdbcType=VARCHAR},
-      </if>
+        REPLACE(uuid(), '-', ''),
       <if test="suid != null">
         #{suid,jdbcType=VARCHAR},
       </if>
