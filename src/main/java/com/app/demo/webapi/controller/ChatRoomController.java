@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 public class ChatRoomController extends BaseController {
+
     private final ChatRoomService chatRoomService;
 
     @MessageMapping("/chat/{roomId}/send")
@@ -19,19 +20,19 @@ public class ChatRoomController extends BaseController {
         chatRoomService.sendMessage(roomId, chat);
     }
 
+    @MessageMapping("/chat/{roomId}/join")
+    public void joinChatRoom(@DestinationVariable String roomId, ChatMessageDto chat) {
+        chatRoomService.joinChatRoom(roomId, chat);
+    }
+
     @PostMapping("/chat/create")
     public ResponseDto createChatRoom() {
         return chatRoomService.createChatRoom();
     }
 
     @PostMapping("/chat/{roomId}/invite")
-    public ResponseDto inviteChatRoom(@PathVariable String roomId, @RequestBody Long targetUserId) {
-        return chatRoomService.inviteChatRoom(roomId, targetUserId);
-    }
-
-    @PostMapping("/chat/{roomId}/join")
-    public ResponseDto joinChatRoom(@PathVariable String roomId) {
-        return chatRoomService.joinChatRoom(roomId);
+    public ResponseDto inviteChatRoom(@PathVariable String roomId, @RequestBody Integer userId) {
+        return chatRoomService.inviteChatRoom(roomId, userId);
     }
 
     @PostMapping("/chat/{roomId}/exit")
@@ -39,7 +40,7 @@ public class ChatRoomController extends BaseController {
         return chatRoomService.exitChatRoom(roomId);
     }
 
-    @GetMapping("/chat/room-list")
+    @GetMapping("/chat/rooms")
     public ResponseDto getChatRoomList() {
         return chatRoomService.getChatRoomList();
     }

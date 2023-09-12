@@ -4,15 +4,16 @@ import com.app.demo.dto.ChatMessageDto;
 import com.app.demo.dto.response.core.ResponseDto;
 
 public interface ChatRoomService {
+
     void saveMessage(String roomId, ChatMessageDto chat);
 
     void sendMessage(String roomId, ChatMessageDto chat);
 
+    void joinChatRoom(String roomId, ChatMessageDto chat);
+
     ResponseDto createChatRoom();
 
-    ResponseDto inviteChatRoom(String roomId, Long targetUserId);
-
-    ResponseDto joinChatRoom(String roomId);
+    ResponseDto inviteChatRoom(String roomId, Integer userId);
 
     ResponseDto exitChatRoom(String roomId);
 
