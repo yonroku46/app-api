@@ -47,4 +47,9 @@ public class ProductFilterReqDto implements Serializable {
      * 状態.
      */
     private List<Integer> status;
+
+    /**
+     * 取得最大値.
+     */
+    private Integer limit;
 }

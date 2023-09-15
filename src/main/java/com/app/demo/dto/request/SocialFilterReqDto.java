@@ -22,4 +22,9 @@ public class SocialFilterReqDto implements Serializable {
      * 検索キーワード.
      */
     private String keyword;
+
+    /**
+     * 取得最大値.
+     */
+    private Integer limit;
 }

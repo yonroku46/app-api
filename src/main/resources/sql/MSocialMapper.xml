@@ -161,5 +161,8 @@
       </if>
     order by
       ms.create_time desc
+    <if test="limit != null">
+      limit #{limit}
+    </if>
   </select>
 </mapper>
