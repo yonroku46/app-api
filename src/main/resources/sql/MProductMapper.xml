@@ -296,6 +296,12 @@
           or (price_sale is null and price &lt;= #{maxPrice})
         )
       </if>
+      <if test="gender != null and !gender.isEmpty()">
+        and gender in
+        <foreach close=")" collection="gender" item="genderValue" open="(" separator=",">
+          #{genderValue}
+        </foreach>
+      </if>
       <if test="brands != null and !brands.isEmpty()">
         and brand in
         <foreach close=")" collection="brands" item="brandValue" open="(" separator=",">
@@ -313,6 +319,15 @@
         <foreach close=")" collection="status" item="statusValue" open="(" separator=",">
           #{statusValue}
         </foreach>
+      </if>
+      <if test="colors != null and !colors.isEmpty()">
+        and colors REGEXP
+        <foreach collection="colors" item="colorsValue" separator="|">
+          #{colorsValue}
+        </foreach>
+      </if>
+      <if test="types != null and !types.isEmpty() and types.contains('sale')">
+        and price_sale IS NOT NULL
       </if>
     order by
       create_time desc

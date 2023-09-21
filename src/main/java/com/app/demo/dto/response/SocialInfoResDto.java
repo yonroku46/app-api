@@ -27,8 +27,6 @@ public class SocialInfoResDto extends ResponseData implements Serializable {
 
     private String profileImg;
 
-    private Integer profileHeight;
-
     private List<String> imgs;
 
     private String contents;

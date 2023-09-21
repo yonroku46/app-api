@@ -34,6 +34,11 @@ public class ProductFilterReqDto implements Serializable {
     private String maxPrice;
 
     /**
+     * 性別.
+     */
+    private List<String> gender;
+
+    /**
      * ブランド.
      */
     private List<String> brands;
@@ -47,6 +52,16 @@ public class ProductFilterReqDto implements Serializable {
      * 状態.
      */
     private List<Integer> status;
+
+    /**
+     * 色.
+     */
+    private List<String> colors;
+
+    /**
+     * タイプ.
+     */
+    private List<String> types;
 
     /**
      * 取得最大値.

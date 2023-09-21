@@ -127,7 +127,6 @@
     <result column="owner" jdbcType="INTEGER" property="owner" />
     <result column="user_name" jdbcType="VARCHAR" property="name" />
     <result column="profile_img" jdbcType="VARCHAR" property="profileImg" />
-    <result column="profile_height" jdbcType="INTEGER" property="profileHeight" />
     <result column="social_imgs" jdbcType="VARCHAR" property="imgs" typeHandler="com.app.demo.utils.handler.StringListTypeHandler" />
     <result column="contents" jdbcType="VARCHAR" property="contents" />
     <result column="tags" jdbcType="VARCHAR" property="tags" typeHandler="com.app.demo.utils.handler.StringListTypeHandler" />
@@ -136,7 +135,7 @@
   <select id="findSocial" parameterType="map" resultMap="SocialInfoMap">
     select
       ms.social_id, ms.owner, ms.social_imgs, ms.contents, ms.tags, ms.create_time, ms.delete_flg,
-      mu.user_name, mu.profile_img, mu.profile_height
+      mu.user_name, mu.profile_img
     from m_social ms
     left join m_user mu
       on ms.`owner` = mu.user_id
@@ -147,7 +146,7 @@
   <select id="findSocialByFilter" parameterType="com.app.demo.dto.request.SocialFilterReqDto" resultMap="SocialInfoMap">
     select
       ms.social_id, ms.owner, ms.social_imgs, ms.contents, ms.tags, ms.create_time, ms.delete_flg,
-      mu.user_name, mu.profile_img, mu.profile_height
+      mu.user_name, mu.profile_img
     from m_social ms
     left join m_user mu
       on ms.`owner` = mu.user_id

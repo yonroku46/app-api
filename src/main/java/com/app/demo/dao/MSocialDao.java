@@ -2,7 +2,6 @@ package com.app.demo.dao;
 
 import com.app.demo.aspect.LocaleAspect;
 import com.app.demo.constants.MessageIdConst;
-import com.app.demo.dao.entity.MSocial;
 import com.app.demo.dao.mapper.MSocialMapper;
 import com.app.demo.dto.request.SocialFilterReqDto;
 import com.app.demo.dto.response.SocialInfoResDto;
