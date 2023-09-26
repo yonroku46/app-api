@@ -115,15 +115,4 @@
     where
       social_id = #{socialId,jdbcType=INTEGER} and user_id = #{userId,jdbcType=INTEGER}
   </delete>
-  <select id="getLikedCount" parameterType="map" resultMap="SocialLikedCount">
-    select
-      social_id, count(*) as liked_count
-    from m_social_like
-    where
-      social_id in
-      <foreach close=")" collection="socialIdList" item="socialId" open="(" separator=",">
-        #{socialId}
-      </foreach>
-    group by social_id
-  </select>
 </mapper>

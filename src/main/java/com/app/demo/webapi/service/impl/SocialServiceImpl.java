@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -47,9 +46,6 @@ public class SocialServiceImpl implements SocialService {
         SocialInfoResDto res = mSocialDao.findSocialByPk(socialId);
 
         if (res != null) {
-            // お気に入りカウントセット
-            Map<Integer, Integer> likedCountMap = mSocialLikeDao.getLikedCount(Collections.singletonList(socialId));
-            res.setLikedCount(likedCountMap.getOrDefault(res.getSocialId(), 0));
             // お気に入り判定
             if (userId != null) {
                 MSocialLike liked = mSocialLikeDao.findUserLiked(userId, socialId);
@@ -65,16 +61,6 @@ public class SocialServiceImpl implements SocialService {
     public ResponseDto getSocialList(Integer userId, SocialFilterReqDto filter) {
         // フィルターでソーシャルリストを取得
         List<SocialInfoResDto> res = mSocialDao.findSocialByFilter(filter);
-        List<Integer> socialIdList = res.stream()
-                                        .map(SocialInfoResDto::getSocialId)
-                                        .collect(Collectors.toList());
-        // お気に入りカウントセット
-        if (!CollectionUtils.isEmpty(socialIdList)) {
-            Map<Integer, Integer> likedCountMap = mSocialLikeDao.getLikedCount(socialIdList);
-            for (SocialInfoResDto resData : res) {
-                resData.setLikedCount(likedCountMap.getOrDefault(resData.getSocialId(),0));
-            }
-        }
 
         // お気に入り判定
         if (userId != null) {

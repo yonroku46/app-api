@@ -330,7 +330,29 @@
         and price_sale IS NOT NULL
       </if>
     order by
-      create_time desc
+      <choose>
+        <when test="sort != null and sort == 'latest'">
+          create_time desc
+        </when>
+        <when test="sort != null and sort == 'oldest'">
+          create_time asc
+        </when>
+        <when test="sort != null and sort == 'lowest'">
+          case
+            when price_sale is not null then price_sale
+            else price
+          end asc
+        </when>
+        <when test="sort != null and sort == 'highest'">
+          case
+            when price_sale is not null then price_sale
+            else price
+          end desc
+        </when>
+        <otherwise>
+          create_time desc
+        </otherwise>
+      </choose>
     <if test="limit != null">
       limit #{limit}
     </if>

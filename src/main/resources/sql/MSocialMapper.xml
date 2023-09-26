@@ -135,10 +135,16 @@
   <select id="findSocial" parameterType="map" resultMap="SocialInfoMap">
     select
       ms.social_id, ms.owner, ms.social_imgs, ms.contents, ms.tags, ms.create_time, ms.delete_flg,
-      mu.user_name, mu.profile_img
+      mu.user_name, mu.profile_img, coalesce(sub1.liked_count, 0) as liked_count
     from m_social ms
     left join m_user mu
       on ms.`owner` = mu.user_id
+    left join (
+      select social_id, count(*) AS liked_count
+      from m_social_like
+      group by social_id
+    ) as sub1
+    on ms.social_id = sub1.social_id
     where
       ms.social_id = #{socialId,jdbcType=INTEGER} and
       ms.delete_flg = 0
@@ -146,10 +152,16 @@
   <select id="findSocialByFilter" parameterType="com.app.demo.dto.request.SocialFilterReqDto" resultMap="SocialInfoMap">
     select
       ms.social_id, ms.owner, ms.social_imgs, ms.contents, ms.tags, ms.create_time, ms.delete_flg,
-      mu.user_name, mu.profile_img
+      mu.user_name, mu.profile_img, coalesce(sub1.liked_count, 0) as liked_count
     from m_social ms
     left join m_user mu
       on ms.`owner` = mu.user_id
+    left join (
+      select social_id, count(*) AS liked_count
+      from m_social_like
+      group by social_id
+    ) as sub1
+    on ms.social_id = sub1.social_id
     where
       ms.delete_flg = 0
       <if test="keyword != null and keyword != ''">
@@ -159,7 +171,14 @@
         )
       </if>
     order by
-      ms.create_time desc
+      <choose>
+        <when test="sort != null and sort == 'rate'">
+          liked_count desc
+        </when>
+        <otherwise>
+          ms.create_time desc
+        </otherwise>
+      </choose>
     <if test="limit != null">
       limit #{limit}
     </if>

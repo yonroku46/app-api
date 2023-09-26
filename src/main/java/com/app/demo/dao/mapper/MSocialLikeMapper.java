@@ -44,6 +44,4 @@ public interface MSocialLikeMapper {
     int insertRow(@Param("userId") Integer userId, @Param("socialId") Integer socialId);
 
     int deleteRow(@Param("userId") Integer userId, @Param("socialId") Integer socialId);
-
-    List<SocialLikedCountDto> getLikedCount(@Param("socialIdList") List<Integer> socialIdList);
 }

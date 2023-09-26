@@ -24,6 +24,11 @@ public class SocialFilterReqDto implements Serializable {
     private String keyword;
 
     /**
+     * ソート名.
+     */
+    private String sort;
+
+    /**
      * 取得最大値.
      */
     private Integer limit;

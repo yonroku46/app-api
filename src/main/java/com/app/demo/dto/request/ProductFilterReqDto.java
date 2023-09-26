@@ -64,6 +64,11 @@ public class ProductFilterReqDto implements Serializable {
     private List<String> types;
 
     /**
+     * ソート名.
+     */
+    private String sort;
+
+    /**
      * 取得最大値.
      */
     private Integer limit;

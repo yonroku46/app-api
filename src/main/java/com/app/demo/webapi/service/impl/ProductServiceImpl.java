@@ -63,7 +63,6 @@ public class ProductServiceImpl implements ProductService {
                 MProductLike liked = mProductLikeDao.findUserLiked(userId, productId);
                 res.setLiked(liked != null);
             }
-
         }
 
         return ResponseUtils.generateDtoSuccess(new Information(MessageIdConst.I_GETTING_SUCCESS,

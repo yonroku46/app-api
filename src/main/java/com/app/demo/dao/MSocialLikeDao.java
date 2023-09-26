@@ -105,25 +105,4 @@ public class MSocialLikeDao {
             throw new SystemException(MessageIdConst.E_SQL_ISSUE, overview, detail);
         }
     }
-
-    /**
-     * ソーシャル毎のお気に入りカウントを取得する
-     *
-     * @author y_ha
-     */
-    public Map<Integer, Integer> getLikedCount(List<Integer> socialIdList) {
-        try {
-            List<SocialLikedCountDto> likedCountList = mSocialLikeMapper.getLikedCount(socialIdList);
-            return likedCountList.stream()
-                    .collect(Collectors.toMap(SocialLikedCountDto::getSocialId, SocialLikedCountDto::getLikedCount));
-        } catch (Exception exception) {
-            final String methodName = "SocialLikeMapper#getLikedCount";
-            Map<String, Object> paramMap = new HashMap<>();
-            paramMap.put("socialIdList", socialIdList);
-            String overview = messageSource.getMessage(MessageIdConst.E_SQL_ISSUE, null, LocaleAspect.LOCALE);
-            String detail = StringUtils.convertInterfaceErrorMsg(methodName, paramMap, exception);
-            log.error(overview + detail);
-            throw new SystemException(MessageIdConst.E_SQL_ISSUE, overview, detail);
-        }
-    }
 }
