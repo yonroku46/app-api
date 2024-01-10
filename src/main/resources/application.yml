@@ -8,9 +8,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/labo?allowPublicKeyRetrieval=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
-    username: root
-    password: password
+    url: jdbc:mysql://smoothilab-db.c52wkug8qkp2.ap-northeast-2.rds.amazonaws.com:3306/public?allowPublicKeyRetrieval=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username: admin
+    password: smoothilab2024
     hikari:
       minimum-idle: 10
       maximum-pool-size: 100
@@ -22,7 +22,7 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: app@xxdadxx.jp
+    username: smoothilab@gmail.com
     password: ozvarxuyamqnjdjv
     properties:
       mail:
@@ -41,7 +41,7 @@ security:
     secret-key: ZnItc4ktcmRzLWJlbWFjMi6jbHVzdGVyLWNibXpmZmltbWV8eS5hcC1ub3J0aGVhc3QtMS5yZHMuYW1hem9uYXdzLmNvbQ==
 
 app:
-  name: DemoApp
+  name: Smoothilab
   base:
     url: http://localhost:3000
   language:
@@ -65,7 +65,7 @@ cloud:
       auto: false
       static: ap-northeast-1
     s3:
-      bucketName: dadlabo
+      bucketName: smoothilab
       prefix:
         user: user
         products: products

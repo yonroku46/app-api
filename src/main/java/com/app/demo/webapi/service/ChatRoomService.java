@@ -5,19 +5,19 @@ import com.app.demo.dto.response.core.ResponseDto;
 
 public interface ChatRoomService {
 
-    void saveMessage(String roomId, ChatMessageDto chat);
+    void saveMessage(Integer userId, String roomId, ChatMessageDto chat);
 
-    void sendMessage(String roomId, ChatMessageDto chat);
+    void sendMessage(Integer userId, String roomId, ChatMessageDto chat);
 
-    void joinChatRoom(String roomId, ChatMessageDto chat);
+    void joinChatRoom(Integer userId, String roomId, ChatMessageDto chat);
 
-    ResponseDto createChatRoom();
+    ResponseDto createChatRoom(Integer userId);
 
-    ResponseDto inviteChatRoom(String roomId, Integer userId);
+    ResponseDto inviteChatRoom(Integer userId, String roomId);
 
-    ResponseDto exitChatRoom(String roomId);
+    ResponseDto exitChatRoom(Integer userId, String roomId);
 
-    ResponseDto getChatRoomList();
+    ResponseDto getChatRoomList(Integer userId);
 
-    ResponseDto getChatData(String roomId, Integer offset, Integer size);
+    ResponseDto getChatData(Integer userId, String roomId, Integer offset, Integer size);
 }

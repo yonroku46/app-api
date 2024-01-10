@@ -16,39 +16,46 @@ public class ChatRoomController extends BaseController {
 
     @MessageMapping("/chat/{roomId}/send")
     public void send(@DestinationVariable String roomId, ChatMessageDto chat) {
-        chatRoomService.saveMessage(roomId, chat);
-        chatRoomService.sendMessage(roomId, chat);
+        Integer userId = super.getCurrentUserId();
+        chatRoomService.saveMessage(userId, roomId, chat);
+        chatRoomService.sendMessage(userId, roomId, chat);
     }
 
     @MessageMapping("/chat/{roomId}/join")
     public void joinChatRoom(@DestinationVariable String roomId, ChatMessageDto chat) {
-        chatRoomService.joinChatRoom(roomId, chat);
+        Integer userId = super.getCurrentUserId();
+        chatRoomService.joinChatRoom(userId, roomId, chat);
     }
 
     @PostMapping("/chat/create")
     public ResponseDto createChatRoom() {
-        return chatRoomService.createChatRoom();
+        Integer userId = super.getCurrentUserId();
+        return chatRoomService.createChatRoom(userId);
     }
 
     @PostMapping("/chat/{roomId}/invite")
-    public ResponseDto inviteChatRoom(@PathVariable String roomId, @RequestBody Integer userId) {
-        return chatRoomService.inviteChatRoom(roomId, userId);
+    public ResponseDto inviteChatRoom(@PathVariable String roomId) {
+        Integer userId = super.getCurrentUserId();
+        return chatRoomService.inviteChatRoom(userId, roomId);
     }
 
     @PostMapping("/chat/{roomId}/exit")
     public ResponseDto exitChatRoom(@PathVariable String roomId) {
-        return chatRoomService.exitChatRoom(roomId);
+        Integer userId = super.getCurrentUserId();
+        return chatRoomService.exitChatRoom(userId, roomId);
     }
 
     @GetMapping("/chat/rooms")
     public ResponseDto getChatRoomList() {
-        return chatRoomService.getChatRoomList();
+        Integer userId = super.getCurrentUserId();
+        return chatRoomService.getChatRoomList(userId);
     }
 
     @GetMapping("/chat/{roomId}")
     public ResponseDto getChatData(@PathVariable String roomId,
                                    @RequestParam(defaultValue = "0") Integer offset,
                                    @RequestParam(defaultValue = "30") Integer size) {
-        return chatRoomService.getChatData(roomId, offset, size);
+        Integer userId = super.getCurrentUserId();
+        return chatRoomService.getChatData(userId, roomId, offset, size);
     }
 }
